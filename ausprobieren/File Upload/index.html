@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload</title>
+</head>
+
+<body>
+    <form>
+        <p>[MAX FILE SIZE = 2MB]</p>
+        <input id="file-input" type="file" />
+        <p id="file-result"></p>
+        <input id="file-submit" type="submit" disabled />
+    </form>
+
+    <script>
+        let fileInput = document.getElementById("file-input");
+        let fileResult = document.getElementById("file-result");
+        let fileSubmit = document.getElementById("file-submit");
+
+        fileInput.addEventListener("change", function () {
+            if (fileInput.files.length > 0) {
+                const fileSize = fileInput.files.item(0).size;
+                const fileMb = fileSize / 1024 ** 2;
+                if (fileMb >= 2) {
+                    fileResult.innerHTML = "Please select a file less than 2MB.";
+                    fileSubmit.disabled = true;
+                } else {
+                    fileResult.innerHTML = "Success, your file is " + fileMb.toFixed(1) + "MB.";
+                    fileSubmit.disabled = true;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

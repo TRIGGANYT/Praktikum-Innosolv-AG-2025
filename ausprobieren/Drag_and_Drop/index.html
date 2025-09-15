@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testen</title>
+    <style>
+        #div1 {
+            width: 300px;
+            height: 300px;
+            padding: 10px;
+            border: 1px solid #aaaaaa;
+        }
+    </style>
+    <script>
+        function dragstartHandler(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function dragoverHandler(ev) {
+            ev.preventDefault();
+        }
+
+        function dropHandler(ev) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.getData("text");
+            ev.target.appendChild(document.getElementById(data));
+        }
+    </script>
+</head>
+<body>
+
+    <h1>Drag and Drop</h1>
+    <p>Drag the Google Logo into the rectangle</p>
+    
+    <div id="div1" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)"></div>
+    <img id="img1" src="logo.png" draggable="true" ondragstart="dragstartHandler(event)" width="300px" height="300px">
+</body>
+
+</html>
