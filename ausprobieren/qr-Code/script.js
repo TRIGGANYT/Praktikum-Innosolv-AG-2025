@@ -1,4 +1,10 @@
-var qrcode = new QRCode("qrcode");
+var qrcode = new QRCode("qrcode", {
+    text: "http://jindo.dev.naver.com/collie",
+    width: 128,
+    height: 128,
+    colorDark : "#000000ff",
+    colorLight : "#E5E5E5",
+    correctLevel : QRCode.CorrectLevel.H});
 
 function makeCode () {    
   var elText = document.getElementById("text");
