@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Datei-Upload & QR-Sharing</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://c.webfontfree.com/c.js?f=Interstate" type="text/javascript"></script>
+</head>
+
+<body>
+    <!-- Buttons zum Kopieren und QR-Code -->
+    <div class="copy-btn">
+        <button id="copy-link-btn">Kopiere den Download-Link hier</button>
+        <button id="qrcode-btn">Oder scanne diesen QR-Code</button>
+    </div>
+
+    <p class="download-link">Download-Link: //Todo</p>
+
+    <!-- Dropoff Feld -->
+    <div class="main-content">
+        <div id="dropzone" class="upload-box">
+            <p id="dropzone-text">Datei hinein ziehen oder auswählen</p>
+            <div class="file-icon">File Icon... //Todo</div>
+
+            <input type="file" id="fileInput" />
+            <button id="upload-btn" style="display:none">Datei hochladen</button>
+        </div>
+    </div>
+
+    <!-- QR-Code -->
+    <div class="qr-box">
+        <!-- Qr Code hier einfügen -->
+    </div>
+
+    <script src="js/drag_and_drop.js"></script>
+</body>
+
+</html>
