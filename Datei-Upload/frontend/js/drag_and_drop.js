@@ -7,7 +7,7 @@ let selectedFile = null;
 const dropzone = document.getElementById('dropzone');
 const dropzoneText = document.getElementById('dropzone-text')
 const uploadBtn = document.getElementById('upload-btn');
-const fileInput = document.getElementById('file-input')
+const fileInput = document.getElementById('fileInput')
 
 // upload btn soll erst angezeigt werden, sobald sich eine Datei in der dropzone befindet, deshalb ist er versteckt
 uploadBtn.style.display = 'none';
@@ -35,9 +35,12 @@ function dropHandler(event) {
   }
 }
 
+// Aktionen auf dropzone erkennen
 dropzone.addEventListener('dragover', dragoverHandler);
 dropzone.addEventListener('dragleave', dragleaveHandler);
 dropzone.addEventListener('drop', dropHandler);
+
+// Dateiauswahl per klick über html Button
 
 fileInput.addEventListener('change', (event) => {
   if (event.target.files.length > 0) {
@@ -46,7 +49,9 @@ fileInput.addEventListener('change', (event) => {
   }
 });
 
+// UI-Aktualisierung nach Dateiauswahl
+
 function updateUIAfterFileSelect() {
-  dropText.textContent = `Ausgewählt: ${selectedFile.name}`;
+  dropzoneText.textContent = `Ausgewählt: ${selectedFile.name}`;
   uploadBtn.style.display = 'inline-block';
 }
