@@ -8,17 +8,27 @@ function getFileExtension(filename) {
 // GUID generieren
 
 function generateGUID() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    const r = Math.random() * 16 | 0;
-    const v = c === 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
-  });
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        const r = Math.random() * 16 | 0;
+        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
 }
 
 // Link zusammensetzen aus GUID und Dateiendung
+function showDownloadLink() {
 
-const extension = getFileExtension(selectedFile.name);
+    const extension = getFileExtension(selectedFile.name);
 
-const guid = generateGUID();
+    const guid = generateGUID();
 
-const downloadURL = `http://localhost:3000/files/${guid}.${extension}`;
+    const downloadURL = `http://localhost:3000/files/${guid}.${extension}`;
+
+    document.getElementById('download-url').textContent = downloadURL;
+}
+
+// Downloadlink auf Button-Klick anzeigen
+
+uploadBtn.addEventListener('click', () => {
+    showDownloadLink(); // Ruft deine Funktion auf
+});
