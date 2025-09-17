@@ -32,3 +32,25 @@ function showDownloadLink() {
 uploadBtn.addEventListener('click', () => {
     showDownloadLink(); // Ruft deine Funktion auf
 });
+
+
+// Den generierten Link mit dem copy-link-btn verknüpfen
+
+const copyLinkBtn = document.getElementById('copy-link-btn');
+
+copyLinkBtn.addEventListener('click', () => {
+    const linkText = document.getElementById('download-url').textContent;
+
+    if (!linkText || linkText === 'Hier erscheint Ihr Download-Link') {
+        alert("Sie haben noch keine Datei hochgeladen.");
+        return;
+    }
+
+    navigator.clipboard.writeText(linkText).then(() => {
+        alert('Der Downloadlink wurde in die Zwischenablage kopiert.');
+    })
+        .catch(err => {
+            console.error('Fehler beim Kopieren: ', err);
+            alert('Kopieren fehlgeschlagen.');
+        });
+});
