@@ -1,24 +1,28 @@
 /* Fonts */
 
 @font-face {
-  font-family: 'Interstate';
-  src: url('fonts/Interstate-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
+    font-family: 'Interstate';
+    src: url('fonts/Interstate-Regular.otf') format('woff2');
+    font-weight: 400;
+    font-style: normal;
 }
 
 @font-face {
-  font-family: 'Interstate';
-  src: url('fonts/Interstate-Bold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
+    font-family: 'Interstate';
+    src: url('fonts/Interstate-Bold.otf') format('woff2');
+    font-weight: 700;
+    font-style: normal;
 }
 
 @font-face {
-  font-family: 'Interstate';
-  src: url('fonts/Interstate-Light.woff2') format('woff2');
-  font-weight: 300;
-  font-style: normal;
+    font-family: 'Interstate';
+    src: url('fonts/Interstate-Light.otf') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+}
+
+body {
+    font-family: interstate light;
 }
 
 /* Drop Off Box */
@@ -35,9 +39,6 @@
     height: 439px;
     margin: 20px auto;
     position: relative;
-    font-family: "interstate", sans-serif;
     font-weight: 400;
     font-style: normal;
 }
-
-
