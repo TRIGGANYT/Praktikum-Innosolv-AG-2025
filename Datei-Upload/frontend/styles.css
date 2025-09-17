@@ -42,3 +42,10 @@ body {
     font-weight: 400;
     font-style: normal;
 }
+
+.file-icon {
+    font-size: 70px;
+    color: #999999;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
