@@ -49,6 +49,14 @@ fileInput.addEventListener('change', (event) => {
   }
 });
 
+// Custom Button für Dateiauswahl
+
+const customFileBtn = document.getElementById('customFileBtn');
+
+customFileBtn.addEventListener('click', () => {
+  fileInput.click();
+});
+
 // UI-Aktualisierung nach Dateiauswahl
 
 function updateUIAfterFileSelect() {
