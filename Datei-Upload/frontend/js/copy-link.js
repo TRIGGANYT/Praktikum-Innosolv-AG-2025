@@ -25,6 +25,8 @@ function showDownloadLink() {
     const downloadURL = `http://localhost:3000/files/${guid}.${extension}`;
 
     document.getElementById('download-url').textContent = downloadURL;
+
+    generateQRCode(downloadURL);
 }
 
 // Downloadlink auf Button-Klick anzeigen
