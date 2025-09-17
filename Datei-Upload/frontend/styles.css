@@ -10,7 +10,9 @@
     height: 439px;
     margin: 20px auto;
     position: relative;
-    font-family: sans-serif
+    font-family: "interstate", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 
