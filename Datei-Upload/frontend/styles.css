@@ -1,3 +1,28 @@
+/* Fonts */
+
+@font-face {
+  font-family: 'Interstate';
+  src: url('fonts/Interstate-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Interstate';
+  src: url('fonts/Interstate-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Interstate';
+  src: url('fonts/Interstate-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+}
+
+/* Drop Off Box */
+
 .upload-box {
     background-color: #E5E5E5;
     border: 2px solid #999999;
