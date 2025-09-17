@@ -11,14 +11,14 @@
     font-family: 'Interstate';
     src: url('fonts/Interstate-Bold.otf') format('otf');
     font-weight: 700;
-    font-style: normal;
+    font-style: bold;
 }
 
 @font-face {
     font-family: 'Interstate';
     src: url('fonts/Interstate-Light.otf') format('oft');
     font-weight: 300;
-    font-style: normal;
+    font-style: light;
 }
 
 body {
