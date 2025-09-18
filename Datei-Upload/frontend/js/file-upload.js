@@ -1,13 +1,22 @@
-// Grundzustand ist, das keine Datei ausgewählt ist.
-
-let selectedFile = null;
-
 // Elemente der Dropzone mit IDs versehen.
-
 const dropzone = document.getElementById('dropzone');
 const dropzoneText = document.getElementById('dropzone-text')
 const uploadBtn = document.getElementById('upload-btn');
 const fileInput = document.getElementById('fileInput')
+
+// Explorer öffnet sich sobald auf Datei auswählen geklickt wird
+
+const customFileBtn = document.getElementById('customFileBtn');
+
+customFileBtn.addEventListener('click', () => {
+  fileInput.click();
+});
+
+// Grundzustand ist, das keine Datei ausgewählt ist.
+
+let selectedFile = null;
+
+
 
 // upload btn soll erst angezeigt werden, sobald sich eine Datei in der dropzone befindet, deshalb ist er versteckt
 uploadBtn.style.display = 'none';
@@ -47,14 +56,6 @@ fileInput.addEventListener('change', (event) => {
     selectedFile = event.target.files[0];
     updateUIAfterFileSelect();
   }
-});
-
-// Custom Button für Dateiauswahl
-
-const customFileBtn = document.getElementById('customFileBtn');
-
-customFileBtn.addEventListener('click', () => {
-  fileInput.click();
 });
 
 // UI-Aktualisierung nach Dateiauswahl
