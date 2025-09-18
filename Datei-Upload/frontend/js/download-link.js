@@ -33,7 +33,7 @@ function showDownloadLink() {
     generateQRCode(downloadURL);
 }
 
-// auf Klick auf Upload-Button --> Link anzeigen
+// auf Klick auf Upload-Button --> Link anzeigen // bei klick auch datei hochladen (für später)
 function handleUploadClick() {
     showDownloadLink();
 }

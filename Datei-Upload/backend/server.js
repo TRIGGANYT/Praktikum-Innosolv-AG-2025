@@ -1,18 +1,19 @@
-const express = require('express');
+// server.js
+
+const express = require("express");
+const path = require("path");
 const app = express();
+const PORT = 3000;
 
-app.get('/', (req, res) => {
-    res.send('<h1>Hello, Express.js Server!</h1>');
-});
+// Routen importieren
+const uploadRoutes = require("./routes/upload");
 
-// Include route files
-const fileUploadRoute = require('./routes/file-upload');
+app.use(express.static(path.join(__dirname, "../frontend")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Use routes
-app.use('/file-upload', fileUploadRoute);
+// Routen aktivieren
+app.use("/api", uploadRoutes);
 
-const port = process.env.PORT || 3000; // You can use environment variables for port configuration
-
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server läuft auf http://localhost:${PORT}`);
 });
