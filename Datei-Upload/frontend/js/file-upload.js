@@ -19,7 +19,7 @@ fileInput.addEventListener('change', (event) => {
   }
 });
 
-// Grundzustand ist, das keine Datei ausgewählt ist.
+// Grundzustand - keine Datei ausgewählt ist.
 
 let selectedFile = null;
 
