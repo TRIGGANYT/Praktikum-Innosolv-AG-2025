@@ -81,7 +81,7 @@ function updateUIAfterFileSelect() {
     uploadBtn.style.display = 'none';
     return;
   }
-  if (fileMb >= 0.01) {
+  if (fileMb >= 2) {
     fileResult.textContent = 'Bitte wähle eine Datei kleiner als 2MB.';
     uploadBtn.style.display = 'none';
     return;
