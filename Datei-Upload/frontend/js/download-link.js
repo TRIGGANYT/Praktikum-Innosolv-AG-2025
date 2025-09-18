@@ -1,7 +1,5 @@
 // Downloadlink anzeigen, sobald Datei hochladen geklickt wird
-uploadBtn.addEventListener('click', () => {
-    showDownloadLink(); // Ruft deine Funktion auf
-});
+uploadBtn.addEventListener('click', handleUploadClick);
 
 // Auf Link kopieren klicken --> Link in die Zwischenablage kopiert
 const copyLinkBtn = document.getElementById('copy-link-btn');
@@ -23,7 +21,6 @@ copyLinkBtn.addEventListener('click', () => {
         });
 });
 
-
 // Dateiendung extrahieren. split trennt den Dateinamen am Punkt und pop gibt den letzten Teil zurück
 function getFileExtension(filename) {
     const parts = filename.split('.');
@@ -43,9 +40,7 @@ function generateGUID() {
 function showDownloadLink() {
 
     const extension = getFileExtension(selectedFile.name);
-
     const guid = generateGUID();
-
     const downloadURL = `http://localhost:3000/files/${guid}.${extension}`;
 
     document.getElementById('download-url').textContent = downloadURL;
@@ -53,6 +48,10 @@ function showDownloadLink() {
     generateQRCode(downloadURL);
 }
 
+// auf Klick auf Upload-Button --> Link anzeigen
+function handleUploadClick() {
+    showDownloadLink();
+}
 
 
 
