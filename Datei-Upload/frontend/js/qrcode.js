@@ -15,10 +15,11 @@ qrCodeBtn.addEventListener('click', () => {
 
 let qrCodeInstance = null;
 
+// Funktion zum Generieren des QR-Codes
 function generateQRCode(text) {
-    qrBox.innerHTML = ''; // Vorherigen QR-Code entfernen
+    qrBox.innerHTML = '';
 
-    qrCodeOnstance = new QRCode(qrBox, {
+    qrCodeInstance = new QRCode(qrBox, {
         text: text,
         width:200,
         height: 200,
