@@ -1,4 +1,4 @@
-// routes/upload.js
+/* routes/upload.js
 
 const express = require("express");
 const multer = require("multer");
@@ -23,3 +23,5 @@ const upload = multer({ storage });
 router.post("/upload", upload.single("file"), uploadController.uploadFile);
 
 module.exports = router;
+
+*/

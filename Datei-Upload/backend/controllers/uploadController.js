@@ -1,4 +1,4 @@
-// backend/controllers/uploadController.js
+/* backend/controllers/uploadController.js
 
 exports.uploadFile = (req, res) => {
   if (!req.file) {
@@ -14,3 +14,5 @@ exports.uploadFile = (req, res) => {
     originalName: req.file.originalname,
   });
 };
+
+*/
