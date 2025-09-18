@@ -86,7 +86,7 @@ function updateUIAfterFileSelect() {
     uploadBtn.style.display = 'none';
     return;
   }
-  fileResult.textContent = 'Datei OK: ' + fileName + ' (' + fileMb.toFixed(1) + ' MB)';
+  fileResult.textContent = 'Datei ist bereit zum hochladen: ' + fileName + ' (' + fileMb.toFixed(1) + ' MB)';
   dropzoneText.textContent = `Ausgewählt: ${selectedFile.name}`;
   uploadBtn.style.display = 'inline-block';
 }
