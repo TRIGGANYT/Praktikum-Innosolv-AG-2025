@@ -1,3 +1,9 @@
+// Downloadlink anzeigen, sobald Datei hochladen geklickt wird
+
+uploadBtn.addEventListener('click', () => {
+    showDownloadLink(); // Ruft deine Funktion auf
+});
+
 // Auf Link kopieren klicken --> Link in die Zwischenablage kopiert
 
 const copyLinkBtn = document.getElementById('copy-link-btn');
@@ -50,10 +56,6 @@ function showDownloadLink() {
     generateQRCode(downloadURL);
 }
 
-// Downloadlink auf Button-Klick anzeigen
 
-uploadBtn.addEventListener('click', () => {
-    showDownloadLink(); // Ruft deine Funktion auf
-});
 
 
