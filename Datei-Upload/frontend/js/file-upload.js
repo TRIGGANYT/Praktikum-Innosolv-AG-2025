@@ -54,8 +54,6 @@ dropzone.addEventListener('dragover', dragoverHandler);
 dropzone.addEventListener('dragleave', dragleaveHandler);
 dropzone.addEventListener('drop', dropHandler);
 
-
-
 // UI-Aktualisierung nach Dateiauswahl
 
 function updateUIAfterFileSelect() {
