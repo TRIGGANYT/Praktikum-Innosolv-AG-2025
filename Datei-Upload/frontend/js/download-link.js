@@ -1,21 +1,10 @@
+const copyLinkBtn = document.getElementById('copy-link-btn');
+
 // Downloadlink anzeigen, sobald Datei hochladen geklickt wird
 uploadBtn.addEventListener('click', handleUploadClick);
 
 // Auf Link kopieren klicken --> Link in die Zwischenablage kopiert
-const copyLinkBtn = document.getElementById('copy-link-btn');
-
-copyLinkBtn.addEventListener('click', () => {
-    const linkText = document.getElementById('download-url').textContent;
-
-    if (!linkText || linkText === 'Hier erscheint Ihr Download-Link') {
-        alert("Sie haben noch keine Datei hochgeladen.");
-        return;
-    }
-
-    navigator.clipboard.writeText(linkText)
-        .then(onCopySuccess)
-        .catch(onCopyError);
-});
+copyLinkBtn.addEventListener('click', handleCopyLinkClick);
 
 // Dateiendung extrahieren. split trennt den Dateinamen am Punkt und pop gibt den letzten Teil zurück
 function getFileExtension(filename) {
@@ -56,6 +45,19 @@ function onCopySuccess() {
 function onCopyError(err) {
     console.error('Fehler beim Kopieren: ', err);
     alert('Kopieren fehlgeschlagen.');
+}
+
+function handleCopyLinkClick() {
+    const linkText = document.getElementById('download-url').textContent;
+    
+    if (!linkText || linkText === 'Hier erscheint Ihr Download-Link') {
+        alert("Sie haben noch keine Datei hochgeladen.");
+        return;
+    }
+
+    navigator.clipboard.writeText(linkText)
+        .then(onCopySuccess)
+        .catch(onCopyError);
 }
 
 
