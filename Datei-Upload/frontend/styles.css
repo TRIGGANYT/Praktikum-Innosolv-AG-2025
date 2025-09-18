@@ -26,7 +26,6 @@ body {
 }
 
 /* Drop Off Box */
-
 .upload-box {
     background-color: #E5E5E5;
     border: 2px solid #999999;
@@ -34,17 +33,13 @@ body {
     padding: 40px;
     text-align: center;
     cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
     width: 661px;
     height: 439px;
     margin: 20px auto;
     position: relative;
-    font-weight: 400;
-    font-style: normal;
 }
 
 /* file icon - Dropoff Zone*/
-
 .file-icon {
     font-size: 70px;
     color: #999999;
