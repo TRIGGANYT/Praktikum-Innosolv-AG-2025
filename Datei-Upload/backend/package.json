@@ -9,6 +9,7 @@
   "license": "ISC",
   "description": "Webapplikation zum Hochladen und Teilen von Dateien per Drag & Drop oder Dateiauswahl. Mit automatisch generiertem Download-Link und QR-Code zum teilen.",
   "dependencies": {
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "multer": "^2.0.2"
   }
 }

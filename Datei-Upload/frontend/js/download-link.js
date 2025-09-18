@@ -34,9 +34,38 @@ function showDownloadLink() {
 }
 
 // auf Klick auf Upload-Button --> Link anzeigen // bei klick auch datei hochladen (für später)
-function handleUploadClick() {
-    showDownloadLink();
+async function handleUploadClick() {
+    if (!selectedFile) {
+        alert("Bitte zuerst eine Datei auswählen.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", selectedFile); // "file" muss zum Backend passen
+
+    try {
+        const response = await fetch("http://localhost:3000/upload", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.downloadLink) {
+            // Link anzeigen
+            document.getElementById('download-url').textContent = data.downloadLink;
+
+            // QR-Code generieren, falls du das brauchst
+            generateQRCode(data.downloadLink);
+        } else if (data.error) {
+            alert("Fehler beim Hochladen: " + data.error);
+        }
+    } catch (error) {
+        console.error("Upload fehlgeschlagen:", error);
+        alert("Upload fehlgeschlagen.");
+    }
 }
+
 
 function onCopySuccess() {
     alert('Der Downloadlink wurde in die Zwischenablage kopiert.');
