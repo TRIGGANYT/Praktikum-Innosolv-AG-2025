@@ -12,7 +12,7 @@ function getFileExtension(filename) {
     return parts.length > 1 ? parts.pop().toLowerCase() : '';
 }
 
-// GUID generieren
+/* GUID generieren
 function generateGUID() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         const r = Math.random() * 16 | 0;
@@ -31,7 +31,7 @@ function showDownloadLink() {
     document.getElementById('download-url').textContent = downloadURL;
 
     generateQRCode(downloadURL);
-}
+} */
 
 // auf Klick auf Upload-Button --> Link anzeigen // bei klick auch datei hochladen in backend/ uploads
 async function handleUploadClick() {
