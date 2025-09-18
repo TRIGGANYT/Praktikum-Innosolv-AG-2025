@@ -33,7 +33,7 @@ function showDownloadLink() {
     generateQRCode(downloadURL);
 }
 
-// auf Klick auf Upload-Button --> Link anzeigen // bei klick auch datei hochladen (für später)
+// auf Klick auf Upload-Button --> Link anzeigen // bei klick auch datei hochladen in backend/ uploads
 async function handleUploadClick() {
     if (!selectedFile) {
         alert("Bitte zuerst eine Datei auswählen.");

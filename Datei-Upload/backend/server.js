@@ -1,31 +1,14 @@
-/* server.js
-
-const express = require("express");
-const path = require("path");
-const app = express();
-const PORT = 3000;
-
-// Routen importieren
-const uploadRoutes = require("./routes/upload");
-
-app.use(express.static(path.join(__dirname, "../frontend")));
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
-// Routen aktivieren
-app.use("/api", uploadRoutes);
-
-app.listen(PORT, () => {
-  console.log(`Server läuft auf http://localhost:${PORT}`);
-});
-
-*/
-
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
+const cors = require('cors');
 
 const app = express();
 const PORT = 3000;
+
+app.use(cors({
+  origin: "http://127.0.0.1:5500"
+}));
 
 // Speicherort & Dateinamen-Konfiguration
 const storage = multer.diskStorage({
@@ -59,9 +42,11 @@ app.post("/upload", upload.single("file"), (req, res) => {
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server läuft auf http://localhost:${PORT}`);
+  console.log(`Server läuft auf http://localhost:${PORT}`);
 });
 
 app.get('/', (req, res) => {
   res.send('Server ist bereit für Datei-Uploads!');
 });
+
+
