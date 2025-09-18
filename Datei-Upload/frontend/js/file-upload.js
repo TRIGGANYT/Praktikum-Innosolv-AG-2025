@@ -11,7 +11,6 @@ customFileBtn.addEventListener('click', () => {
 });
 
 // Dateiauswahl per klick über html Button
-
 fileInput.addEventListener('change', (event) => {
   if (event.target.files.length > 0) {
     selectedFile = event.target.files[0];
@@ -20,14 +19,13 @@ fileInput.addEventListener('change', (event) => {
 });
 
 // Grundzustand - keine Datei ausgewählt ist.
-
 let selectedFile = null;
 
-// upload btn soll erst angezeigt werden, sobald sich eine Datei in der dropzone befindet, deshalb ist er versteckt
+// upload btn erst anzeigen, sobald Datei in dropzone
 uploadBtn.style.display = 'none';
 
-// function Datei wird in die Dropzone gezogen
 
+// Drag and Drop Handler Funktionen
 function dragoverHandler(event) {
   event.preventDefault();
   dropzone.classList.add('dragover');
@@ -38,14 +36,14 @@ function dragleaveHandler(event) {
 }
 
 function dropHandler(event) {
-  event.preventDefault(); // Standardverhalten unterbinden (z. B. Datei öffnen)
+  event.preventDefault();
   dropzone.classList.remove('dragover');
 
-  const files = event.dataTransfer.files; // die Dateien, die fallen gelassen wurden
+  const files = event.dataTransfer.files;
 
   if (files.length > 0) {
-    selectedFile = files[0]; // nur die erste Datei verwenden
-    updateUIAfterFileSelect(); // eigene Funktion zur UI-Aktualisierung
+    selectedFile = files[0];
+    updateUIAfterFileSelect(); 
   }
 }
 
