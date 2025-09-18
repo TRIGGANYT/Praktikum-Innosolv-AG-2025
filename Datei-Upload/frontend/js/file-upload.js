@@ -6,17 +6,11 @@ const fileInput = document.getElementById('fileInput')
 const customFileBtn = document.getElementById('customFileBtn');
 
 // Explorer öffnet sich sobald auf Datei auswählen geklickt wird
-customFileBtn.addEventListener('click', () => {
-  fileInput.click();
-});
+customFileBtn.addEventListener('click', openFileExplorer);
 
 // Dateiauswahl per klick über html Button
-fileInput.addEventListener('change', (event) => {
-  if (event.target.files.length > 0) {
-    selectedFile = event.target.files[0];
-    updateUIAfterFileSelect();
-  }
-});
+fileInput.addEventListener('change', handleFileChange);
+
 
 // Grundzustand - keine Datei ausgewählt ist.
 let selectedFile = null;
@@ -24,6 +18,16 @@ let selectedFile = null;
 // upload btn erst anzeigen, sobald Datei in dropzone
 uploadBtn.style.display = 'none';
 
+function openFileExplorer() {
+  fileInput.click();
+}
+
+function handleFileChange(event) {
+  if (event.target.files.length > 0) {
+    selectedFile = event.target.files[0];
+    updateUIAfterFileSelect();
+  }
+}
 
 // Drag and Drop Handler Funktionen
 function dragoverHandler(event) {
