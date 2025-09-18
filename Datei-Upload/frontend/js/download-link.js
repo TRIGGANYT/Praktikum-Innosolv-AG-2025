@@ -12,13 +12,9 @@ copyLinkBtn.addEventListener('click', () => {
         return;
     }
 
-    navigator.clipboard.writeText(linkText).then(() => {
-        alert('Der Downloadlink wurde in die Zwischenablage kopiert.');
-    })
-        .catch(err => {
-            console.error('Fehler beim Kopieren: ', err);
-            alert('Kopieren fehlgeschlagen.');
-        });
+    navigator.clipboard.writeText(linkText)
+        .then(onCopySuccess)
+        .catch(onCopyError);
 });
 
 // Dateiendung extrahieren. split trennt den Dateinamen am Punkt und pop gibt den letzten Teil zurück
@@ -51,6 +47,15 @@ function showDownloadLink() {
 // auf Klick auf Upload-Button --> Link anzeigen
 function handleUploadClick() {
     showDownloadLink();
+}
+
+function onCopySuccess() {
+    alert('Der Downloadlink wurde in die Zwischenablage kopiert.');
+}
+
+function onCopyError(err) {
+    console.error('Fehler beim Kopieren: ', err);
+    alert('Kopieren fehlgeschlagen.');
 }
 
 
