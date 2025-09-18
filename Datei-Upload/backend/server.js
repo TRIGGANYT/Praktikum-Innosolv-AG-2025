@@ -1,14 +1,15 @@
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
-const cors = require('cors');
+
 
 const app = express();
 const PORT = 3000;
 
-app.use(cors({
-  origin: "http://127.0.0.1:5500"
-}));
+
+
+// Frontend statisch bereitstellen
+app.use(express.static(path.join(__dirname, '../frontend')));
 
 // Speicherort & Dateinamen-Konfiguration
 const { v4: uuidv4 } = require('uuid');
@@ -49,8 +50,10 @@ app.listen(PORT, () => {
   console.log(`Server läuft auf http://localhost:${PORT}`);
 });
 
+
+// Root-Route gibt index.html aus dem Frontend zurück
 app.get('/', (req, res) => {
-  res.send('Server ist bereit für Datei-Uploads!');
+  res.sendFile(path.join(__dirname, '../frontend/index.html'));
 });
 
 
