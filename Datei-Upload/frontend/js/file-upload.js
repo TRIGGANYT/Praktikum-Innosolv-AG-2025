@@ -4,6 +4,8 @@ const dropzoneText = document.getElementById('dropzone-text')
 const uploadBtn = document.getElementById('upload-btn');
 const fileInput = document.getElementById('fileInput')
 const customFileBtn = document.getElementById('customFileBtn');
+const fileResult = document.getElementById('file-result');
+const allowedExtensions = ["jpg", "jpeg", "png", "gif", "pdf", "doc", "docx", "xls", "xlsx", "txt"];
 
 // Explorer öffnet sich sobald auf Datei auswählen geklickt wird
 customFileBtn.addEventListener('click', openFileExplorer);
@@ -27,6 +29,12 @@ function handleFileChange(event) {
     selectedFile = event.target.files[0];
     updateUIAfterFileSelect();
   }
+}
+
+// Fileextensions Whitelist
+function isAllowedFileType(fileName) {
+  const fileExtension = fileName.split('.').pop().toLowerCase();
+  return allowedExtensions.includes(fileExtension);
 }
 
 // Drag and Drop Handler Funktionen
@@ -59,6 +67,26 @@ dropzone.addEventListener('drop', dropHandler);
 // UI-Aktualisierung nach Dateiauswahl
 
 function updateUIAfterFileSelect() {
+  if (!selectedFile) {
+    fileResult.textContent = '';
+    uploadBtn.style.display = 'none';
+    return;
+  }
+  // Whitelist- und Größenprüfung
+  const fileName = selectedFile.name;
+  const fileSize = selectedFile.size;
+  const fileMb = fileSize / 1024 ** 2;
+  if (!isAllowedFileType(fileName)) {
+    fileResult.textContent = 'Dateityp nicht erlaubt. Erlaubt: ' + allowedExtensions.join(', ');
+    uploadBtn.style.display = 'none';
+    return;
+  }
+  if (fileMb >= 0.01) {
+    fileResult.textContent = 'Bitte wähle eine Datei kleiner als 2MB.';
+    uploadBtn.style.display = 'none';
+    return;
+  }
+  fileResult.textContent = 'Datei OK: ' + fileName + ' (' + fileMb.toFixed(1) + ' MB)';
   dropzoneText.textContent = `Ausgewählt: ${selectedFile.name}`;
   uploadBtn.style.display = 'inline-block';
 }
