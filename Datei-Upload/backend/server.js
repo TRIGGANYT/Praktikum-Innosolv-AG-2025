@@ -11,14 +11,18 @@ app.use(cors({
 }));
 
 // Speicherort & Dateinamen-Konfiguration
+const { v4: uuidv4 } = require('uuid');
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/");  // Ordner muss existieren!
+    cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
+    const uniqueName = uuidv4() + path.extname(file.originalname);
+    cb(null, uniqueName);
   },
 });
+
 
 const upload = multer({ storage });
 
