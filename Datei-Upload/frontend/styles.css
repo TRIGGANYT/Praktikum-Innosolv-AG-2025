@@ -26,6 +26,10 @@ body {
     background: #364f59;
 }
 
+.qr-box{
+    margin-top: 20px;
+}
+
 /* Drop Off Box */
 .upload-box {
     color: #666666;

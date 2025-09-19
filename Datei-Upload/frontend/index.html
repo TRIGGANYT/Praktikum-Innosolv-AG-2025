@@ -19,6 +19,8 @@
         </p>
         <button id="qrcode-btn">Oder scanne diesen QR-Code</button>
     </div>
+    <!-- QR-Code -->
+    <div class="qr-box" id="qr-box"></div>
 
     <!-- Dropoff Feld -->
     <div class="main-content">
@@ -30,11 +32,22 @@
             <button id="customFileBtn">Datei auswählen</button>
             <button id="upload-btn" type="button" style="display: none;">Datei hochladen</button>
             <p id="file-result"></p>
+
+            <label for="link-expiration">Link gültig für:</label>
+            <select id="link-expiration">
+                <option value="60">1 Minute</option>
+                <option value="300">5 Minuten</option>
+                <option value="900">15 Minuten</option>
+                <option value="1800">30 Minuten</option>
+                <option value="3600" selected>1 Stunde</option>
+                <option value="7200">2 Stunden</option>
+                <option value="14400">4 Stunden</option>
+                <option value="28800">8 Stunden</option>
+                <option value="43200">12 Stunden</option>
+            </select>
+
         </div>
     </div>
-
-    <!-- QR-Code -->
-    <div class="qr-box" id="qr-box"></div>
 
     <script src="js/file-upload.js"></script>
     <script src="js/download-link.js"></script>
