@@ -59,7 +59,7 @@ body {
 }
 
 /* Buttons */
-#copy-link-btn {
+.copy-link-btn {
     color: #E5E5E5;
     background-color: #50A0BF;
     border: none;
@@ -72,7 +72,7 @@ body {
 }
 
 /* Buttons:hover */
-#copy-link-btn:hover {
+.copy-link-btn:hover {
     background-color: #468199;
 }
 
