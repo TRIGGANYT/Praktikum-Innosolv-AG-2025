@@ -130,8 +130,9 @@ uploadBtn.onclick = async function () {
     const result = await response.json();
 
     if (result.downloadLink) {
-
+      // Download-Link als href setzen
       downloadUrlLink.href = result.downloadLink;
+      // Download-Link komplett anzeigen, mit GUID-Datei am Ende (ist ja der Link selbst)
       downloadUrlLink.textContent = result.downloadLink;
 
       // QR-Code generieren, wenn Funktion verfügbar
@@ -140,9 +141,9 @@ uploadBtn.onclick = async function () {
       }
 
       fileResult.textContent = 'Upload erfolgreich!';
-      uploadBtn.style.display = 'none';  // Upload-Button nach Upload ausblenden
+      uploadBtn.style.display = 'none';  // Upload-Button ausblenden nach Upload
       dropzoneText.textContent = 'Datei(en) hochgeladen.';
-      selectedFiles = []; // Reset der Auswahl
+      selectedFiles = []; // Auswahl zurücksetzen
     } else {
       fileResult.textContent = result.error || 'Fehler beim Upload.';
     }
@@ -150,3 +151,4 @@ uploadBtn.onclick = async function () {
     fileResult.textContent = 'Fehler beim Upload.';
   }
 };
+
