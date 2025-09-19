@@ -54,8 +54,13 @@ body {
   background-color: #d4d4ca;
 }
 
-.download-link {
+.download-link{
     color: #E5E5E5;
+}
+
+.download-link-static {
+    color: #E5E5E5;
+    text-decoration: none;
 }
 
 /* Buttons */
@@ -78,4 +83,10 @@ body {
 
 #qrcode-btn:hover {
     background-color: #5a9258;
+}
+
+
+a:hover{
+    text-decoration: underline;
+    color: #999999;
 }

@@ -108,7 +108,7 @@ uploadBtn.onclick = async function () {
       // Für jeden Link einen Button generieren
       const allLinks = '<br>' + result.downloadLinks.map((l, idx) =>
         `<span style="display:inline-block;margin-bottom:4px;">
-          <a href="${l.link}" target="_blank">${l.link}</a>
+          <a class="download-link-static" href="${l.link}" target="_blank">${l.link}</a>
           <button class="copy-link-btn" data-link="${l.link}" style="margin-left:8px;">Kopieren</button>
         </span>`
       ).join('<br>');
@@ -119,7 +119,7 @@ uploadBtn.onclick = async function () {
           const link = btn.getAttribute('data-link');
           navigator.clipboard.writeText(link).then(() => {
             btn.textContent = 'Kopiert!';
-            setTimeout(() => btn.textContent = 'Kopieren', 1200);
+            setTimeout(() => btn.textContent = 'Kopieren', 3000);
           });
         };
       });
