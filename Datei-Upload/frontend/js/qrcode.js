@@ -1,17 +1,4 @@
 const qrBox = document.getElementById('qr-box');
-const qrCodeBtn = document.getElementById('qrcode-btn');
-
-// QR-Code automatisch aus download link generieren
-qrCodeBtn.addEventListener('click', () => {
-    const linkText = document.getElementById('download-url').textContent;
-    if (!linkText || linkText === 'Hier erscheint Ihr Download-Link') {
-        alert("Bitte laden sie zuerst ihre Datei hoch, um den QR-Code zu generieren.");
-        return;
-    }
-
-    generateQRCode(linkText);
-
-});
 
 let qrCodeInstance = null;
 

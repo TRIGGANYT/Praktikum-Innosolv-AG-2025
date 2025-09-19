@@ -55,7 +55,7 @@ function dropHandler(event) {
 
   if (files.length > 0) {
     selectedFile = files[0];
-    updateUIAfterFileSelect(); 
+    updateUIAfterFileSelect();
   }
 }
 
@@ -65,17 +65,18 @@ dropzone.addEventListener('dragleave', dragleaveHandler);
 dropzone.addEventListener('drop', dropHandler);
 
 // UI-Aktualisierung nach Dateiauswahl
-
 function updateUIAfterFileSelect() {
   if (!selectedFile) {
     fileResult.textContent = '';
     uploadBtn.style.display = 'none';
     return;
   }
-  // Whitelist- und Größenprüfung
+
+  // Whitelist- und Grössenprüfung
   const fileName = selectedFile.name;
   const fileSize = selectedFile.size;
   const fileMb = fileSize / 1024 ** 2;
+
   if (!isAllowedFileType(fileName)) {
     fileResult.textContent = 'Dateityp nicht erlaubt. Erlaubt: ' + allowedExtensions.join(', ');
     uploadBtn.style.display = 'none';
@@ -86,7 +87,9 @@ function updateUIAfterFileSelect() {
     uploadBtn.style.display = 'none';
     return;
   }
+  else {
   fileResult.textContent = 'Datei ist bereit zum hochladen: ' + fileName + ' (' + fileMb.toFixed(1) + ' MB)';
   dropzoneText.textContent = `Ausgewählt: ${selectedFile.name}`;
   uploadBtn.style.display = 'inline-block';
+  }
 }

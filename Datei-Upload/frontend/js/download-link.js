@@ -33,7 +33,7 @@ async function handleUploadClick() {
             // Link anzeigen
             document.getElementById('download-url').textContent = data.downloadLink;
 
-            // QR-Code generieren, falls du das brauchst
+            // QR-Code generieren
             generateQRCode(data.downloadLink);
         } else if (data.error) {
             alert("Fehler beim Hochladen: " + data.error);
