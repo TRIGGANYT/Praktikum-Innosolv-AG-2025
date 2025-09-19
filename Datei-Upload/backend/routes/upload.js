@@ -40,6 +40,15 @@ function assignUploadId(req, res, next) {
 async function handleFileUpload(req, res) {
   const uploadId = req.uploadId;
   const uploadFolder = path.join(uploadBase, uploadId);
+
+  if (req.files.length === 1) {
+    // Direktlink zur Einzeldatei zurückgeben
+    const file = req.files[0];
+    const downloadLink = `${req.protocol}://${req.get('host')}/uploads/${uploadId}/${file.originalname}`;
+    return res.json({ downloadLink });
+  }
+
+  // Mehrere Dateien → ZIP erstellen
   const zipFilePath = path.join(zipBase, `${uploadId}.zip`);
 
   try {
