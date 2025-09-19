@@ -1,19 +1,15 @@
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
-
-
 const app = express();
 const PORT = 3000;
-
-
+const { v4: uuidv4 } = require('uuid');
+const upload = multer({ storage });
 
 // Frontend statisch bereitstellen
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 // Speicherort & Dateinamen-Konfiguration
-const { v4: uuidv4 } = require('uuid');
-
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads/");
@@ -23,9 +19,6 @@ const storage = multer.diskStorage({
     cb(null, uniqueName);
   },
 });
-
-
-const upload = multer({ storage });
 
 // Upload-Endpoint
 app.post("/upload", upload.single("file"), (req, res) => {
