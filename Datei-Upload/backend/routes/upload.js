@@ -1,16 +1,14 @@
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
-
-const router = express.Router();  // Vergiss das nicht!
+const router = express.Router();
+const upload = multer({ storage });
 
 // Speicher konfigurieren
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, "uploads/"),
   filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname)),
 });
-
-const upload = multer({ storage });
 
 // Upload-Route
 router.post("/upload", upload.single("file"), (req, res) => {
@@ -22,4 +20,4 @@ router.post("/upload", upload.single("file"), (req, res) => {
   res.json({ message: "Upload erfolgreich", downloadLink, file: req.file });
 });
 
-module.exports = router;  // Vergiss das auch nicht!
+module.exports = router; 
