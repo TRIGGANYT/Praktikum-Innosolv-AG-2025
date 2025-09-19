@@ -121,6 +121,11 @@ uploadBtn.onclick = async function () {
   const formData = new FormData();
   selectedFiles.forEach(file => formData.append('files', file));
 
+  // Gültigkeitsdauer aus dem Dropdown auslesen (in Sekunden)
+  const expirationSelect = document.getElementById('link-expiration');
+  const expirationSeconds = expirationSelect ? expirationSelect.value : '3600'; // default 1 Stunde
+  formData.append('expiration', expirationSeconds);
+
   try {
     const response = await fetch('/upload', {
       method: 'POST',
@@ -130,20 +135,17 @@ uploadBtn.onclick = async function () {
     const result = await response.json();
 
     if (result.downloadLink) {
-      // Download-Link als href setzen
       downloadUrlLink.href = result.downloadLink;
-      // Download-Link komplett anzeigen, mit GUID-Datei am Ende (ist ja der Link selbst)
       downloadUrlLink.textContent = result.downloadLink;
 
-      // QR-Code generieren, wenn Funktion verfügbar
       if (typeof generateQRCode === 'function') {
         generateQRCode(result.downloadLink);
       }
 
       fileResult.textContent = 'Upload erfolgreich!';
-      uploadBtn.style.display = 'none';  // Upload-Button ausblenden nach Upload
+      uploadBtn.style.display = 'none';
       dropzoneText.textContent = 'Datei(en) hochgeladen.';
-      selectedFiles = []; // Auswahl zurücksetzen
+      selectedFiles = [];
     } else {
       fileResult.textContent = result.error || 'Fehler beim Upload.';
     }
