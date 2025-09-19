@@ -63,6 +63,21 @@ dropzone.addEventListener('dragleave', dragleaveHandler);
 dropzone.addEventListener('drop', dropHandler);
 
 
+
+function validateFile(file) {
+  const fileName = file.name;
+  const fileSize = file.size;
+  const fileMb = fileSize / 1024 ** 2;
+
+  if (!isAllowedFileType(fileName)) {
+    return { valid: false, message: `${fileName}: Dateityp nicht erlaubt.` };
+  } 
+  if (fileMb >= 2) {
+    return { valid: false, message: `${fileName}: Zu groß (>2MB).` };
+  }
+  return { valid: true, message: `${fileName} (${fileMb.toFixed(1)} MB) bereit zum Hochladen.` };
+}
+
 // UI-Aktualisierung nach Dateiauswahl
 function updateUIAfterFileSelect() {
   if (!selectedFiles.length) {
@@ -70,22 +85,16 @@ function updateUIAfterFileSelect() {
     uploadBtn.style.display = 'none';
     return;
   }
+  
   let allValid = true;
   let messages = [];
+
   selectedFiles.forEach(file => {
-    const fileName = file.name;
-    const fileSize = file.size;
-    const fileMb = fileSize / 1024 ** 2;
-    if (!isAllowedFileType(fileName)) {
-      messages.push(`${fileName}: Dateityp nicht erlaubt.`);
-      allValid = false;
-    } else if (fileMb >= 2) {
-      messages.push(`${fileName}: Zu groß (>2MB).`);
-      allValid = false;
-    } else {
-      messages.push(`${fileName} (${fileMb.toFixed(1)} MB) bereit zum Hochladen.`);
-    }
+    const { valid, message } = validateFile(file);
+    if (!valid) allValid = false;
+    messages.push(message);
   });
+
   fileResult.textContent = messages.join('\n');
   dropzoneText.textContent = `Ausgewählt: ${selectedFiles.map(f => f.name).join(', ')}`;
   uploadBtn.style.display = allValid ? 'inline-block' : 'none';
