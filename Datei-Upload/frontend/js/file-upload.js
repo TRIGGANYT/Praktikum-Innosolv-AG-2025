@@ -94,39 +94,27 @@ function updateUIAfterFileSelect() {
 // Upload-Button Handler für mehrere Dateien
 uploadBtn.onclick = async function () {
   if (!selectedFiles.length) return;
+
   const formData = new FormData();
   selectedFiles.forEach(file => formData.append('files', file));
+
   try {
     const response = await fetch('/upload', {
       method: 'POST',
       body: formData
     });
+
     const result = await response.json();
-    if (result.downloadLinks) {
-      // Zeige alle Links wie den ersten Link im Download-Link-Feld an
+
+    if (result.downloadLink) {
       const downloadUrlSpan = document.getElementById('download-url');
-      // Für jeden Link einen Button generieren
-      const allLinks = '<br>' + result.downloadLinks.map((l, idx) =>
-        `<span style="display:inline-block;margin-bottom:4px;">
-          <a class="download-link-static" href="${l.link}" target="_blank">${l.link}</a>
-          <button class="copy-link-btn" data-link="${l.link}" style="margin-left:8px;">Kopieren</button>
-        </span>`
-      ).join('<br>');
-      downloadUrlSpan.innerHTML = allLinks;
-      // Event-Listener für alle Kopieren-Buttons
-      document.querySelectorAll('.copy-link-btn').forEach(btn => {
-        btn.onclick = function() {
-          const link = btn.getAttribute('data-link');
-          navigator.clipboard.writeText(link).then(() => {
-            btn.textContent = 'Kopiert!';
-            setTimeout(() => btn.textContent = 'Kopieren', 3000);
-          });
-        };
-      });
-      // QR-Code für den ersten Link
+      downloadUrlSpan.innerHTML = `<a href="${result.downloadLink}" target="_blank">${result.downloadLink}</a>`;
+
       if (typeof generateQRCode === 'function') {
-        generateQRCode(result.downloadLinks[0].link);
+        generateQRCode(result.downloadLink);
       }
+
+      fileResult.textContent = 'Upload erfolgreich!';
     } else {
       fileResult.textContent = result.error || 'Fehler beim Upload.';
     }

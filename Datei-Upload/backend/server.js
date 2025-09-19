@@ -1,8 +1,11 @@
 const express = require("express");
 const path = require("path");
+const fs = require('fs');
 const app = express();
 const PORT = 3000;
 const uploadRouter = require('./routes/upload');
+
+app.use('/zips', express.static(path.join(__dirname, 'zips')));
 
 // Frontend statisch bereitstellen
 app.use(express.static(path.join(__dirname, '../frontend')));
@@ -20,6 +23,16 @@ app.listen(PORT, () => {
 // Root-Route gibt index.html aus dem Frontend zurück
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/index.html'));
+});
+
+app.get('/download/:id', (req, res) => {
+  const zipPath = path.join(__dirname, 'zips', `${req.params.id}.zip`);
+
+  if (fs.existsSync(zipPath)) {
+    res.download(zipPath, `${req.params.id}.zip`);
+  } else {
+    res.status(404).send('Datei nicht gefunden.');
+  }
 });
 
 

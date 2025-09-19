@@ -4,6 +4,7 @@ let qrCodeInstance = null;
 
 // Funktion zum Generieren des QR-Codes
 function generateQRCode(text) {
+    if (!text) return;
     qrBox.innerHTML = '';
 
     qrCodeInstance = new QRCode(qrBox, {
