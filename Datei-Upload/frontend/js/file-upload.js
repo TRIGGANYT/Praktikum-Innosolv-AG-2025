@@ -72,8 +72,8 @@ function validateFile(file) {
   if (!isAllowedFileType(fileName)) {
     return { valid: false, message: `${fileName}: Dateityp nicht erlaubt.` };
   } 
-  if (fileMb >= 2) {
-    return { valid: false, message: `${fileName}: Zu groß (>2MB).` };
+  if (fileMb >= 50) {
+    return { valid: false, message: `${fileName}: Zu gross. Wählen sie eine Datei kleiner als 50MB` };
   }
   return { valid: true, message: `${fileName} (${fileMb.toFixed(1)} MB) bereit zum Hochladen.` };
 }
