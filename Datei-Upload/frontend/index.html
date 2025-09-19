@@ -12,9 +12,10 @@
 
 <body>
     <!-- Buttons zum Kopieren und QR-Code -->
-    <div class="copy-btn">
+    <div class="copy-btn" id="download-area">
+        <button id="copy-link-btn">Link kopieren</button>
         <p class="download-link">
-            Download-Link: <span id="download-url">Hier erscheint Ihr Download-Link</span>
+            Download-Link: <a href="#" target="_blank" id="download-url"></a>
         </p>
         <button id="qrcode-btn">Oder scanne diesen QR-Code</button>
     </div>

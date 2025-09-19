@@ -1,24 +1,40 @@
 // Elemente der Dropzone mit IDs versehen.
 const dropzone = document.getElementById('dropzone');
-const dropzoneText = document.getElementById('dropzone-text')
+const dropzoneText = document.getElementById('dropzone-text');
 const uploadBtn = document.getElementById('upload-btn');
-const fileInput = document.getElementById('fileInput')
+const fileInput = document.getElementById('fileInput');
 const customFileBtn = document.getElementById('customFileBtn');
 const fileResult = document.getElementById('file-result');
 const allowedExtensions = ["jpg", "jpeg", "png", "gif", "pdf", "doc", "docx", "xls", "xlsx", "txt"];
 
-// Explorer öffnet sich sobald auf Datei auswählen geklickt wird
-customFileBtn.addEventListener('click', openFileExplorer);
+// Neu: Download-Link Bereich & Copy-Button
+const downloadArea = document.getElementById('download-area');
+const downloadUrlLink = document.getElementById('download-url');
+const copyLinkBtn = document.getElementById('copy-link-btn');
 
-// Dateiauswahl per klick über html Button
-fileInput.addEventListener('change', handleFileChange);
-
-
-// Multi-File Support: Array für ausgewählte Dateien
 let selectedFiles = [];
 
-// upload btn erst anzeigen, sobald Datei in dropzone
+// Upload-Button erst anzeigen, sobald Datei in Dropzone
 uploadBtn.style.display = 'none';
+
+// Öffnet den Datei-Explorer beim Klick auf "Datei auswählen"
+customFileBtn.addEventListener('click', openFileExplorer);
+
+// Dateiauswahl per Klick
+fileInput.addEventListener('change', handleFileChange);
+
+// Copy-Link Button Funktion
+copyLinkBtn.addEventListener('click', () => {
+  if (!downloadUrlLink.href) return;
+  navigator.clipboard.writeText(downloadUrlLink.href)
+    .then(() => alert('Link kopiert!'))
+    .catch(() => alert('Kopieren fehlgeschlagen!'));
+});
+
+// Drag & Drop Event-Handler
+dropzone.addEventListener('dragover', dragoverHandler);
+dropzone.addEventListener('dragleave', dragleaveHandler);
+dropzone.addEventListener('drop', dropHandler);
 
 function openFileExplorer() {
   fileInput.click();
@@ -31,13 +47,13 @@ function handleFileChange(event) {
   }
 }
 
-// Fileextensions Whitelist
+// Datei-Endungen überprüfen
 function isAllowedFileType(fileName) {
   const fileExtension = fileName.split('.').pop().toLowerCase();
   return allowedExtensions.includes(fileExtension);
 }
 
-// Drag and Drop Handler Funktionen
+// Drag & Drop Funktionen
 function dragoverHandler(event) {
   event.preventDefault();
   dropzone.classList.add('dragover');
@@ -57,13 +73,7 @@ function dropHandler(event) {
   }
 }
 
-// Aktionen auf dropzone erkennen
-dropzone.addEventListener('dragover', dragoverHandler);
-dropzone.addEventListener('dragleave', dragleaveHandler);
-dropzone.addEventListener('drop', dropHandler);
-
-
-
+// Validierung einzelner Datei
 function validateFile(file) {
   const fileName = file.name;
   const fileSize = file.size;
@@ -71,21 +81,21 @@ function validateFile(file) {
 
   if (!isAllowedFileType(fileName)) {
     return { valid: false, message: `${fileName}: Dateityp nicht erlaubt.` };
-  } 
+  }
   if (fileMb >= 50) {
-    return { valid: false, message: `${fileName}: Zu gross. Wählen sie eine Datei kleiner als 50MB` };
+    return { valid: false, message: `${fileName}: Zu groß. Wählen Sie eine Datei kleiner als 50MB.` };
   }
   return { valid: true, message: `${fileName} (${fileMb.toFixed(1)} MB) bereit zum Hochladen.` };
 }
 
-// UI-Aktualisierung nach Dateiauswahl
+// UI nach Dateiauswahl updaten
 function updateUIAfterFileSelect() {
   if (!selectedFiles.length) {
     fileResult.textContent = '';
     uploadBtn.style.display = 'none';
     return;
   }
-  
+
   let allValid = true;
   let messages = [];
 
@@ -98,9 +108,13 @@ function updateUIAfterFileSelect() {
   fileResult.textContent = messages.join('\n');
   dropzoneText.textContent = `Ausgewählt: ${selectedFiles.map(f => f.name).join(', ')}`;
   uploadBtn.style.display = allValid ? 'inline-block' : 'none';
+
+
+  downloadUrlLink.href = '';
+  downloadUrlLink.textContent = '';
 }
 
-// Upload-Button Handler für mehrere Dateien
+// Upload-Button Handler
 uploadBtn.onclick = async function () {
   if (!selectedFiles.length) return;
 
@@ -116,14 +130,19 @@ uploadBtn.onclick = async function () {
     const result = await response.json();
 
     if (result.downloadLink) {
-      const downloadUrlSpan = document.getElementById('download-url');
-      downloadUrlSpan.innerHTML = `<a href="${result.downloadLink}" target="_blank">${result.downloadLink}</a>`;
 
+      downloadUrlLink.href = result.downloadLink;
+      downloadUrlLink.textContent = result.downloadLink;
+
+      // QR-Code generieren, wenn Funktion verfügbar
       if (typeof generateQRCode === 'function') {
         generateQRCode(result.downloadLink);
       }
 
       fileResult.textContent = 'Upload erfolgreich!';
+      uploadBtn.style.display = 'none';  // Upload-Button nach Upload ausblenden
+      dropzoneText.textContent = 'Datei(en) hochgeladen.';
+      selectedFiles = []; // Reset der Auswahl
     } else {
       fileResult.textContent = result.error || 'Fehler beim Upload.';
     }

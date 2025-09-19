@@ -16,14 +16,25 @@ function onCopyError(err) {
 }
 
 function handleCopyLinkClick() {
-    const linkText = document.getElementById('download-url').textContent;
-    
-    if (!linkText || linkText === 'Hier erscheint Ihr Download-Link') {
-        alert("Sie haben noch keine Datei hochgeladen.");
-        return;
-    }
+  const linkElement = document.getElementById('download-url');
+  if (!linkElement) {
+    alert('Download-Link Element nicht gefunden.');
+    return;
+  }
 
-    navigator.clipboard.writeText(linkText)
-        .then(onCopySuccess)
-        .catch(onCopyError);
+  const linkText = linkElement.textContent.trim();
+
+  if (!linkText || linkText === 'Hier erscheint Ihr Download-Link') {
+    alert("Sie haben noch keine Datei hochgeladen.");
+    return;
+  }
+
+  navigator.clipboard.writeText(linkText)
+    .then(onCopySuccess)
+    .catch(onCopyError);
+}
+
+// Event Listener nur hinzufügen, wenn Button existiert
+if (copyLinkBtn) {
+  copyLinkBtn.addEventListener('click', handleCopyLinkClick);
 }
