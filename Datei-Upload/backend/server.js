@@ -5,6 +5,8 @@ const app = express();
 const PORT = 3000;
 const uploadRouter = require('./routes/upload');
 
+app.use (express.json());
+
 app.use('/zips', express.static(path.join(__dirname, 'zips')));
 
 // Frontend statisch bereitstellen

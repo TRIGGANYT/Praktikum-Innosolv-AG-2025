@@ -12,6 +12,8 @@ const downloadArea = document.getElementById('download-area');
 const downloadUrlLink = document.getElementById('download-url');
 const copyLinkBtn = document.getElementById('copy-link-btn');
 
+const deleteLinkBtn = document.getElementById('delete-link-btn')
+
 let selectedFiles = [];
 
 // Upload-Button erst anzeigen, sobald Datei in Dropzone
@@ -30,6 +32,56 @@ copyLinkBtn.addEventListener('click', () => {
     .then(() => alert('Link kopiert!'))
     .catch(() => alert('Kopieren fehlgeschlagen!'));
 });
+
+deleteLinkBtn.addEventListener('click', async () => {
+  const downloadUrl = downloadUrlLink.href;
+  if (!downloadUrl) {
+    alert("Kein Download-Link vorhanden.");
+    return;
+  }
+
+  // Optional: Bestätigung vor dem Löschen
+  if (!confirm("Willst du den Download-Link und die Dateien wirklich löschen?")) return;
+
+  try {
+    const response = await fetch('/upload/delete-file', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ url: downloadUrl })
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      alert('Link und Dateien wurden gelöscht.');
+
+      // UI zurücksetzen
+      downloadUrlLink.href = '';
+      downloadUrlLink.textContent = '';
+      deleteLinkBtn.style.display = 'none';
+
+      fileResult.textContent = ''; // Kein Ergebnistext
+      dropzoneText.textContent = 'Datei hinein ziehen oder auswählen';
+      selectedFiles = [];
+      uploadBtn.style.display = 'none';
+      fileInput.value = ''; // Datei-Input zurücksetzen
+      // UI anpassen
+      downloadUrlLink.href = '';
+      downloadUrlLink.textContent = '';
+      deleteLinkBtn.style.display = 'none';
+      qrBox.style.display = 'none';
+
+    } else {
+      alert('Fehler beim Löschen: ' + result.message);
+    }
+  } catch (err) {
+    alert('Fehler beim Löschen.');
+    console.error(err);
+  }
+});
+
 
 // Drag & Drop Event-Handler
 dropzone.addEventListener('dragover', dragoverHandler);
@@ -83,7 +135,7 @@ function validateFile(file) {
     return { valid: false, message: `${fileName}: Dateityp nicht erlaubt.` };
   }
   if (fileMb >= 50) {
-    return { valid: false, message: `${fileName}: Zu groß. Wählen Sie eine Datei kleiner als 50MB.` };
+    return { valid: false, message: `${fileName}: Zu gross. Wählen Sie eine Datei kleiner als 50MB.` };
   }
   return { valid: true, message: `${fileName} (${fileMb.toFixed(1)} MB) bereit zum Hochladen.` };
 }

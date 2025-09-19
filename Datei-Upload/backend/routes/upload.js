@@ -78,7 +78,100 @@ function createZipFromFolder(sourceFolder, outputFilePath) {
   });
 }
 
-// POST-Route für Dateiupload
+// DELETE-Route zum Löschen von Dateien basierend auf Download-Link
+router.post('/delete-file', (req, res) => {
+  const { url } = req.body;
+
+  if (!url) {
+    return res.status(400).json({ success: false, message: 'Keine URL angegeben' });
+  }
+
+  // Beispiel-URL-Formate:
+  // Einzeldatei: http://host/uploads/uploadId/filename.ext
+  // ZIP-Download: http://host/download/uploadId
+
+  try {
+    const urlObj = new URL(url);
+    const pathname = urlObj.pathname; // z.B. /uploads/uploadId/filename.ext oder /download/uploadId
+    const parts = pathname.split('/').filter(Boolean);
+
+    if (parts.length < 2) {
+      return res.status(400).json({ success: false, message: 'Ungültiger Pfad in URL' });
+    }
+
+    let uploadId, filePathToDelete, zipPathToDelete;
+
+    if (parts[0] === 'uploads') {
+      // Einzeldatei: /uploads/uploadId/filename.ext
+      uploadId = parts[1];
+      const filename = parts.slice(2).join('/'); // könnte mehrstufig sein, aber normalerweise filename.ext
+
+      filePathToDelete = path.join(uploadBase, uploadId, filename);
+      zipPathToDelete = path.join(zipBase, `${uploadId}.zip`); // Falls Zip für diesen Upload existiert
+
+    } else if (parts[0] === 'download') {
+      // ZIP-Download-Link: /download/uploadId
+      uploadId = parts[1];
+      filePathToDelete = null; // Keine einzelne Datei löschen, sondern Ordner
+      zipPathToDelete = path.join(zipBase, `${uploadId}.zip`);
+    } else {
+      return res.status(400).json({ success: false, message: 'Unbekanntes URL-Format' });
+    }
+
+    // Funktion zum Löschen mit Promise
+    function deleteFile(filePath) {
+      return new Promise((resolve, reject) => {
+        if (!filePath) return resolve();
+        fs.unlink(filePath, (err) => {
+          if (err && err.code !== 'ENOENT') {
+            return reject(err);
+          }
+          resolve();
+        });
+      });
+    }
+
+    // Funktion zum Löschen eines Ordners rekursiv
+    function deleteFolder(folderPath) {
+      return new Promise((resolve, reject) => {
+        fs.rm(folderPath, { recursive: true, force: true }, (err) => {
+          if (err) return reject(err);
+          resolve();
+        });
+      });
+    }
+
+    // Löschen starten
+    const deletePromises = [];
+
+    if (filePathToDelete) {
+      deletePromises.push(deleteFile(filePathToDelete));
+    }
+
+    if (uploadId) {
+      const uploadFolder = path.join(uploadBase, uploadId);
+      deletePromises.push(deleteFolder(uploadFolder));
+    }
+
+    if (zipPathToDelete) {
+      deletePromises.push(deleteFile(zipPathToDelete));
+    }
+
+    Promise.all(deletePromises)
+      .then(() => {
+        res.json({ success: true });
+      })
+      .catch((err) => {
+        console.error('Fehler beim Löschen:', err);
+        res.status(500).json({ success: false, message: 'Fehler beim Löschen der Dateien' });
+      });
+
+  } catch (err) {
+    console.error('Ungültige URL:', err);
+    return res.status(400).json({ success: false, message: 'Ungültige URL' });
+  }
+});
+
 router.post('/', assignUploadId, upload.array('files', 10), handleFileUpload);
 
 module.exports = router;

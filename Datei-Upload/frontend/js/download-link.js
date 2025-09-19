@@ -1,5 +1,10 @@
 const copyLinkBtn = document.getElementById('copy-link-btn');
 
+// Event Listener nur hinzufügen, wenn Button existiert
+if (copyLinkBtn) {
+  copyLinkBtn.addEventListener('click', handleCopyLinkClick);
+}
+
 // Dateiendung extrahieren. split trennt den Dateinamen am Punkt und pop gibt den letzten Teil zurück
 function getFileExtension(filename) {
     const parts = filename.split('.');
@@ -34,7 +39,3 @@ function handleCopyLinkClick() {
     .catch(onCopyError);
 }
 
-// Event Listener nur hinzufügen, wenn Button existiert
-if (copyLinkBtn) {
-  copyLinkBtn.addEventListener('click', handleCopyLinkClick);
-}
