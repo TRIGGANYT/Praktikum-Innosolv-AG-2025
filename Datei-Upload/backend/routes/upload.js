@@ -15,17 +15,18 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// Upload-Endpoint
-router.post('/', upload.single('file'), (req, res) => {
-	if (!req.file) {
-		return res.status(400).json({ error: 'Keine Datei hochgeladen' });
+// Multi-File Upload-Endpoint (max 10 Dateien)
+router.post('/', upload.array('files', 10), (req, res) => {
+	if (!req.files || !req.files.length) {
+		return res.status(400).json({ error: 'Keine Dateien hochgeladen' });
 	}
-	// Link zum Zugriff auf die Datei
-	const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+	const downloadLinks = req.files.map(file => ({
+		link: `${req.protocol}://${req.get('host')}/uploads/${file.filename}`,
+		originalName: file.originalname
+	}));
 	res.json({
-		message: 'Datei erfolgreich hochgeladen',
-		downloadLink: fileUrl,
-		originalName: req.file.originalname,
+		message: 'Dateien erfolgreich hochgeladen',
+		downloadLinks
 	});
 });
 

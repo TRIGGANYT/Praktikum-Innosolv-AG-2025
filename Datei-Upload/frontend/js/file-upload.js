@@ -14,8 +14,8 @@ customFileBtn.addEventListener('click', openFileExplorer);
 fileInput.addEventListener('change', handleFileChange);
 
 
-// Grundzustand - keine Datei ausgewählt ist.
-let selectedFile = null;
+// Multi-File Support: Array für ausgewählte Dateien
+let selectedFiles = [];
 
 // upload btn erst anzeigen, sobald Datei in dropzone
 uploadBtn.style.display = 'none';
@@ -26,7 +26,7 @@ function openFileExplorer() {
 
 function handleFileChange(event) {
   if (event.target.files.length > 0) {
-    selectedFile = event.target.files[0];
+    selectedFiles = Array.from(event.target.files);
     updateUIAfterFileSelect();
   }
 }
@@ -50,11 +50,9 @@ function dragleaveHandler(event) {
 function dropHandler(event) {
   event.preventDefault();
   dropzone.classList.remove('dragover');
-
   const files = event.dataTransfer.files;
-
   if (files.length > 0) {
-    selectedFile = files[0];
+    selectedFiles = Array.from(files);
     updateUIAfterFileSelect();
   }
 }
@@ -64,32 +62,75 @@ dropzone.addEventListener('dragover', dragoverHandler);
 dropzone.addEventListener('dragleave', dragleaveHandler);
 dropzone.addEventListener('drop', dropHandler);
 
+
 // UI-Aktualisierung nach Dateiauswahl
 function updateUIAfterFileSelect() {
-  if (!selectedFile) {
+  if (!selectedFiles.length) {
     fileResult.textContent = '';
     uploadBtn.style.display = 'none';
     return;
   }
-
-  // Whitelist- und Grössenprüfung
-  const fileName = selectedFile.name;
-  const fileSize = selectedFile.size;
-  const fileMb = fileSize / 1024 ** 2;
-
-  if (!isAllowedFileType(fileName)) {
-    fileResult.textContent = 'Dateityp nicht erlaubt. Erlaubt: ' + allowedExtensions.join(', ');
-    uploadBtn.style.display = 'none';
-    return;
-  }
-  if (fileMb >= 2) {
-    fileResult.textContent = 'Bitte wähle eine Datei kleiner als 2MB.';
-    uploadBtn.style.display = 'none';
-    return;
-  }
-  else {
-  fileResult.textContent = 'Datei ist bereit zum hochladen: ' + fileName + ' (' + fileMb.toFixed(1) + ' MB)';
-  dropzoneText.textContent = `Ausgewählt: ${selectedFile.name}`;
-  uploadBtn.style.display = 'inline-block';
-  }
+  let allValid = true;
+  let messages = [];
+  selectedFiles.forEach(file => {
+    const fileName = file.name;
+    const fileSize = file.size;
+    const fileMb = fileSize / 1024 ** 2;
+    if (!isAllowedFileType(fileName)) {
+      messages.push(`${fileName}: Dateityp nicht erlaubt.`);
+      allValid = false;
+    } else if (fileMb >= 2) {
+      messages.push(`${fileName}: Zu groß (>2MB).`);
+      allValid = false;
+    } else {
+      messages.push(`${fileName} (${fileMb.toFixed(1)} MB) bereit zum Hochladen.`);
+    }
+  });
+  fileResult.textContent = messages.join('\n');
+  dropzoneText.textContent = `Ausgewählt: ${selectedFiles.map(f => f.name).join(', ')}`;
+  uploadBtn.style.display = allValid ? 'inline-block' : 'none';
 }
+
+// Upload-Button Handler für mehrere Dateien
+uploadBtn.onclick = async function () {
+  if (!selectedFiles.length) return;
+  const formData = new FormData();
+  selectedFiles.forEach(file => formData.append('files', file));
+  try {
+    const response = await fetch('/upload', {
+      method: 'POST',
+      body: formData
+    });
+    const result = await response.json();
+    if (result.downloadLinks) {
+      // Zeige alle Links wie den ersten Link im Download-Link-Feld an
+      const downloadUrlSpan = document.getElementById('download-url');
+      // Für jeden Link einen Button generieren
+      const allLinks = '<br>' + result.downloadLinks.map((l, idx) =>
+        `<span style="display:inline-block;margin-bottom:4px;">
+          <a href="${l.link}" target="_blank">${l.link}</a>
+          <button class="copy-link-btn" data-link="${l.link}" style="margin-left:8px;">Kopieren</button>
+        </span>`
+      ).join('<br>');
+      downloadUrlSpan.innerHTML = allLinks;
+      // Event-Listener für alle Kopieren-Buttons
+      document.querySelectorAll('.copy-link-btn').forEach(btn => {
+        btn.onclick = function() {
+          const link = btn.getAttribute('data-link');
+          navigator.clipboard.writeText(link).then(() => {
+            btn.textContent = 'Kopiert!';
+            setTimeout(() => btn.textContent = 'Kopieren', 1200);
+          });
+        };
+      });
+      // QR-Code für den ersten Link
+      if (typeof generateQRCode === 'function') {
+        generateQRCode(result.downloadLinks[0].link);
+      }
+    } else {
+      fileResult.textContent = result.error || 'Fehler beim Upload.';
+    }
+  } catch (err) {
+    fileResult.textContent = 'Fehler beim Upload.';
+  }
+};

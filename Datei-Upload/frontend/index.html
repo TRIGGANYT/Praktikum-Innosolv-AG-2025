@@ -13,7 +13,6 @@
 <body>
     <!-- Buttons zum Kopieren und QR-Code -->
     <div class="copy-btn">
-        <button id="copy-link-btn">Kopiere den Download-Link hier</button>
         <p class="download-link">
             Download-Link: <span id="download-url">Hier erscheint Ihr Download-Link</span>
         </p>
@@ -26,7 +25,7 @@
             <p id="dropzone-text">Datei hinein ziehen oder auswählen</p>
             <div class="file-icon"><i class="fa-regular fa-file-lines"></i></div>
 
-            <input type="file" id="fileInput" style="display: none;" />
+            <input type="file" id="fileInput" multiple style="display: none;" />
             <button id="customFileBtn">Datei auswählen</button>
             <button id="upload-btn" type="button" style="display: none;">Datei hochladen</button>
             <p id="file-result"></p>
