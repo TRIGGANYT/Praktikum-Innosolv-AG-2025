@@ -1,4 +1,4 @@
 .env
 /uploads
 /zips
-/node_modules
+node_modules/
