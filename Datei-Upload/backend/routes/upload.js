@@ -8,6 +8,7 @@ const router = express.Router();
 const uploadBase = path.join(__dirname, '../uploads');
 const zipBase = path.join(__dirname, '../zips');
 const upload = multer({ storage });
+const connectToDb = require('../db');
 
 // Multer Speicher-Konfiguration
 const storage = multer.diskStorage({
