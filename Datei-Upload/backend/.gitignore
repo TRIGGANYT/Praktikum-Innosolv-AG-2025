@@ -1,1 +1,4 @@
 .env
+/uploads
+/zips
+/node_modules
