@@ -5,10 +5,10 @@ const fs = require('fs');
 const archiver = require('archiver');
 const { v4: uuidv4 } = require('uuid');
 const router = express.Router();
+const connectToDb = require('../db');
+
 const uploadBase = path.join(__dirname, '../uploads');
 const zipBase = path.join(__dirname, '../zips');
-const upload = multer({ storage });
-const connectToDb = require('../db');
 
 // Multer Speicher-Konfiguration
 const storage = multer.diskStorage({
@@ -27,6 +27,8 @@ const storage = multer.diskStorage({
   }
 });
 
+const upload = multer({ storage });
+
 // Middleware zur Generierung einer eindeutigen Upload-ID
 function assignUploadId(req, res, next) {
   req.uploadId = uuidv4();
@@ -38,27 +40,50 @@ async function handleFileUpload(req, res) {
   const uploadId = req.uploadId;
   const uploadFolder = path.join(uploadBase, uploadId);
 
+  // Ablaufzeit holen (von Client geschickt)
+  const expirationSeconds = parseInt(req.body.expiration) || 3600;
+  const expiresAt = new Date(Date.now() + expirationSeconds * 1000);
+
+  let downloadLink;
+
   if (req.files.length === 1) {
-    // Direktlink zur Einzeldatei zurückgeben
     const file = req.files[0];
-    const downloadLink = `${req.protocol}://${req.get('host')}/uploads/${uploadId}/${file.originalname}`;
-    return res.json({ downloadLink });
+    downloadLink = `${req.protocol}://${req.get('host')}/uploads/${uploadId}/${file.originalname}`;
+  } else {
+    const zipFilePath = path.join(zipBase, `${uploadId}.zip`);
+
+    try {
+      await createZipFromFolder(uploadFolder, zipFilePath);
+      downloadLink = `${req.protocol}://${req.get('host')}/download/${uploadId}`;
+    } catch (err) {
+      console.error('ZIP-Erstellung fehlgeschlagen:', err);
+      return res.status(500).json({ error: 'ZIP-Erstellung fehlgeschlagen' });
+    }
   }
 
-  // Mehrere Dateien → ZIP erstellen
-  const zipFilePath = path.join(zipBase, `${uploadId}.zip`);
-
+  // MongoDB: Metadaten speichern
   try {
-    await createZipFromFolder(uploadFolder, zipFilePath);
+    const db = await connectToDb();
+    const collection = db.collection('uploads');
 
-    const downloadLink = `${req.protocol}://${req.get('host')}/download/${uploadId}`;
-
-    res.json({ downloadLink });
+    await collection.insertOne({
+      uploadId,
+      downloadLink,
+      createdAt: new Date(),
+      expiresAt,
+      files: req.files.map(file => ({
+        originalName: file.originalname,
+        size: file.size
+      }))
+    });
   } catch (err) {
-    console.error('ZIP-Erstellung fehlgeschlagen:', err);
-    res.status(500).json({ error: 'ZIP-Erstellung fehlgeschlagen' });
+    console.error('Fehler beim Speichern in MongoDB:', err);
+    return res.status(500).json({ error: 'Fehler beim Speichern in der Datenbank' });
   }
+
+  res.json({ downloadLink });
 }
+
 
 // Funktion: Ordner in ZIP umwandeln
 function createZipFromFolder(sourceFolder, outputFilePath) {
@@ -165,5 +190,38 @@ router.post('/delete-file', (req, res) => {
 });
 
 router.post('/', assignUploadId, upload.array('files', 10), handleFileUpload);
+
+// Route für /download/:uploadId
+router.get('/download/:uploadId', async (req, res) => {
+  const { uploadId } = req.params;
+
+  try {
+    const db = await connectToDb();
+    const collection = db.collection('uploads');
+    const record = await collection.findOne({ uploadId });
+
+    if (!record) {
+      return res.status(404).send('Download nicht gefunden');
+    }
+
+    // Ablaufzeit prüfen
+    const now = new Date();
+    if (record.expiresAt < now) {
+      return res.status(410).send('Download-Link ist abgelaufen');
+    }
+
+    // Pfad zur ZIP-Datei
+    const zipFilePath = path.join(zipBase, `${uploadId}.zip`);
+    if (!fs.existsSync(zipFilePath)) {
+      return res.status(404).send('ZIP-Datei nicht gefunden');
+    }
+
+    // Datei senden
+    res.download(zipFilePath);
+  } catch (err) {
+    console.error('Fehler beim Download:', err);
+    res.status(500).send('Interner Serverfehler');
+  }
+});
 
 module.exports = router;
