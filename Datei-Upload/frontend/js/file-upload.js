@@ -7,7 +7,7 @@ const customFileBtn = document.getElementById('customFileBtn');
 const fileResult = document.getElementById('file-result');
 const allowedExtensions = ["jpg", "jpeg", "png", "gif", "pdf", "doc", "docx", "xls", "xlsx", "txt"];
 
-// Neu: Download-Link Bereich & Copy-Button
+// Download-Link Bereich & Copy-Button
 const downloadArea = document.getElementById('download-area');
 const downloadUrlLink = document.getElementById('download-url');
 const copyLinkBtn = document.getElementById('copy-link-btn');
@@ -16,18 +16,23 @@ const deleteLinkBtn = document.getElementById('delete-link-btn')
 const qrcodeBtn = document.getElementById('qrcode-btn');
 let selectedFiles = [];
 
-// Ausgeblendete Buttons
+// Bei start ausgeblendete Buttons
 uploadBtn.style.display = 'none';
 copyLinkBtn.style.display = 'none';
 qrcodeBtn.style.display = 'none';
 
-// Öffnet den Datei-Explorer beim Klick auf "Datei auswählen"
+// Drag & Drop Event-Handler
+dropzone.addEventListener('dragover', dragoverHandler);
+dropzone.addEventListener('dragleave', dragleaveHandler);
+dropzone.addEventListener('drop', dropHandler);
+
+// Öffnet Datei-Explorer beim Klick auf "Datei auswählen"
 customFileBtn.addEventListener('click', openFileExplorer);
 
 // Dateiauswahl per Klick
 fileInput.addEventListener('change', handleFileChange);
 
-// Copy-Link Button Funktion
+// Kopiert den Download-Link in die Zwischenablage beim Klick auf den copyLinkBtn
 copyLinkBtn.addEventListener('click', () => {
   if (!downloadUrlLink.href) return;
   navigator.clipboard.writeText(downloadUrlLink.href)
@@ -35,45 +40,20 @@ copyLinkBtn.addEventListener('click', () => {
     .catch(() => alert('Kopieren fehlgeschlagen!'));
 });
 
-// Delete-Link Button Funktion
+// Löscht den Download-Link und die zugehörigen Dateien beim Klick auf das Mülleimer-Icon
 deleteLinkBtn.addEventListener('click', async () => {
-
   const downloadUrl = downloadUrlLink.href;
+  if (!downloadUrl) return;
 
-  // Optional: Bestätigung vor dem Löschen
-  if (!confirm("Willst du den Download-Link und die Dateien wirklich löschen?")) return;
+  const confirmed = confirm("Willst du den Download-Link und die Dateien wirklich löschen?");
+  if (!confirmed) return;
 
   try {
-    const response = await fetch('/upload/delete-file', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ url: downloadUrl })
-    });
-
-    const result = await response.json();
+    const result = await deleteDownloadLink(downloadUrl);
 
     if (result.success) {
       alert('Link und Dateien wurden gelöscht.');
-
-      // UI zurücksetzen
-      downloadUrlLink.href = '';
-      downloadUrlLink.textContent = '';
-
-      fileResult.textContent = ''; // Kein Ergebnistext
-      dropzoneText.textContent = 'Datei hinein ziehen oder auswählen';
-      selectedFiles = [];
-      uploadBtn.style.display = 'none';
-      fileInput.value = ''; // Datei-Input zurücksetzen
-      // UI anpassen
-      downloadUrlLink.href = '';
-      downloadUrlLink.textContent = '';
-      deleteLinkBtn.style.display = 'none';
-      copyLinkBtn.style.display = 'none';
-      qrcodeBtn.style.display = 'none';
-      qrBox.style.display = 'none';
-
+      resetUIAfterDelete();
     } else {
       alert('Fehler beim Löschen: ' + result.message);
     }
@@ -83,16 +63,12 @@ deleteLinkBtn.addEventListener('click', async () => {
   }
 });
 
-
-// Drag & Drop Event-Handler
-dropzone.addEventListener('dragover', dragoverHandler);
-dropzone.addEventListener('dragleave', dragleaveHandler);
-dropzone.addEventListener('drop', dropHandler);
-
+// Funktion Datei-Explorer öffnen
 function openFileExplorer() {
   fileInput.click();
 }
 
+// Drag and Drop Funktionen
 function handleFileChange(event) {
   if (event.target.files.length > 0) {
     selectedFiles = Array.from(event.target.files);
@@ -100,13 +76,6 @@ function handleFileChange(event) {
   }
 }
 
-// Datei-Endungen überprüfen
-function isAllowedFileType(fileName) {
-  const fileExtension = fileName.split('.').pop().toLowerCase();
-  return allowedExtensions.includes(fileExtension);
-}
-
-// Drag & Drop Funktionen
 function dragoverHandler(event) {
   event.preventDefault();
   dropzone.classList.add('dragover');
@@ -126,6 +95,12 @@ function dropHandler(event) {
   }
 }
 
+// Datei-Endungen überprüfen
+function isAllowedFileType(fileName) {
+  const fileExtension = fileName.split('.').pop().toLowerCase();
+  return allowedExtensions.includes(fileExtension);
+}
+
 // Validierung einzelner Datei
 function validateFile(file) {
   const fileName = file.name;
@@ -141,7 +116,7 @@ function validateFile(file) {
   return { valid: true, message: `${fileName} (${fileMb.toFixed(1)} MB) bereit zum Hochladen.` };
 }
 
-// UI nach Dateiauswahl updaten
+// UI nach Dateiauswahl aktualisieren
 function updateUIAfterFileSelect() {
   if (!selectedFiles.length) {
     fileResult.textContent = '';
@@ -160,8 +135,13 @@ function updateUIAfterFileSelect() {
 
   fileResult.textContent = messages.join('\n');
   dropzoneText.textContent = `Ausgewählt: ${selectedFiles.map(f => f.name).join(', ')}`;
-  uploadBtn.style.display = allValid ? 'inline-block' : 'none';
-
+  
+  if (allValid) {
+    uploadBtn.style.display = 'inline-block';
+  } 
+  else {
+    uploadBtn.style.display = 'none';
+  }
 
   downloadUrlLink.href = '';
   downloadUrlLink.textContent = '';
@@ -218,4 +198,31 @@ uploadBtn.onclick = async function () {
     console.error(err);
   }
 };
+
+// Link löschen und UI Reset Funktion
+async function deleteDownloadLink(url) {
+  const response = await fetch('/upload/delete-file', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ url })
+  });
+  return response.json();
+}
+
+function resetUIAfterDelete() {
+  downloadUrlLink.href = '';
+  downloadUrlLink.textContent = '';
+  fileResult.textContent = '';
+  dropzoneText.textContent = 'Datei hinein ziehen oder auswählen';
+  selectedFiles = [];
+  uploadBtn.style.display = 'none';
+  fileInput.value = '';
+  deleteLinkBtn.style.display = 'none';
+  copyLinkBtn.style.display = 'none';
+  qrcodeBtn.style.display = 'none';
+  qrBox.style.display = 'none';
+}
+
 
