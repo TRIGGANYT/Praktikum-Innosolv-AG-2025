@@ -32,9 +32,8 @@ app.get('/download/:id', (req, res) => {
 
   if (fs.existsSync(zipPath)) {
     res.download(zipPath, `${req.params.id}.zip`);
-  } else {
+  } 
+  else {
     res.status(404).send('Datei nicht gefunden.');
   }
 });
-
-
