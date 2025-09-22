@@ -13,12 +13,13 @@
 <body>
     <!-- Buttons zum Kopieren und QR-Code -->
     <div class="copy-btn" id="download-area">
-        <button id="copy-link-btn">Link kopieren</button>
         <p class="download-link">
-            Download-Link: <a href="#" target="_blank" id="download-url"></a>
+            <h1>Aktive Download-Links</h1>
+            <button id="download-url" style="display: none;"></button>
+            <button id="qrcode-btn"><i class="fa-solid fa-qrcode"></i></button>
+            <button id="copy-link-btn"><i class="fa-regular fa-copy"></i></button>
             <button id="delete-link-btn" style="display: none;" class="fa-regular fa-trash-can"></i></button>
         </p>
-        <button id="qrcode-btn">Oder scanne diesen QR-Code</button>
     </div>
     <!-- QR-Code -->
     <div class="qr-box" id="qr-box"></div>

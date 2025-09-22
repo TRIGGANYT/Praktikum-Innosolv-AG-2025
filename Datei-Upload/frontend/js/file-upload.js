@@ -160,6 +160,7 @@ async function uploadFiles(formData) {
 function updateUIAfterUpload(downloadLink) {
   downloadUrlLink.href = downloadLink;
   downloadUrlLink.textContent = downloadLink;
+  downloadUrlLink.style.display = 'inline-block';
 
   deleteLinkBtn.style.display = 'inline-block';
   copyLinkBtn.style.display = 'inline-block';
