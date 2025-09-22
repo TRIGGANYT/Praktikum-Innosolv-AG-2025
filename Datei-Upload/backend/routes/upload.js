@@ -101,7 +101,7 @@ function createZipFromFolder(sourceFolder, outputFilePath) {
 }
 
 // DELETE-Route zum Löschen von Dateien basierend auf Download-Link
-router.post('/delete-file', (req, res) => {
+router.post('/delete-file', async (req, res) => {
   const { url } = req.body;
 
   if (!url) {
@@ -120,45 +120,20 @@ router.post('/delete-file', (req, res) => {
     let uploadId, filePathToDelete, zipPathToDelete;
 
     if (parts[0] === 'uploads') {
-      // Einzeldatei: /uploads/uploadId/filename.ext
       uploadId = parts[1];
       const filename = parts.slice(2).join('/');
-
       filePathToDelete = path.join(uploadBase, uploadId, filename);
       zipPathToDelete = path.join(zipBase, `${uploadId}.zip`);
-
     } else if (parts[0] === 'download') {
       uploadId = parts[1];
-      filePathToDelete = null; // Keine einzelne Datei löschen, sondern Ordner
+      filePathToDelete = null;
       zipPathToDelete = path.join(zipBase, `${uploadId}.zip`);
     } else {
       return res.status(400).json({ success: false, message: 'Unbekanntes URL-Format' });
     }
 
-    // Funktion file löschen
-    function deleteFile(filePath) {
-      return new Promise((resolve, reject) => {
-        if (!filePath) return resolve();
-        fs.unlink(filePath, (err) => {
-          if (err && err.code !== 'ENOENT') {
-            return reject(err);
-          }
-          resolve();
-        });
-      });
-    }
+    // Datei- und Ordner-Löschfunktionen (wie du sie hast)...
 
-    // Funktion ordner löschen
-    function deleteFolder(folderPath) {
-      return new Promise((resolve, reject) => {
-        fs.rm(folderPath, { recursive: true, force: true }, (err) => {
-          if (err) return reject(err);
-          resolve();
-        });
-      });
-    }
-
-    // Löschen starten
     const deletePromises = [];
 
     if (filePathToDelete) {
@@ -174,22 +149,47 @@ router.post('/delete-file', (req, res) => {
       deletePromises.push(deleteFile(zipPathToDelete));
     }
 
-    Promise.all(deletePromises)
-      .then(() => {
-        res.json({ success: true });
-      })
-      .catch((err) => {
-        console.error('Fehler beim Löschen:', err);
-        res.status(500).json({ success: false, message: 'Fehler beim Löschen der Dateien' });
-      });
+    await Promise.all(deletePromises);
+
+    // Jetzt den DB-Eintrag löschen
+    const db = await connectToDb();
+    const collection = db.collection('uploads');
+    await collection.deleteOne({ uploadId });
+
+    res.json({ success: true });
 
   } catch (err) {
-    console.error('Ungültige URL:', err);
-    return res.status(400).json({ success: false, message: 'Ungültige URL' });
+    console.error('Fehler beim Löschen:', err);
+    res.status(500).json({ success: false, message: 'Fehler beim Löschen der Dateien' });
   }
 });
 
+
 router.post('/', assignUploadId, upload.array('files', 10), handleFileUpload);
+
+// Funktion Datei löschen
+function deleteFile(filePath) {
+  return new Promise((resolve, reject) => {
+    if (!filePath) return resolve();
+    fs.unlink(filePath, (err) => {
+      if (err && err.code !== 'ENOENT') {
+        return reject(err);
+      }
+      resolve();
+    });
+  });
+}
+
+// Funktion Ordner löschen
+function deleteFolder(folderPath) {
+  return new Promise((resolve, reject) => {
+    fs.rm(folderPath, { recursive: true, force: true }, (err) => {
+      if (err) return reject(err);
+      resolve();
+    });
+  });
+}
+
 
 // Route für /download/:uploadId
 router.get('/download/:uploadId', async (req, res) => {
