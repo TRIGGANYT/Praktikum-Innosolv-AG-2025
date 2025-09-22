@@ -39,7 +39,7 @@ copyLinkBtn.addEventListener('click', () => {
 deleteLinkBtn.addEventListener('click', async () => {
 
   const downloadUrl = downloadUrlLink.href;
-  
+
   // Optional: Bestätigung vor dem Löschen
   if (!confirm("Willst du den Download-Link und die Dateien wirklich löschen?")) return;
 
@@ -168,46 +168,54 @@ function updateUIAfterFileSelect() {
 }
 
 // Upload-Button Handler
+
+async function uploadFiles(formData) {
+  const response = await fetch('/upload', {
+    method: 'POST',
+    body: formData
+  });
+  return response.json();
+}
+
+function updateUIAfterUpload(downloadLink) {
+  downloadUrlLink.href = downloadLink;
+  downloadUrlLink.textContent = downloadLink;
+
+  deleteLinkBtn.style.display = 'inline-block';
+  copyLinkBtn.style.display = 'inline-block';
+  qrcodeBtn.style.display = 'inline-block';
+
+  if (typeof generateQRCode === 'function') {
+    generateQRCode(downloadLink);
+  }
+
+  fileResult.textContent = 'Upload erfolgreich!';
+  uploadBtn.style.display = 'none';
+  dropzoneText.textContent = 'Datei(en) hochgeladen.';
+  selectedFiles = [];
+}
+
 uploadBtn.onclick = async function () {
   if (!selectedFiles.length) return;
 
   const formData = new FormData();
   selectedFiles.forEach(file => formData.append('files', file));
 
-  // Gültigkeitsdauer aus dem Dropdown auslesen (in Sekunden)
   const expirationSelect = document.getElementById('link-expiration');
-  const expirationSeconds = expirationSelect ? expirationSelect.value : '3600'; // default 1 Stunde
+  const expirationSeconds = expirationSelect ? expirationSelect.value : '3600';
   formData.append('expiration', expirationSeconds);
 
   try {
-    const response = await fetch('/upload', {
-      method: 'POST',
-      body: formData
-    });
-
-    const result = await response.json();
+    const result = await uploadFiles(formData);
 
     if (result.downloadLink) {
-      downloadUrlLink.href = result.downloadLink;
-      downloadUrlLink.textContent = result.downloadLink;
-
-      qrcodeBtn.style.display = 'inline-block';
-      deleteLinkBtn.style.display = 'inline-block';
-      copyLinkBtn.style.display = 'inline-block';
-
-      if (typeof generateQRCode === 'function') {
-        generateQRCode(result.downloadLink);
-      }
-
-      fileResult.textContent = 'Upload erfolgreich!';
-      uploadBtn.style.display = 'none';
-      dropzoneText.textContent = 'Datei(en) hochgeladen.';
-      selectedFiles = [];
+      updateUIAfterUpload(result.downloadLink);
     } else {
       fileResult.textContent = result.error || 'Fehler beim Upload.';
     }
   } catch (err) {
     fileResult.textContent = 'Fehler beim Upload.';
+    console.error(err);
   }
 };
 
