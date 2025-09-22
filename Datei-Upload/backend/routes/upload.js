@@ -4,12 +4,10 @@ const path = require('path');
 const fs = require('fs');
 const archiver = require('archiver');
 const { v4: uuidv4 } = require('uuid');
-
 const router = express.Router();
-
-// Basispfade für Uploads und ZIPs
 const uploadBase = path.join(__dirname, '../uploads');
 const zipBase = path.join(__dirname, '../zips');
+const upload = multer({ storage });
 
 // Multer Speicher-Konfiguration
 const storage = multer.diskStorage({
@@ -27,8 +25,6 @@ const storage = multer.diskStorage({
     cb(null, file.originalname);
   }
 });
-
-const upload = multer({ storage });
 
 // Middleware zur Generierung einer eindeutigen Upload-ID
 function assignUploadId(req, res, next) {
@@ -86,13 +82,9 @@ router.post('/delete-file', (req, res) => {
     return res.status(400).json({ success: false, message: 'Keine URL angegeben' });
   }
 
-  // Beispiel-URL-Formate:
-  // Einzeldatei: http://host/uploads/uploadId/filename.ext
-  // ZIP-Download: http://host/download/uploadId
-
   try {
     const urlObj = new URL(url);
-    const pathname = urlObj.pathname; // z.B. /uploads/uploadId/filename.ext oder /download/uploadId
+    const pathname = urlObj.pathname;
     const parts = pathname.split('/').filter(Boolean);
 
     if (parts.length < 2) {
@@ -104,13 +96,12 @@ router.post('/delete-file', (req, res) => {
     if (parts[0] === 'uploads') {
       // Einzeldatei: /uploads/uploadId/filename.ext
       uploadId = parts[1];
-      const filename = parts.slice(2).join('/'); // könnte mehrstufig sein, aber normalerweise filename.ext
+      const filename = parts.slice(2).join('/');
 
       filePathToDelete = path.join(uploadBase, uploadId, filename);
-      zipPathToDelete = path.join(zipBase, `${uploadId}.zip`); // Falls Zip für diesen Upload existiert
+      zipPathToDelete = path.join(zipBase, `${uploadId}.zip`);
 
     } else if (parts[0] === 'download') {
-      // ZIP-Download-Link: /download/uploadId
       uploadId = parts[1];
       filePathToDelete = null; // Keine einzelne Datei löschen, sondern Ordner
       zipPathToDelete = path.join(zipBase, `${uploadId}.zip`);
@@ -118,7 +109,7 @@ router.post('/delete-file', (req, res) => {
       return res.status(400).json({ success: false, message: 'Unbekanntes URL-Format' });
     }
 
-    // Funktion zum Löschen mit Promise
+    // Funktion file löschen
     function deleteFile(filePath) {
       return new Promise((resolve, reject) => {
         if (!filePath) return resolve();
@@ -131,7 +122,7 @@ router.post('/delete-file', (req, res) => {
       });
     }
 
-    // Funktion zum Löschen eines Ordners rekursiv
+    // Funktion ordner löschen
     function deleteFolder(folderPath) {
       return new Promise((resolve, reject) => {
         fs.rm(folderPath, { recursive: true, force: true }, (err) => {
