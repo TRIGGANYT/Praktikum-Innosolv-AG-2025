@@ -8,7 +8,7 @@ async function createTTLIndex() {
   // Index auf expiresAt mit TTL (0 Sekunden nach Ablaufzeit löschen)
   await collection.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
-  console.log('✅ TTL-Index wurde erstellt.');
+  console.log('TTL-Index wurde erstellt.');
   process.exit();
 }
 

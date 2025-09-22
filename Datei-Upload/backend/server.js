@@ -4,6 +4,7 @@ const fs = require('fs');
 const app = express();
 const PORT = 3000;
 const uploadRouter = require('./routes/upload');
+const cleanup = require('./cleanup');
 
 app.use (express.json());
 
@@ -20,6 +21,11 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.listen(PORT, () => {
   console.log(`Server läuft auf http://localhost:${PORT}`);
+
+  setInterval(() => {
+    console.log('Starte Cleanup abgelaufener Dateien...');
+    cleanup();
+  }, 5 * 60 * 1000); // Alle 5 minuten
 });
 
 // Root-Route gibt index.html aus dem Frontend zurück
