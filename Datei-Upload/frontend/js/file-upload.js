@@ -13,11 +13,13 @@ const downloadUrlLink = document.getElementById('download-url');
 const copyLinkBtn = document.getElementById('copy-link-btn');
 
 const deleteLinkBtn = document.getElementById('delete-link-btn')
-
+const qrcodeBtn = document.getElementById('qrcode-btn');
 let selectedFiles = [];
 
-// Upload-Button erst anzeigen, sobald Datei in Dropzone
+// Ausgeblendete Buttons
 uploadBtn.style.display = 'none';
+copyLinkBtn.style.display = 'none';
+qrcodeBtn.style.display = 'none';
 
 // Öffnet den Datei-Explorer beim Klick auf "Datei auswählen"
 customFileBtn.addEventListener('click', openFileExplorer);
@@ -33,13 +35,11 @@ copyLinkBtn.addEventListener('click', () => {
     .catch(() => alert('Kopieren fehlgeschlagen!'));
 });
 
+// Delete-Link Button Funktion
 deleteLinkBtn.addEventListener('click', async () => {
-  const downloadUrl = downloadUrlLink.href;
-  if (!downloadUrl) {
-    alert("Kein Download-Link vorhanden.");
-    return;
-  }
 
+  const downloadUrl = downloadUrlLink.href;
+  
   // Optional: Bestätigung vor dem Löschen
   if (!confirm("Willst du den Download-Link und die Dateien wirklich löschen?")) return;
 
@@ -60,7 +60,6 @@ deleteLinkBtn.addEventListener('click', async () => {
       // UI zurücksetzen
       downloadUrlLink.href = '';
       downloadUrlLink.textContent = '';
-      deleteLinkBtn.style.display = 'none';
 
       fileResult.textContent = ''; // Kein Ergebnistext
       dropzoneText.textContent = 'Datei hinein ziehen oder auswählen';
@@ -71,6 +70,8 @@ deleteLinkBtn.addEventListener('click', async () => {
       downloadUrlLink.href = '';
       downloadUrlLink.textContent = '';
       deleteLinkBtn.style.display = 'none';
+      copyLinkBtn.style.display = 'none';
+      qrcodeBtn.style.display = 'none';
       qrBox.style.display = 'none';
 
     } else {
@@ -189,6 +190,10 @@ uploadBtn.onclick = async function () {
     if (result.downloadLink) {
       downloadUrlLink.href = result.downloadLink;
       downloadUrlLink.textContent = result.downloadLink;
+
+      qrcodeBtn.style.display = 'inline-block';
+      deleteLinkBtn.style.display = 'inline-block';
+      copyLinkBtn.style.display = 'inline-block';
 
       if (typeof generateQRCode === 'function') {
         generateQRCode(result.downloadLink);
