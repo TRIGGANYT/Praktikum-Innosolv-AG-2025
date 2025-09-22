@@ -7,17 +7,22 @@ if (copyLinkBtn) {
 
 // Dateiendung extrahieren. split trennt den Dateinamen am Punkt und pop gibt den letzten Teil zurück
 function getFileExtension(filename) {
-    const parts = filename.split('.');
-    return parts.length > 1 ? parts.pop().toLowerCase() : '';
+  const parts = filename.split('.');
+  if (parts.length > 1) {
+    return parts.pop().toLowerCase();
+  } 
+  else {
+    return '';
+  }
 }
 
 function onCopySuccess() {
-    alert('Der Downloadlink wurde in die Zwischenablage kopiert.');
+  alert('Der Downloadlink wurde in die Zwischenablage kopiert.');
 }
 
 function onCopyError(err) {
-    console.error('Fehler beim Kopieren: ', err);
-    alert('Kopieren fehlgeschlagen.');
+  console.error('Fehler beim Kopieren: ', err);
+  alert('Kopieren fehlgeschlagen.');
 }
 
 function handleCopyLinkClick() {
@@ -28,11 +33,6 @@ function handleCopyLinkClick() {
   }
 
   const linkText = linkElement.textContent.trim();
-
-  if (!linkText || linkText === 'Hier erscheint Ihr Download-Link') {
-    alert("Sie haben noch keine Datei hochgeladen.");
-    return;
-  }
 
   navigator.clipboard.writeText(linkText)
     .then(onCopySuccess)
