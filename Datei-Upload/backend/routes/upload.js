@@ -1,3 +1,22 @@
+// Liefert alle aktiven (nicht abgelaufenen) Download-Links aus MongoDB
+router.get('/active-links', async (req, res) => {
+  try {
+    const db = await connectToDb();
+    const collection = db.collection('uploads');
+    const now = new Date();
+    const uploads = await collection.find({ expiresAt: { $gt: now } }).sort({ createdAt: -1 }).toArray();
+    const links = uploads.map(u => ({
+      downloadLink: u.downloadLink,
+      uploadId: u.uploadId,
+      expiresAt: u.expiresAt,
+      createdAt: u.createdAt
+    }));
+    res.json({ links });
+  } catch (err) {
+    console.error('Fehler beim Laden der aktiven Links:', err);
+    res.status(500).json({ error: 'Fehler beim Laden der aktiven Links' });
+  }
+});
 const express = require('express');
 const multer = require('multer');
 const path = require('path');

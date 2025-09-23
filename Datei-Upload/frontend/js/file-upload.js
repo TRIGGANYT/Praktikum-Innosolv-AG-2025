@@ -11,6 +11,7 @@ const allowedExtensions = ["jpg", "jpeg", "png", "gif", "pdf", "doc", "docx", "x
 const downloadArea = document.getElementById('download-area');
 const downloadUrlLink = document.getElementById('download-url');
 const copyLinkBtn = document.getElementById('copy-link-btn');
+const activeLinksList = document.getElementById('active-links');
 
 const deleteLinkBtn = document.getElementById('delete-link-btn')
 const qrcodeBtn = document.getElementById('qrcode-btn');
@@ -170,10 +171,76 @@ function updateUIAfterUpload(downloadLink) {
     generateQRCode(downloadLink);
   }
 
+  // Neuen Link als Listeneintrag unter "Aktive Download-Links" anhängen
+  if (activeLinksList) {
+    const li = document.createElement('li');
+    li.style.marginBottom = '8px';
+    const a = document.createElement('a');
+    a.href = downloadLink;
+    a.textContent = downloadLink;
+    a.target = '_blank';
+    a.className = 'download-link';
+    li.appendChild(a);
+
+    // QR-Code Icon
+    const qrBtn = document.createElement('button');
+    qrBtn.innerHTML = '<i class="fa-solid fa-qrcode" style="color:#4caf50;"></i>';
+    qrBtn.title = 'QR-Code anzeigen';
+    qrBtn.style.marginLeft = '12px';
+    qrBtn.onclick = () => {
+      if (typeof generateQRCode === 'function') {
+        generateQRCode(downloadLink);
+      }
+    };
+    li.appendChild(qrBtn);
+
+    // Kopieren Icon
+    const copyBtn = document.createElement('button');
+    copyBtn.innerHTML = '<i class="fa-regular fa-copy" style="color:#4caf50;"></i>';
+    copyBtn.title = 'Link kopieren';
+    copyBtn.style.marginLeft = '8px';
+    copyBtn.onclick = () => {
+      navigator.clipboard.writeText(downloadLink)
+        .then(() => alert('Link kopiert!'))
+        .catch(() => alert('Kopieren fehlgeschlagen!'));
+    };
+    li.appendChild(copyBtn);
+
+    // Löschen Icon
+    const delBtn = document.createElement('button');
+    delBtn.innerHTML = '<i class="fa-regular fa-trash-can" style="color:#e57373;"></i>';
+    delBtn.title = 'Link & Datei(en) löschen';
+    delBtn.style.marginLeft = '8px';
+    delBtn.onclick = async () => {
+      const confirmed = confirm('Willst du den Download-Link und die Dateien wirklich löschen?');
+      if (!confirmed) return;
+      try {
+        const result = await deleteDownloadLink(downloadLink);
+        if (result.success) {
+          alert('Link und Dateien wurden gelöscht.');
+          li.remove();
+        } else {
+          alert('Fehler beim Löschen: ' + result.message);
+        }
+      } catch (err) {
+        alert('Fehler beim Löschen.');
+        console.error(err);
+      }
+    };
+    li.appendChild(delBtn);
+
+    activeLinksList.appendChild(li);
+  }
+
   fileResult.textContent = 'Upload erfolgreich!';
   uploadBtn.style.display = 'none';
   dropzoneText.textContent = 'Datei(en) hochgeladen.';
   selectedFiles = [];
+
+  // UI nach 3 Sekunden zurücksetzen
+  setTimeout(() => {
+    resetUIAfterDelete();
+  }, 3000);
 }
 
 uploadBtn.onclick = async function () {
@@ -213,17 +280,11 @@ async function deleteDownloadLink(url) {
 }
 
 function resetUIAfterDelete() {
-  downloadUrlLink.href = '';
-  downloadUrlLink.textContent = '';
   fileResult.textContent = '';
   dropzoneText.textContent = 'Datei hinein ziehen oder auswählen';
   selectedFiles = [];
   uploadBtn.style.display = 'none';
   fileInput.value = '';
-  deleteLinkBtn.style.display = 'none';
-  copyLinkBtn.style.display = 'none';
-  qrcodeBtn.style.display = 'none';
-  qrBox.style.display = 'none';
 }
 
 
