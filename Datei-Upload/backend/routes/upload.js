@@ -1,3 +1,15 @@
+// ...existing code...
+
+
+const express = require('express');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+const archiver = require('archiver');
+const { v4: uuidv4 } = require('uuid');
+const router = express.Router();
+const connectToDb = require('../db');
+
 // Liefert alle aktiven (nicht abgelaufenen) Download-Links aus MongoDB
 router.get('/active-links', async (req, res) => {
   try {
@@ -17,14 +29,6 @@ router.get('/active-links', async (req, res) => {
     res.status(500).json({ error: 'Fehler beim Laden der aktiven Links' });
   }
 });
-const express = require('express');
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
-const archiver = require('archiver');
-const { v4: uuidv4 } = require('uuid');
-const router = express.Router();
-const connectToDb = require('../db');
 
 const uploadBase = path.join(__dirname, '../uploads');
 const zipBase = path.join(__dirname, '../zips');
