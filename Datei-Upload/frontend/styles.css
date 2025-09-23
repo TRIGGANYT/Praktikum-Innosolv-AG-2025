@@ -9,7 +9,7 @@ select {
     color: rgb(54, 79, 89);
     background: #E5E5E5;
     border: 1px solid #666666;
-    border-radius: 18px;
+    border-radius: 13px;
     padding: 8px 24px;
     margin: 6px 0;
     box-shadow: 0px 4px 4px -2px rgba(0,0,0,0.25);
@@ -135,29 +135,23 @@ a:hover {
     color: #364F59;
     background: #E5E5E5;
     border: 1px solid #666666;
-    border-radius: 18px;
-    padding: 6px 18px;
-    margin: 6px 4px;
+    border-radius: 13px;
+    padding: 6px 12px;
+    margin: 6px 12px;
     box-shadow: 0px 4px 4px -2px rgba(0,0,0,0.25);
-    outline: none;
-    transition: background 0.15s, border 0.15s, box-shadow 0.15s, filter 0.15s;
     cursor: pointer;
-    appearance: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
 }
 .qr-btn i {
     color: #75BF73;
-    font-size: 1.2em;
 }
 .copy-btn i {
     color: #364F59;
-    font-size: 1.2em;
 }
 .delete-btn i {
     color: #F26447;
-    font-size: 1.2em;
 }
 .qr-btn i,
 .copy-btn i,
@@ -167,14 +161,14 @@ a:hover {
 .qr-btn:hover,
 .copy-btn:hover,
 .delete-btn:hover {
-    background: #e9ecef;
-    border-color: #A5B0B5;
+    background: #E5E5E5;
+    border-color: #999999;
 }
 .qr-btn:active,
 .copy-btn:active,
 .delete-btn:active {
-    background: #e0e3e6;
-    border-color: #8A9AA5;
+    background: #E5E5E5;
+    border-color: #999999;
 }
 .qr-btn:hover i,
 .copy-btn:hover i,
