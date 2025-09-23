@@ -1,4 +1,37 @@
 /* =====================
+   Fonts
+====================== */
+@font-face {
+    font-family: 'Interstate';
+    src: url('fonts/Interstate-Light.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Interstate';
+    src: url('fonts/Interstate-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Interstate';
+    src: url('fonts/Interstate-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Interstate', Arial, Helvetica, sans-serif;
+    font-weight: 300;
+    background: #E5E5E5;
+}
+
+h1 {
+    color: #364F59;
+    font-size: 32px;
+}
+
+/* =====================
    Formularelemente & Buttons
 ====================== */
 button,
@@ -29,47 +62,9 @@ select:active {
     border-color: #999999;
 }
 
-
 /* Optional: eigenes Dropdown-Pfeil-Icon für select */
 select::-ms-expand {
     display: none;
-}
-
-/* =====================
-   Fonts
-====================== */
-@font-face {
-    font-family: 'Interstate';
-    src: url('fonts/Interstate-Regular.otf') format('opentype');
-    font-weight: 400;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Interstate';
-    src: url('fonts/Interstate-Bold.otf') format('opentype');
-    font-weight: 700;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Interstate';
-    src: url('fonts/Interstate-Light.otf') format('opentype');
-    font-weight: 300;
-    font-style: normal;
-}
-
-body {
-    font-family: 'Interstate', Arial, Helvetica, sans-serif;
-    font-weight: 300;
-    background: #E5E5E5;
-}
-
-h1 {
-    color: #364F59;
-    font-size: 32px;
-}
-
-.qr-box {
-    margin-top: 20px;
 }
 
 /* =====================
@@ -88,22 +83,24 @@ h1 {
     margin: 20px auto;
     position: relative;
 }
+
 /* Dropzone-Text bleibt groß, aber Label und Select für Link-Dauer kleiner */
 #dropzone-text {
     font-size: 20px;
 }
+
+label,
 label[for="link-expiration"],
 #link-expiration {
     font-size: 16px;
 }
-label {
-    font-size: 16px;
-}
+
 .file-icon {
     font-size: 70px;
     color: #364F59;
     margin: 20px 0;
 }
+
 .dragover {
     border: 2px dashed #364F59;
     background-color: #d4d4ca;
@@ -118,6 +115,7 @@ label {
     transition: color 0.15s;
     text-decoration: none;
 }
+
 a:hover {
     text-decoration: underline;
     color: #999999;
@@ -144,42 +142,39 @@ a:hover {
     align-items: center;
     justify-content: center;
 }
-.qr-btn i {
-    color: #75BF73;
-}
-.copy-btn i {
-    color: #364F59;
-}
-.delete-btn i {
-    color: #F26447;
-}
+
 .qr-btn i,
 .copy-btn i,
 .delete-btn i {
     transition: color 0.15s, filter 0.15s;
 }
+
+/* Farben für Icon-Buttons */
+.qr-btn i {
+    color: #75BF73;
+}
+
+.copy-btn i {
+    color: #364F59;
+}
+
+.delete-btn i {
+    color: #F26447;
+}
+
+/* Hover- und Active-Zustände für Buttons */
 .qr-btn:hover,
 .copy-btn:hover,
 .delete-btn:hover {
     background: #E5E5E5;
     border-color: #999999;
 }
+
 .qr-btn:active,
 .copy-btn:active,
 .delete-btn:active {
     background: #E5E5E5;
     border-color: #999999;
-}
-.qr-btn:hover i,
-.copy-btn:hover i,
-.delete-btn:hover i {
-    filter: brightness(0.8) opacity(0.7);
-}
-.qr-btn:focus,
-.copy-btn:focus,
-.delete-btn:focus {
-    outline: none;
-    box-shadow: none;
 }
 
 /* Hover-Effekt für Icon-Buttons: leicht transparenter */
@@ -189,9 +184,10 @@ a:hover {
     filter: brightness(0.8) opacity(0.7);
 }
 
-/* Sanfte Übergänge für Icons */
-.qr-btn i,
-.copy-btn i,
-.delete-btn i {
-    transition: color 0.15s, filter 0.15s;
+/* Fokuszustand für Icon-Buttons */
+.qr-btn:focus,
+.copy-btn:focus,
+.delete-btn:focus {
+    outline: none;
+    box-shadow: none;
 }
