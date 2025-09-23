@@ -25,9 +25,11 @@ function addActiveLinkToList(downloadLink) {
   a.className = 'download-link';
   li.appendChild(a);
 
+
   // QR-Code Icon
   const qrBtn = document.createElement('button');
-  qrBtn.innerHTML = '<i class="fa-solid fa-qrcode" style="color:#4caf50;"></i>';
+  qrBtn.className = 'qr-btn';
+  qrBtn.innerHTML = '<i class="fa-solid fa-qrcode"></i>';
   qrBtn.title = 'QR-Code anzeigen';
   qrBtn.style.marginLeft = '12px';
   qrBtn.onclick = () => {
@@ -39,7 +41,8 @@ function addActiveLinkToList(downloadLink) {
 
   // Kopieren Icon
   const copyBtn = document.createElement('button');
-  copyBtn.innerHTML = '<i class="fa-regular fa-copy" style="color:#4caf50;"></i>';
+  copyBtn.className = 'copy-btn';
+  copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i>';
   copyBtn.title = 'Link kopieren';
   copyBtn.style.marginLeft = '8px';
   copyBtn.onclick = () => {
@@ -51,7 +54,8 @@ function addActiveLinkToList(downloadLink) {
 
   // Löschen Icon
   const delBtn = document.createElement('button');
-  delBtn.innerHTML = '<i class="fa-regular fa-trash-can" style="color:#e57373;"></i>';
+  delBtn.className = 'delete-btn';
+  delBtn.innerHTML = '<i class="fa-regular fa-trash-can"></i>';
   delBtn.title = 'Link & Datei(en) löschen';
   delBtn.style.marginLeft = '8px';
   delBtn.onclick = async () => {

@@ -1,96 +1,137 @@
-/* Fonts */
 
+/* =====================
+   Fonts
+====================== */
 @font-face {
     font-family: 'Interstate';
-    src: url('fonts/Interstate-Regular.otf') format('otf');
+    src: url('fonts/Interstate-Regular.otf') format('opentype');
     font-weight: 400;
     font-style: normal;
 }
-
 @font-face {
     font-family: 'Interstate';
-    src: url('fonts/Interstate-Bold.otf') format('otf');
+    src: url('fonts/Interstate-Bold.otf') format('opentype');
     font-weight: 700;
-    font-style: bold;
+    font-style: normal;
 }
-
 @font-face {
     font-family: 'Interstate';
-    src: url('fonts/Interstate-Light.otf') format('oft');
+    src: url('fonts/Interstate-Light.otf') format('opentype');
     font-weight: 300;
-    font-style: light;
+    font-style: normal;
 }
 
 body {
-    font-family: interstate light;
-    background: #364f59;
+    font-family: 'Interstate', Arial, Helvetica, sans-serif;
+    font-weight: 300;
+    background: #E5E5E5;
 }
 
-.qr-box{
+h1 {
+    color: #364F59;
+    font-size: 32px;
+}
+
+.qr-box {
     margin-top: 20px;
 }
 
-/* Drop Off Box */
+/* =====================
+   Dropzone & Upload
+====================== */
 .upload-box {
-    color: #666666;
-    background-color: #E5E5E5;
-    border: 2px solid #999999;
+    color: #364F59;
+    background-color: #BFBFBF;
+    border: 2px solid #666666;
     border-radius: 30px;
     padding: 40px;
     text-align: center;
     cursor: pointer;
-    width: 661px;
+    width: 641px;
     height: 439px;
     margin: 20px auto;
     position: relative;
 }
-
-/* file icon - Dropoff Zone*/
+#dropzone-text {
+    font-size: 20px;
+}
+label {
+    font-size: 16px;
+}
 .file-icon {
     font-size: 70px;
-    color: #999999;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    color: #364F59;
+    margin: 20px 0;
 }
-
 .dragover {
-  border: 2px dashed #364F59;
-  background-color: #d4d4ca;
+    border: 2px dashed #364F59;
+    background-color: #d4d4ca;
 }
 
-.download-link{
-    color: #E5E5E5;
-}
-
-.download-link-static {
-    color: #E5E5E5;
+/* =====================
+   Download-Links
+====================== */
+.download-link {
+    color: #666666;
+    font-size: 20px;
+    transition: color 0.15s;
     text-decoration: none;
 }
-
-/* Buttons */
-.copy-link-btn {
-    color: #E5E5E5;
-    background-color: #50A0BF;
-    border: none;
-}
-
-#qrcode-btn {
-    color: #E5E5E5;
-    background-color: #75BF73;
-    border: none;
-}
-
-/* Buttons:hover */
-.copy-link-btn:hover {
-    background-color: #468199;
-}
-
-#qrcode-btn:hover {
-    background-color: #5a9258;
-}
-
-
-a:hover{
+a:hover {
     text-decoration: underline;
     color: #999999;
+}
+
+/* ===============================
+   Icon-Buttons (QR, Copy, Delete)
+================================== */
+.qr-btn,
+.copy-btn,
+.delete-btn {
+    font-size: 40px;
+    border: none;
+    background: none;
+    padding: 0 6px;
+    cursor: pointer;
+    outline: none;
+    box-shadow: none;
+}
+.qr-btn i {
+    color: #75BF73;
+}
+.copy-btn i {
+    color: #364F59;
+}
+.delete-btn i {
+    color: #F26447;
+}
+.qr-btn i,
+.copy-btn i,
+.delete-btn i {
+    transition: color 0.15s, filter 0.15s;
+}
+.qr-btn:hover i,
+.copy-btn:hover i,
+.delete-btn:hover i {
+    filter: brightness(0.8) opacity(0.7);
+}
+.qr-btn:focus,
+.copy-btn:focus,
+.delete-btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+/* Hover-Effekt für Icon-Buttons: leicht transparenter */
+.qr-btn:hover i,
+.copy-btn:hover i,
+.delete-btn:hover i {
+    filter: brightness(0.8) opacity(0.7);
+}
+
+/* Sanfte Übergänge für Icons */
+.qr-btn i,
+.copy-btn i,
+.delete-btn i {
+    transition: color 0.15s, filter 0.15s;
 }
