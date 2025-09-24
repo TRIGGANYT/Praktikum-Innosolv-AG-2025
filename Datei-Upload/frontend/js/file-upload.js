@@ -102,6 +102,9 @@ async function uploadSelectedFiles() {
   const expirationSeconds = expirationSelect ? expirationSelect.value : '3600';
   formData.append('expiration', expirationSeconds);
 
+  const passwordInput = document.querySelector('input[name="password"]');
+  formData.append('password', passwordInput.value);
+
   try {
     const result = await uploadFiles(formData);
 
@@ -233,6 +236,11 @@ function updateUIAfterUpload(downloadLink) {
   uploadBtn.style.display = 'none';
   dropzoneText.textContent = 'Datei(en) hochgeladen.';
   selectedFiles = [];
+
+  const passwordInput = document.querySelector('input[name="password"]');
+  if (passwordInput) {
+    passwordInput.value = '';
+  }
 
   setTimeout(() => {
     resetUIAfterDelete();

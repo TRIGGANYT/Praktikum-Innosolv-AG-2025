@@ -6,6 +6,8 @@ const archiver = require('archiver');
 const { v4: uuidv4 } = require('uuid');
 const router = express.Router();
 const connectToDb = require('../db');
+const bcrypt = require('bcrypt');
+
 
 // ==============================
 // Basis-Pfade
@@ -176,11 +178,30 @@ async function handleFileUpload(req, res) {
   const expirationSeconds = parseInt(req.body.expiration) || 3600; // Standard 1 Stunde
   const expiresAt = new Date(Date.now() + expirationSeconds * 1000);
 
+  let passwordHash = null;
+
+  if (req.body.password) {
+    try {
+      const saltRounds = 10;
+      passwordHash = await bcrypt.hash(req.body.password, saltRounds);
+    } catch (err) {
+      console.error('Fehler beim Hashen des Passworts:', err);
+      return res.status(500).json({ error: 'Fehler beim Verarbeiten des Passworts' });
+    }
+  }
+
   let downloadLink;
 
   if (req.files.length === 1) {
     const file = req.files[0];
-    downloadLink = `${req.protocol}://${req.get('host')}/uploads/${uploadId}/${file.originalname}`;
+
+    if (passwordHash) {
+      // Passwort gesetzt Link zur Passwortabfrage-Seite
+      downloadLink = `${req.protocol}://${req.get('host')}/download/${uploadId}`;
+    } else {
+      // Kein Passwort direkter Link zur Datei
+      downloadLink = `${req.protocol}://${req.get('host')}/uploads/${uploadId}/${file.originalname}`;
+    }
   } else {
     const zipFilePath = path.join(zipBase, `${uploadId}.zip`);
 
@@ -193,6 +214,7 @@ async function handleFileUpload(req, res) {
     }
   }
 
+
   try {
     const db = await connectToDb();
     const collection = db.collection('uploads');
@@ -202,6 +224,7 @@ async function handleFileUpload(req, res) {
       downloadLink,
       createdAt: new Date(),
       expiresAt,
+      passwordHash,
       files: req.files.map(file => ({
         originalName: file.originalname,
         size: file.size

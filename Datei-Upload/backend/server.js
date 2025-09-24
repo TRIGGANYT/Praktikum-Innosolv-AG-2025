@@ -5,6 +5,9 @@ const app = express();
 const PORT = 3000;
 const uploadRouter = require('./routes/upload');
 const cleanup = require('./cleanup');
+const downloadRoutes = require('./routes/download');
+
+app.use('/', downloadRoutes);
 
 app.use (express.json());
 
