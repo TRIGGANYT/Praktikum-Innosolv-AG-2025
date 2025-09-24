@@ -12,20 +12,24 @@
 
 <body>
     <!-- Buttons zum Kopieren und QR-Code -->
-    <div id="download-area">
-        <h1>Aktive Download-Links</h1>
-        <ul id="active-links" style="list-style: none; padding-left: 0;"></ul>
-        <div class="button-group" style="display:none;">
-            <p id="download-url"></p>
-            <button id="password-btn"><i class="fa-light fa-lock"></i></button>
-            <button id="qrcode-btn"><i class="fa-solid fa-qrcode"></i></button>
-            <button id="copy-link-btn"><i class="fa-regular fa-copy"></i></button>
-            <button id="delete-link-btn"><i class="fa-regular fa-trash-can"></i></button>
+    <div id="link-section">
+        <!-- QR-Code Platzhalter -->
+        <div id="qr-box-placeholder">
+            <div class="qr-box" id="qr-box"></div>
+        </div>
+        <!-- Downloadbereich -->
+        <div id="download-area">
+            <h1>Aktive Download-Links</h1>
+            <ul id="active-links" style="list-style: none; padding-left: 0;"></ul>
+            <div class="button-group" style="display:none;">
+                <p id="download-url"></p>
+                <button id="password-btn"><i class="fa-light fa-lock"></i></button>
+                <button id="qrcode-btn"><i class="fa-solid fa-qrcode"></i></button>
+                <button id="copy-link-btn"><i class="fa-regular fa-copy"></i></button>
+                <button id="delete-link-btn"><i class="fa-regular fa-trash-can"></i></button>
+            </div>
         </div>
     </div>
-    <!-- QR-Code -->
-    <div class="qr-box" id="qr-box"></div>
-
     <!-- Dropoff Feld -->
     <div class="main-content">
         <div id="dropzone" class="upload-box">
@@ -48,7 +52,8 @@
                 <option value="28800">8 Stunden</option>
                 <option value="43200">12 Stunden</option>
             </select><br>
-            <input type="password" name="password" placeholder= "Passwort (optional)" > <button id="copy-password-btn">Passwort kopieren</button>
+            <input type="password" name="password" placeholder="Passwort (optional)"> <button
+                id="copy-password-btn">Passwort kopieren</button>
         </div>
     </div>
 

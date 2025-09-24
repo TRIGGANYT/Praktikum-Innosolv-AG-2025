@@ -100,7 +100,7 @@ select::-ms-expand {
     position: relative;
 }
 
-/* Dropzone-Text bleibt groß, aber Label und Select für Link-Dauer kleiner */
+/* Dropzone-Text bleibt gross, aber Label und Select für Link-Dauer kleiner */
 #dropzone-text {
     font-size: 20px;
 }
@@ -246,6 +246,7 @@ input[type="password"]::placeholder {
 
 #active-links li a.download-link {
     flex: 1;
+    margin-right: 150px;
 }
 
 #active-links li a.download-link:hover {
@@ -263,4 +264,34 @@ input[type="password"]::placeholder {
     flex-direction: column; /* untereinander */
     gap: 8px;
     align-items: flex-start;
+}
+
+/* ==============================
+   QR-Code Anzeige
+================================= */
+
+#link-section {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 130px;
+    width: 100%;
+    justify-content: center;
+}
+
+/* Platzhalter für den QR-Code */
+#qr-box-placeholder {
+    width: 300px;
+    min-height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+}
+
+/* QR-Code selbst */
+.qr-box {
+    display: none; /* initial unsichtbar */
+    justify-content: center;
+    align-items: center;
 }

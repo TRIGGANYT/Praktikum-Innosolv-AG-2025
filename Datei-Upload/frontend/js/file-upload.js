@@ -15,6 +15,7 @@ const copyLinkBtn = document.getElementById('copy-link-btn');
 const deleteLinkBtn = document.getElementById('delete-link-btn');
 const qrcodeBtn = document.getElementById('qrcode-btn');
 const activeLinksList = document.getElementById('active-links');
+const copyPasswordBtn = document.getElementById('copy-password-btn');
 
 let selectedFiles = [];
 
@@ -51,8 +52,20 @@ deleteLinkBtn.addEventListener('click', deleteCurrentDownloadLink);
 uploadBtn.onclick = uploadSelectedFiles;
 
 // Aktive Links beim Seitenladen laden
+
 window.addEventListener('DOMContentLoaded', loadActiveLinks);
 
+// Passwort kopieren Button (neben Passwortfeld)
+if (copyPasswordBtn) {
+  copyPasswordBtn.addEventListener('click', () => {
+    const passwordInput = document.querySelector('input[name="password"]');
+    if (passwordInput && passwordInput.value) {
+      navigator.clipboard.writeText(passwordInput.value)
+        .then(() => alert('Passwort kopiert!'))
+        .catch(() => alert('Kopieren fehlgeschlagen!'));
+    }
+  });
+}
 
 // ==============================
 // Copy / Delete Funktionen
@@ -304,7 +317,7 @@ async function fetchPasswordForLink(downloadLink) {
       const found = data.links.find(l => l.downloadLink === downloadLink);
       return found && found.password ? found.password : null;
     }
-  } catch (e) {}
+  } catch (e) { }
   return null;
 }
 
