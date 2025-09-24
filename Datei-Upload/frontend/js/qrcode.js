@@ -9,8 +9,8 @@ function generateQRCode(text) {
     qrBox.style.display = 'flex';
     qrCodeInstance = new QRCode(qrBox, {
         text: text,
-        width:250,
-        height: 250,
+        width:300,
+        height: 300,
         colorDark: "#000000",
         colorLight: "#E5E5E5",
         correctLevel: QRCode.CorrectLevel.H

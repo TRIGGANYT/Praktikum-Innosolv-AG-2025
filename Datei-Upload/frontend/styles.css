@@ -96,7 +96,7 @@ select::-ms-expand {
     cursor: pointer;
     width: 641px;
     height: 439px;
-    margin: 20px auto;
+    margin: 0px;
     position: relative;
 }
 
@@ -110,7 +110,7 @@ label[for="link-expiration"],
 #link-expiration {
     font-size: 16px;
     width: 130px;
-    margin-top: 35px;
+    margin-top: 0px;
     padding: 5px 10px;
     border-radius: 13px;
 }
@@ -144,7 +144,8 @@ input[type="password"]:hover {
 }
 
 input[type="password"]::placeholder {
-    color: #364F59;;
+    color: #364F59;
+    ;
 }
 
 /* =====================
@@ -172,7 +173,7 @@ input[type="password"]::placeholder {
     border: 2px solid transparent;
     border-radius: 13px;
     padding: 6px 12px;
-    margin: 6px 12px;
+    margin: 0px 5px;
     box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.25);
     cursor: pointer;
     display: inline-flex;
@@ -229,18 +230,12 @@ input[type="password"]::placeholder {
     border: 2px solid #50a0bf;
 }
 
-#active-links {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    max-width: 1200px;
-}
-
 #active-links li {
     display: flex;
     justify-content: space-between;
-    align-items: center; /* vertikal zentrieren */
-    gap: 10px;
+    align-items: center;
+    /* vertikal zentrieren */
+    gap: 0px;
     padding: 0;
 }
 
@@ -254,18 +249,6 @@ input[type="password"]::placeholder {
     color: #50a0bf;
 }
 
-
-/* ==============================
-    Icon-Buttons in der Link-Liste
-================================= */
-
-.button-group {
-    display: flex;
-    flex-direction: column; /* untereinander */
-    gap: 8px;
-    align-items: flex-start;
-}
-
 /* ==============================
    QR-Code Anzeige
 ================================= */
@@ -273,25 +256,45 @@ input[type="password"]::placeholder {
 #link-section {
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: top;
     gap: 130px;
     width: 100%;
     justify-content: center;
+
+}
+
+#link-section h1{
+    margin: 0px;
 }
 
 /* Platzhalter für den QR-Code */
 #qr-box-placeholder {
     width: 300px;
-    min-height: 300px;
+    height: 300px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: transparent;
 }
 
 /* QR-Code selbst */
 .qr-box {
-    display: none; /* initial unsichtbar */
+    display: none;
+    /* initial unsichtbar */
     justify-content: center;
     align-items: center;
+}
+
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    margin-top: 60px;
+    flex-wrap: wrap;
+}
+
+.downloadLinkVerlauf h1 {
+    width: 1000px;
+    padding: 0px;
+    margin-top: 0px;
 }
