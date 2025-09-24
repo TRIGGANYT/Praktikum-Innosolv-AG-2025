@@ -226,8 +226,7 @@ input[type="password"]::placeholder {
 .qr-btn:focus,
 .copy-btn:focus,
 .delete-btn:focus {
-    outline: none;
-    box-shadow: none;
+    border: 2px solid #50a0bf;
 }
 
 #active-links {
@@ -241,8 +240,8 @@ input[type="password"]::placeholder {
     display: flex;
     justify-content: space-between;
     align-items: center; /* vertikal zentrieren */
-    gap: 20px;
-    padding: 12px 0;
+    gap: 10px;
+    padding: 0;
 }
 
 #active-links li a.download-link {
@@ -258,33 +257,6 @@ input[type="password"]::placeholder {
 /* ==============================
     Icon-Buttons in der Link-Liste
 ================================= */
-
-#active-links li button.qr-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#active-links li button.copy-btn {
-    margin-left: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#active-links li button.delete-btn {
-    margin-left: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#active-links li button.password-btn {
-    margin-left: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
 .button-group {
     display: flex;
