@@ -60,7 +60,8 @@ router.get('/active-links', async (req, res) => {
       downloadLink: u.downloadLink,
       uploadId: u.uploadId,
       expiresAt: u.expiresAt,
-      createdAt: u.createdAt
+      createdAt: u.createdAt,
+      password: u.passwordHash ? u._plainPassword : null // _plainPassword wird gleich gesetzt
     }));
 
     res.json({ links });
@@ -172,6 +173,7 @@ router.post('/delete-file', async (req, res) => {
 // Upload-Handler-Funktion
 // ==============================
 async function handleFileUpload(req, res) {
+  console.log('Upload-Body:', req.body);
   const uploadId = req.uploadId;
   const uploadFolder = path.join(uploadBase, uploadId);
 
@@ -179,15 +181,18 @@ async function handleFileUpload(req, res) {
   const expiresAt = new Date(Date.now() + expirationSeconds * 1000);
 
   let passwordHash = null;
-
-  if (req.body.password) {
+  let _plainPassword = '';
+  if (typeof req.body.password === 'string' && req.body.password.length > 0) {
     try {
       const saltRounds = 10;
       passwordHash = await bcrypt.hash(req.body.password, saltRounds);
+      _plainPassword = req.body.password; // ACHTUNG: Nur für Demo/Test, nicht für Produktion!
     } catch (err) {
       console.error('Fehler beim Hashen des Passworts:', err);
       return res.status(500).json({ error: 'Fehler beim Verarbeiten des Passworts' });
     }
+  } else {
+    _plainPassword = null;
   }
 
   let downloadLink;
@@ -225,6 +230,7 @@ async function handleFileUpload(req, res) {
       createdAt: new Date(),
       expiresAt,
       passwordHash,
+      _plainPassword: typeof _plainPassword === 'string' && _plainPassword.length > 0 ? _plainPassword : null, // Nur wenn gesetzt
       files: req.files.map(file => ({
         originalName: file.originalname,
         size: file.size

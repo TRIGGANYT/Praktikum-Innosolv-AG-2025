@@ -160,6 +160,7 @@ input[type="password"]::placeholder {
 /* ===============================
    Icon-Buttons (QR, Copy, Delete)
 ================================== */
+.password-btn,
 .qr-btn,
 .copy-btn,
 .delete-btn {
@@ -179,6 +180,7 @@ input[type="password"]::placeholder {
     justify-content: center;
 }
 
+.password-btn,
 .qr-btn i,
 .copy-btn i,
 .delete-btn i {
@@ -198,7 +200,12 @@ input[type="password"]::placeholder {
     color: #F26447;
 }
 
+.password-btn i {
+    color: #364F59;
+}
+
 /* Hover- und Active-Zustände für Buttons */
+.password-btn:hover,
 .qr-btn:hover,
 .copy-btn:hover,
 .delete-btn:hover {
@@ -206,6 +213,7 @@ input[type="password"]::placeholder {
     border: 2px solid #50a0bf;
 }
 
+.password-btn:active,
 .qr-btn:active,
 .copy-btn:active,
 .delete-btn:active {
@@ -214,6 +222,7 @@ input[type="password"]::placeholder {
 }
 
 /* Fokuszustand für Icon-Buttons */
+.password-btn:focus,
 .qr-btn:focus,
 .copy-btn:focus,
 .delete-btn:focus {
@@ -225,17 +234,19 @@ input[type="password"]::placeholder {
     list-style: none;
     padding: 0;
     margin: 0;
-    max-width: 1000px;
+    max-width: 1200px;
 }
 
 #active-links li {
     display: flex;
-    align-items: center;
-    padding: 4px 0;
+    justify-content: space-between;
+    align-items: center; /* vertikal zentrieren */
+    gap: 20px;
+    padding: 12px 0;
 }
 
 #active-links li a.download-link {
-    margin-right: 30px;
+    flex: 1;
 }
 
 #active-links li a.download-link:hover {
@@ -256,7 +267,6 @@ input[type="password"]::placeholder {
 
 #active-links li button.copy-btn {
     margin-left: 8px;
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -267,4 +277,18 @@ input[type="password"]::placeholder {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+#active-links li button.password-btn {
+    margin-left: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column; /* untereinander */
+    gap: 8px;
+    align-items: flex-start;
 }

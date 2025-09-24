@@ -230,7 +230,16 @@ function updateUIAfterUpload(downloadLink) {
     generateQRCode(downloadLink);
   }
 
-  addActiveLinkToList(downloadLink);
+
+  // Nur das neue Link-Objekt aus /upload/active-links holen und zur Liste hinzufügen
+  fetch('/upload/active-links')
+    .then(res => res.json())
+    .then(data => {
+      if (data.links && Array.isArray(data.links)) {
+        const found = data.links.find(l => l.downloadLink === downloadLink);
+        if (found) addActiveLinkToList(found);
+      }
+    });
 
   fileResult.textContent = 'Upload erfolgreich!';
   uploadBtn.style.display = 'none';
@@ -267,7 +276,7 @@ async function loadActiveLinks() {
 
     if (data.links && Array.isArray(data.links)) {
       data.links.forEach(linkObj => {
-        addActiveLinkToList(linkObj.downloadLink);
+        addActiveLinkToList(linkObj); // übergebe das ganze Objekt, nicht nur den Link!
       });
     }
   } catch (err) {
@@ -285,8 +294,32 @@ async function deleteDownloadLink(url) {
   return response.json();
 }
 
-function addActiveLinkToList(downloadLink) {
+
+// Hilfsfunktion: Hole Passwort für einen Link (aus Backend)
+async function fetchPasswordForLink(downloadLink) {
+  try {
+    const res = await fetch('/upload/active-links');
+    const data = await res.json();
+    if (data.links && Array.isArray(data.links)) {
+      const found = data.links.find(l => l.downloadLink === downloadLink);
+      return found && found.password ? found.password : null;
+    }
+  } catch (e) {}
+  return null;
+}
+
+function addActiveLinkToList(linkObjOrUrl) {
   if (!activeLinksList) return;
+
+  // Kompatibilität: Akzeptiere alten String oder neues Objekt
+  let downloadLink, password;
+  if (typeof linkObjOrUrl === 'string') {
+    downloadLink = linkObjOrUrl;
+    password = null;
+  } else {
+    downloadLink = linkObjOrUrl.downloadLink;
+    password = linkObjOrUrl.password || null;
+  }
 
   const li = document.createElement('li');
   li.style.marginBottom = '8px';
@@ -297,6 +330,23 @@ function addActiveLinkToList(downloadLink) {
   a.target = '_blank';
   a.className = 'download-link';
   li.appendChild(a);
+
+  // Lock-Icon (nur wenn Passwort gesetzt)
+  if (password) {
+    const lockBtn = document.createElement('button');
+    lockBtn.className = 'password-btn';
+    lockBtn.style.marginLeft = '8px';
+    lockBtn.innerHTML = '<i class="fa-solid fa-lock"></i>';
+    lockBtn.title = 'Passwort kopieren';
+    lockBtn.onclick = () => {
+      navigator.clipboard.writeText(password)
+        .then(() => alert('Passwort kopiert!'))
+        .catch(() => alert('Kopieren fehlgeschlagen!'));
+    };
+    lockBtn.disabled = false;
+    lockBtn.style.opacity = '1';
+    li.appendChild(lockBtn);
+  }
 
   // QR-Code
   const qrBtn = document.createElement('button');
