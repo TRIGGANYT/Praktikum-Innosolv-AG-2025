@@ -115,8 +115,38 @@ async function uploadSelectedFiles() {
   const expirationSeconds = expirationSelect ? expirationSelect.value : '3600';
   formData.append('expiration', expirationSeconds);
 
+
   const passwordInput = document.querySelector('input[name="password"]');
   formData.append('password', passwordInput.value);
+
+  // Anzeigename bestimmen
+  const displayNameInput = document.querySelector('input[name="displayName"]');
+  let displayName = displayNameInput ? displayNameInput.value.trim() : '';
+  if (!displayName) {
+    if (selectedFiles.length === 1) {
+      displayName = selectedFiles[0].name;
+    } else if (selectedFiles.length > 1) {
+      // Ermittle wie viele ZIPs es schon gibt (aus aktiven Links)
+      const zipCount = (window.activeLinksList && window.activeLinksList.children)
+        ? Array.from(window.activeLinksList.children).filter(li => li.textContent && li.textContent.toLowerCase().includes('zip')).length + 1
+        : 1;
+      displayName = `zip ${zipCount}.zip`;
+    }
+  } else {
+    // Wenn Name eingegeben, Dateiendung anhängen
+    if (selectedFiles.length === 1) {
+      const orig = selectedFiles[0].name;
+      const ext = orig.includes('.') ? orig.substring(orig.lastIndexOf('.')) : '';
+      if (ext && !displayName.toLowerCase().endsWith(ext.toLowerCase())) {
+        displayName += ext;
+      }
+    } else if (selectedFiles.length > 1) {
+      if (!displayName.toLowerCase().endsWith('.zip')) {
+        displayName += '.zip';
+      }
+    }
+  }
+  formData.append('displayName', displayName);
 
   try {
     const result = await uploadFiles(formData);
@@ -325,24 +355,109 @@ function addActiveLinkToList(linkObjOrUrl) {
   if (!activeLinksList) return;
 
   // Kompatibilität: Akzeptiere alten String oder neues Objekt
-  let downloadLink, password;
+
+  let downloadLink, password, displayName;
   if (typeof linkObjOrUrl === 'string') {
     downloadLink = linkObjOrUrl;
     password = null;
+    displayName = null;
   } else {
     downloadLink = linkObjOrUrl.downloadLink;
     password = linkObjOrUrl.password || null;
+    displayName = linkObjOrUrl.displayName || null;
   }
 
   const li = document.createElement('li');
   li.style.marginBottom = '8px';
 
+
   const a = document.createElement('a');
-  a.href = downloadLink;
-  a.textContent = downloadLink;
-  a.target = '_blank';
+  a.href = '#';
+  a.textContent = displayName || downloadLink;
   a.className = 'download-link';
+  // Dateiendung bestimmen
+  let ext = '';
+  if (displayName && displayName.includes('.')) {
+    ext = displayName.substring(displayName.lastIndexOf('.')).toLowerCase();
+  } else if (downloadLink && downloadLink.includes('.')) {
+    ext = downloadLink.substring(downloadLink.lastIndexOf('.')).toLowerCase();
+  }
+  // Vorschau bei unterstützten Dateitypen
+  const officeExts = ['.docx', '.xlsx', '.pptx'];
+  const previewExts = ['.pdf', '.txt', '.csv', '.md', '.log'];
+  if (officeExts.includes(ext)) {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      showOfficePreviewNotAvailable();
+    });
+    a.title = 'Für Office-Dokumente ist keine Vorschau möglich';
+  } else if (previewExts.includes(ext)) {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      showPdfPreview(downloadLink, ext, displayName);
+    });
+    a.title = 'Vorschau anzeigen';
+  } else {
+    a.title = 'Keine Vorschau verfügbar';
+    a.style.opacity = '0.6';
+    a.style.pointerEvents = 'none';
+  }
+// Zeigt eine Meldung an, dass Office-Dokumente nicht als Vorschau unterstützt werden
+function showOfficePreviewNotAvailable() {
+  const previewContainer = document.getElementById('pdf-preview-container');
+  const previewFrame = document.getElementById('pdf-preview-frame');
+  const fallback = document.getElementById('pdf-preview-fallback');
+  if (!previewContainer || !fallback) return;
+  previewFrame.src = '';
+  previewContainer.style.display = 'block';
+  fallback.style.display = 'block';
+  fallback.textContent = 'Für Office-Dokumente ist keine Vorschau möglich.';
+  previewContainer.querySelector('h1').textContent = 'Dateivorschau';
+  previewContainer.scrollIntoView({ behavior: 'smooth' });
+}
   li.appendChild(a);
+// Zeigt die PDF-Vorschau für Office-Dateien an
+function showPdfPreview(originalUrl, ext, displayName) {
+  // PDF-URL ableiten (Backend muss /pdf-preview/:uploadId unterstützen)
+  // Annahme: downloadLink enthält /uploads/{uploadId}/{filename} oder /download/{uploadId}
+  let uploadId = null;
+  if (originalUrl.includes('/uploads/')) {
+    const parts = originalUrl.split('/uploads/')[1].split('/');
+    uploadId = parts[0];
+  } else if (originalUrl.includes('/download/')) {
+    const parts = originalUrl.split('/download/')[1].split('/');
+    uploadId = parts[0];
+  }
+  if (!uploadId) {
+    showPdfPreviewFallback();
+    return;
+  }
+  const pdfUrl = `/upload/pdf-preview/${uploadId}`;
+
+  const previewContainer = document.getElementById('pdf-preview-container');
+  const previewFrame = document.getElementById('pdf-preview-frame');
+  const fallback = document.getElementById('pdf-preview-fallback');
+  if (!previewContainer || !previewFrame) return;
+
+  previewFrame.src = pdfUrl;
+  previewContainer.style.display = 'block';
+  fallback.style.display = 'none';
+
+  // Optional: Titel setzen
+  previewContainer.querySelector('h1').textContent = `Vorschau: ${displayName || 'Datei'}`;
+
+  // Seite scrollen
+  previewContainer.scrollIntoView({ behavior: 'smooth' });
+}
+
+function showPdfPreviewFallback() {
+  const previewContainer = document.getElementById('pdf-preview-container');
+  const fallback = document.getElementById('pdf-preview-fallback');
+  if (previewContainer && fallback) {
+    previewContainer.style.display = 'block';
+    fallback.style.display = 'block';
+  }
+}
 
   // Lock-Icon (nur wenn Passwort gesetzt)
   if (password) {

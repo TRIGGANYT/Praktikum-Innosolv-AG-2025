@@ -1,19 +1,92 @@
+// Alle requires und router-Initialisierung an den Anfang, keine Dopplungen!
+
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const archiver = require('archiver');
 const { v4: uuidv4 } = require('uuid');
-const router = express.Router();
+const { execFile } = require('child_process');
 const connectToDb = require('../db');
 const bcrypt = require('bcrypt');
 
-
-// ==============================
-// Basis-Pfade
-// ==============================
 const uploadBase = path.join(__dirname, '../uploads');
 const zipBase = path.join(__dirname, '../zips');
+const router = express.Router();
+
+// PDF-Vorschau für Einzeldateien (Office, Text, ...)
+router.get('/pdf-preview/:uploadId', async (req, res) => {
+  const { uploadId } = req.params;
+  try {
+    const db = await connectToDb();
+    const collection = db.collection('uploads');
+    const record = await collection.findOne({ uploadId });
+    if (!record || !record.files || !record.files.length) {
+      return res.status(404).send('Datei nicht gefunden');
+    }
+    // Nur Einzeldateien, keine ZIPs
+    if (record.files.length !== 1) {
+      return res.status(400).send('Vorschau nur für Einzeldateien möglich');
+    }
+    const file = record.files[0];
+    const origName = file.originalName;
+    const ext = origName.split('.').pop().toLowerCase();
+    const absPath = path.join(uploadBase, uploadId, origName);
+    const pdfPath = path.join(uploadBase, uploadId, origName + '.preview.pdf');
+
+    // Wenn schon konvertiert, direkt senden
+    if (fs.existsSync(pdfPath)) {
+      res.setHeader('Content-Type', 'application/pdf');
+      return fs.createReadStream(pdfPath).pipe(res);
+    }
+
+    // Office: docx, xlsx, pptx
+    if (["docx","xlsx","pptx"].includes(ext)) {
+      // LibreOffice muss installiert sein
+      await new Promise((resolve, reject) => {
+        execFile('soffice', ['--headless', '--convert-to', 'pdf', '--outdir', path.dirname(pdfPath), absPath], (err, stdout, stderr) => {
+          if (err) return reject(stderr || err);
+          resolve();
+        });
+      });
+      if (fs.existsSync(pdfPath.replace('.preview.pdf', '.pdf'))) {
+        fs.renameSync(pdfPath.replace('.preview.pdf', '.pdf'), pdfPath);
+      }
+      res.setHeader('Content-Type', 'application/pdf');
+      return fs.createReadStream(pdfPath).pipe(res);
+    }
+
+    // Textdateien: txt, csv, md, log
+    if (["txt","csv","md","log"].includes(ext)) {
+      // Pandoc muss installiert sein
+      await new Promise((resolve, reject) => {
+        execFile('pandoc', [absPath, '-o', pdfPath], (err, stdout, stderr) => {
+          if (err) return reject(stderr || err);
+          resolve();
+        });
+      });
+      res.setHeader('Content-Type', 'application/pdf');
+      return fs.createReadStream(pdfPath).pipe(res);
+    }
+
+    // PDF: direkt streamen
+    if (ext === 'pdf') {
+      res.setHeader('Content-Type', 'application/pdf');
+      return fs.createReadStream(absPath).pipe(res);
+    }
+
+    // Sonst nicht unterstützt
+    return res.status(415).send('Vorschau für diesen Dateityp nicht möglich');
+  } catch (err) {
+    console.error('Fehler bei PDF-Vorschau:', err);
+    return res.status(500).send('Fehler bei der Vorschau');
+  }
+});
+
+
+
+
+
 
 // ==============================
 // Multer Speicher-Konfiguration
@@ -56,11 +129,13 @@ router.get('/active-links', async (req, res) => {
     const now = new Date();
     const uploads = await collection.find({ expiresAt: { $gt: now } }).sort({ createdAt: -1 }).toArray();
 
+
     const links = uploads.map(u => ({
       downloadLink: u.downloadLink,
       uploadId: u.uploadId,
       expiresAt: u.expiresAt,
       createdAt: u.createdAt,
+      displayName: u.displayName || null,
       password: u.passwordHash ? u._plainPassword : null // _plainPassword wird gleich gesetzt
     }));
 
@@ -220,6 +295,17 @@ async function handleFileUpload(req, res) {
   }
 
 
+
+  // Anzeigename auslesen
+  let displayName = req.body.displayName;
+  if (!displayName) {
+    if (req.files.length === 1) {
+      displayName = req.files[0].originalname;
+    } else if (req.files.length > 1) {
+      displayName = `zip`;
+    }
+  }
+
   try {
     const db = await connectToDb();
     const collection = db.collection('uploads');
@@ -231,6 +317,7 @@ async function handleFileUpload(req, res) {
       expiresAt,
       passwordHash,
       _plainPassword: typeof _plainPassword === 'string' && _plainPassword.length > 0 ? _plainPassword : null, // Nur wenn gesetzt
+      displayName,
       files: req.files.map(file => ({
         originalName: file.originalname,
         size: file.size

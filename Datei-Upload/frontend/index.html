@@ -54,17 +54,20 @@
             </select><br>
             <input type="password" name="password" placeholder="Passwort (optional)"> <button
                 id="copy-password-btn">Passwort kopieren</button>
+            <br>
+            <input type="text" name="displayName" id="displayNameInput" placeholder="Anzeigename (optional)" style="margin-top:8px; width: 70%; max-width: 320px;">
         </div>
-        <!-- Download Link Verlauf -->
-        <div class="downloadLinkVerlauf">
-            <h1>Download-Link Verlauf</h1>
+        <!-- PDF Vorschau Container -->
+    <div id="pdf-preview-container" style="margin-top:40px; text-align:center;">
+            <h1>Dateivorschau</h1>
+            <iframe id="pdf-preview-frame" style="width:90%; height:600px; border:1px solid #aaa; border-radius:10px; background:#fff;" frameborder="0"></iframe>
+            <div id="pdf-preview-fallback" style="display:none; color:#b00; margin-top:16px;">Vorschau nicht möglich.</div>
         </div>
     </div>
 
 
-
+   <!-- <script src="js/background.js"></script> -->
     <script src="js/file-upload.js"></script>
-    <!-- <script src="js/download-link.js"></script> -->
     <script src="js/qrcode.js"></script>
 </body>
 

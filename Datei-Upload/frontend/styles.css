@@ -26,6 +26,10 @@ body {
     font-family: 'Interstate', Arial, Helvetica, sans-serif;
     font-weight: 300;
     background: #E5E5E5;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    transition: background-image 1.5s ease-in-out;
 }
 
 h1 {
@@ -263,7 +267,7 @@ input[type="password"]::placeholder {
 
 }
 
-#link-section h1{
+#link-section h1 {
     margin: 0px;
 }
 
