@@ -1,3 +1,17 @@
+// Zeigt eine Fehlermeldung für Textdateien, wenn Pandoc fehlt oder Konvertierung fehlschlägt
+function showTextPreviewNotAvailable() {
+  const previewContainer = document.getElementById('vorschau');
+  const previewFrame = document.getElementById('pdf-preview-frame');
+  const fallback = document.getElementById('pdf-preview-fallback');
+  if (!previewContainer || !fallback) return;
+  previewFrame.src = '';
+  previewContainer.classList.add('visible');
+  fallback.classList.add('visible');
+  fallback.textContent = 'Für Textdateien ist keine Vorschau möglich (Pandoc nicht installiert oder Fehler bei der Konvertierung).';
+  fallback.style.color = '#b00';
+  previewContainer.querySelector('h1').textContent = 'Dateivorschau';
+  previewContainer.scrollIntoView({ behavior: 'smooth' });
+}
 // ==============================
 // Element-Referenzen
 // ==============================
@@ -24,9 +38,9 @@ let selectedFiles = [];
 // Initial UI-Zustand
 // ==============================
 
-uploadBtn.style.display = 'none';
-copyLinkBtn.style.display = 'none';
-qrcodeBtn.style.display = 'none';
+uploadBtn.classList.add('hidden');
+copyLinkBtn.classList.add('hidden');
+qrcodeBtn.classList.add('hidden');
 
 
 // ==============================
@@ -239,7 +253,7 @@ function validateFile(file) {
 function updateUIAfterFileSelect() {
   if (!selectedFiles.length) {
     fileResult.textContent = '';
-    uploadBtn.style.display = 'none';
+  uploadBtn.classList.add('hidden');
     return;
   }
 
@@ -255,7 +269,13 @@ function updateUIAfterFileSelect() {
   fileResult.textContent = messages.join('\n');
   dropzoneText.textContent = `Ausgewählt: ${selectedFiles.map(f => f.name).join(', ')}`;
 
-  uploadBtn.style.display = allValid ? 'inline-block' : 'none';
+  if (allValid) {
+    uploadBtn.classList.remove('hidden');
+    uploadBtn.classList.add('inline-block');
+  } else {
+    uploadBtn.classList.add('hidden');
+    uploadBtn.classList.remove('inline-block');
+  }
   downloadUrlLink.href = '';
   downloadUrlLink.textContent = '';
 }
@@ -263,11 +283,10 @@ function updateUIAfterFileSelect() {
 function updateUIAfterUpload(downloadLink) {
   downloadUrlLink.href = downloadLink;
   downloadUrlLink.textContent = downloadLink;
-  downloadUrlLink.style.display = 'inline-block';
-
-  deleteLinkBtn.style.display = 'inline-block';
-  copyLinkBtn.style.display = 'inline-block';
-  qrcodeBtn.style.display = 'inline-block';
+  downloadUrlLink.classList.add('inline-block');
+  deleteLinkBtn.classList.add('inline-block');
+  copyLinkBtn.classList.add('inline-block');
+  qrcodeBtn.classList.add('inline-block');
 
   if (typeof generateQRCode === 'function') {
     generateQRCode(downloadLink);
@@ -285,7 +304,7 @@ function updateUIAfterUpload(downloadLink) {
     });
 
   fileResult.textContent = 'Upload erfolgreich!';
-  uploadBtn.style.display = 'none';
+  uploadBtn.classList.add('hidden');
   dropzoneText.textContent = 'Datei(en) hochgeladen.';
   selectedFiles = [];
 
@@ -303,7 +322,7 @@ function resetUIAfterDelete() {
   fileResult.textContent = '';
   dropzoneText.textContent = 'Datei hinein ziehen oder auswählen';
   selectedFiles = [];
-  uploadBtn.style.display = 'none';
+  uploadBtn.classList.add('hidden');
   fileInput.value = '';
 }
 
@@ -368,7 +387,7 @@ function addActiveLinkToList(linkObjOrUrl) {
   }
 
   const li = document.createElement('li');
-  li.style.marginBottom = '8px';
+  li.classList.add('mb-8');
 
 
   const a = document.createElement('a');
@@ -398,19 +417,18 @@ function addActiveLinkToList(linkObjOrUrl) {
     });
     a.title = 'Vorschau anzeigen';
   } else {
-    a.title = 'Keine Vorschau verfügbar';
-    a.style.opacity = '0.6';
-    a.style.pointerEvents = 'none';
+  a.title = 'Keine Vorschau verfügbar';
+  a.classList.add('disabled-link');
   }
 // Zeigt eine Meldung an, dass Office-Dokumente nicht als Vorschau unterstützt werden
 function showOfficePreviewNotAvailable() {
-  const previewContainer = document.getElementById('pdf-preview-container');
+  const previewContainer = document.getElementById('vorschau');
   const previewFrame = document.getElementById('pdf-preview-frame');
   const fallback = document.getElementById('pdf-preview-fallback');
   if (!previewContainer || !fallback) return;
   previewFrame.src = '';
-  previewContainer.style.display = 'block';
-  fallback.style.display = 'block';
+  previewContainer.classList.add('visible');
+  fallback.classList.add('visible');
   fallback.textContent = 'Für Office-Dokumente ist keine Vorschau möglich.';
   previewContainer.querySelector('h1').textContent = 'Dateivorschau';
   previewContainer.scrollIntoView({ behavior: 'smooth' });
@@ -434,28 +452,43 @@ function showPdfPreview(originalUrl, ext, displayName) {
   }
   const pdfUrl = `/upload/pdf-preview/${uploadId}`;
 
-  const previewContainer = document.getElementById('pdf-preview-container');
+  const previewContainer = document.getElementById('vorschau');
   const previewFrame = document.getElementById('pdf-preview-frame');
   const fallback = document.getElementById('pdf-preview-fallback');
   if (!previewContainer || !previewFrame) return;
 
-  previewFrame.src = pdfUrl;
-  previewContainer.style.display = 'block';
-  fallback.style.display = 'none';
-
-  // Optional: Titel setzen
-  previewContainer.querySelector('h1').textContent = `Vorschau: ${displayName || 'Datei'}`;
-
-  // Seite scrollen
-  previewContainer.scrollIntoView({ behavior: 'smooth' });
+  // HEAD-Request prüfen, ob PDF generiert werden konnte (z.B. Pandoc-Fehler)
+  fetch(pdfUrl, { method: 'HEAD' })
+    .then(response => {
+      if (!response.ok) {
+        if (["txt","csv","md","log"].includes(ext)) {
+          showTextPreviewNotAvailable();
+        } else {
+          showPdfPreviewFallback();
+        }
+        return;
+      }
+      previewFrame.src = pdfUrl;
+      previewContainer.classList.add('visible');
+      fallback.classList.remove('visible');
+      previewContainer.querySelector('h1').textContent = `Vorschau: ${displayName || 'Datei'}`;
+      previewContainer.scrollIntoView({ behavior: 'smooth' });
+    })
+    .catch(() => {
+      if (["txt","csv","md","log"].includes(ext)) {
+        showTextPreviewNotAvailable();
+      } else {
+        showPdfPreviewFallback();
+      }
+    });
 }
 
 function showPdfPreviewFallback() {
-  const previewContainer = document.getElementById('pdf-preview-container');
+  const previewContainer = document.getElementById('vorschau');
   const fallback = document.getElementById('pdf-preview-fallback');
   if (previewContainer && fallback) {
-    previewContainer.style.display = 'block';
-    fallback.style.display = 'block';
+  previewContainer.classList.add('visible');
+  fallback.classList.add('visible');
   }
 }
 
@@ -463,7 +496,7 @@ function showPdfPreviewFallback() {
   if (password) {
     const lockBtn = document.createElement('button');
     lockBtn.className = 'password-btn';
-    lockBtn.style.marginLeft = '8px';
+  lockBtn.classList.add('ml-8');
     lockBtn.innerHTML = '<i class="fa-solid fa-lock"></i>';
     lockBtn.title = 'Passwort kopieren';
     lockBtn.onclick = () => {
@@ -472,7 +505,7 @@ function showPdfPreviewFallback() {
         .catch(() => alert('Kopieren fehlgeschlagen!'));
     };
     lockBtn.disabled = false;
-    lockBtn.style.opacity = '1';
+  lockBtn.style.opacity = '1'; // Optional: kann entfernt werden, falls nicht benötigt
     li.appendChild(lockBtn);
   }
 
@@ -481,7 +514,7 @@ function showPdfPreviewFallback() {
   qrBtn.className = 'qr-btn';
   qrBtn.innerHTML = '<i class="fa-solid fa-qrcode"></i>';
   qrBtn.title = 'QR-Code anzeigen';
-  qrBtn.style.marginLeft = '12px';
+  qrBtn.classList.add('ml-12');
   qrBtn.onclick = () => {
     if (typeof generateQRCode === 'function') {
       generateQRCode(downloadLink);
@@ -494,7 +527,7 @@ function showPdfPreviewFallback() {
   copyBtn.className = 'copy-btn';
   copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i>';
   copyBtn.title = 'Link kopieren';
-  copyBtn.style.marginLeft = '8px';
+  copyBtn.classList.add('ml-8');
   copyBtn.onclick = () => {
     navigator.clipboard.writeText(downloadLink)
       .then(() => alert('Link kopiert!'))
@@ -507,7 +540,7 @@ function showPdfPreviewFallback() {
   delBtn.className = 'delete-btn';
   delBtn.innerHTML = '<i class="fa-regular fa-trash-can"></i>';
   delBtn.title = 'Link & Datei(en) löschen';
-  delBtn.style.marginLeft = '8px';
+  delBtn.classList.add('ml-8');
   delBtn.onclick = async () => {
     const confirmed = confirm('Willst du den Download-Link und die Dateien wirklich löschen?');
     if (!confirmed) return;

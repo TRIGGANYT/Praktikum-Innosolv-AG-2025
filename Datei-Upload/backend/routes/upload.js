@@ -40,6 +40,13 @@ router.get('/pdf-preview/:uploadId', async (req, res) => {
       return fs.createReadStream(pdfPath).pipe(res);
     }
 
+
+    // PDF: direkt streamen, keine Konvertierung
+    if (ext === 'pdf') {
+      res.setHeader('Content-Type', 'application/pdf');
+      return fs.createReadStream(absPath).pipe(res);
+    }
+
     // Office: docx, xlsx, pptx
     if (["docx","xlsx","pptx"].includes(ext)) {
       // LibreOffice muss installiert sein
@@ -59,20 +66,19 @@ router.get('/pdf-preview/:uploadId', async (req, res) => {
     // Textdateien: txt, csv, md, log
     if (["txt","csv","md","log"].includes(ext)) {
       // Pandoc muss installiert sein
-      await new Promise((resolve, reject) => {
-        execFile('pandoc', [absPath, '-o', pdfPath], (err, stdout, stderr) => {
-          if (err) return reject(stderr || err);
-          resolve();
+      try {
+        await new Promise((resolve, reject) => {
+          execFile('pandoc', [absPath, '-o', pdfPath], (err, stdout, stderr) => {
+            if (err) return reject(stderr || err);
+            resolve();
+          });
         });
-      });
-      res.setHeader('Content-Type', 'application/pdf');
-      return fs.createReadStream(pdfPath).pipe(res);
-    }
-
-    // PDF: direkt streamen
-    if (ext === 'pdf') {
-      res.setHeader('Content-Type', 'application/pdf');
-      return fs.createReadStream(absPath).pipe(res);
+        res.setHeader('Content-Type', 'application/pdf');
+        return fs.createReadStream(pdfPath).pipe(res);
+      } catch (err) {
+        console.error('Pandoc-Konvertierung fehlgeschlagen:', err);
+        return res.status(500).send('Fehler: Für Textdateien ist keine Vorschau möglich (Pandoc nicht installiert oder Fehler bei der Konvertierung).');
+      }
     }
 
     // Sonst nicht unterstützt

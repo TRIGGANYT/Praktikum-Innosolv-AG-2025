@@ -1,3 +1,58 @@
+/* Utility-Klassen für JS-Logik */
+.hidden { display: none !important; }
+.inline-block { display: inline-block !important; }
+.mb-8 { margin-bottom: 8px !important; }
+.ml-8 { margin-left: 8px !important; }
+.ml-12 { margin-left: 12px !important; }
+.disabled-link { opacity: 0.6; pointer-events: none; }
+.visible { display: block !important; }
+/* Download-Links Liste */
+#active-links {
+    list-style: none;
+    padding-left: 0;
+}
+
+#download-area .button-group {
+    display: none;
+}
+
+#fileInput {
+    display: none;
+}
+
+#upload-btn {
+    display: none;
+}
+
+#displayNameInput {
+    margin-top: 8px;
+    width: 70%;
+    max-width: 320px;
+}
+
+#pdf-preview-container, h1 {
+    margin: 0px;
+}
+
+#pdf-preview-container {
+    width: 462px;
+    height: 352px;
+    margin-top: 0px;
+    text-align: center;
+}
+
+#pdf-preview-frame {
+    width: 415px;
+    height: 311px;
+    border: 1px solid #aaa;
+    border-radius: 10px;
+    background: #fff;
+}
+
+#pdf-preview-fallback {
+    display: none;
+    color: #b00;
+}
 /* =====================
    Fonts
 ====================== */
@@ -257,7 +312,7 @@ input[type="password"]::placeholder {
    QR-Code Anzeige
 ================================= */
 
-#link-section {
+.zeile2 {
     display: flex;
     flex-direction: row;
     align-items: top;
@@ -267,7 +322,7 @@ input[type="password"]::placeholder {
 
 }
 
-#link-section h1 {
+.zeile2 h1 {
     margin: 0px;
 }
 
@@ -288,7 +343,7 @@ input[type="password"]::placeholder {
     align-items: center;
 }
 
-.main-content {
+.zeile1 {
     display: flex;
     justify-content: center;
     align-items: flex-start;

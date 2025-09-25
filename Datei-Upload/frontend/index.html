@@ -11,62 +11,74 @@
 </head>
 
 <body>
-    <!-- Buttons zum Kopieren und QR-Code -->
-    <div id="link-section">
-        <!-- QR-Code Platzhalter -->
-        <div id="qr-box-placeholder">
-            <div class="qr-box" id="qr-box"></div>
+    <div class="zeile1">
+
+        <!-- Link Settings -->
+        <div class="settings-bg">
+            <div class="settings">
+                <label for="link-expiration">Link gültig für:</label>
+                <select id="link-expiration">
+                    <option value="300">5 Minuten</option>
+                    <option value="900">15 Minuten</option>
+                    <option value="1800">30 Minuten</option>
+                    <option value="3600" selected>1 Stunde</option>
+                    <option value="7200">2 Stunden</option>
+                    <option value="14400">4 Stunden</option>
+                    <option value="28800">8 Stunden</option>
+                    <option value="43200">12 Stunden</option>
+                </select><br>
+                <input type="password" name="password" placeholder="Passwort (optional)"> <button
+                    id="copy-password-btn">Passwort kopieren</button>
+                <br>
+                <input type="text" name="displayName" id="displayNameInput" placeholder="Anzeigename (optional)">
+            </div>
         </div>
-        <!-- Downloadbereich -->
-        <div id="download-area">
-            <h1>Aktive Download-Links</h1>
-            <ul id="active-links" style="list-style: none; padding-left: 0;"></ul>
-            <div class="button-group" style="display:none;">
-                <p id="download-url"></p>
-                <button id="password-btn"><i class="fa-light fa-lock"></i></button>
-                <button id="qrcode-btn"><i class="fa-solid fa-qrcode"></i></button>
-                <button id="copy-link-btn"><i class="fa-regular fa-copy"></i></button>
-                <button id="delete-link-btn"><i class="fa-regular fa-trash-can"></i></button>
+
+        <!-- Datei-Upload -->
+        <div class="dropzone-bg">
+            <div id="dropzone" class="upload-box">
+                <p id="dropzone-text">Datei hinein ziehen oder auswählen</p>
+                <div class="file-icon"><i class="fa-regular fa-file-lines"></i></div>
+
+                <input type="file" id="fileInput" multiple />
+                <button id="customFileBtn">Datei auswählen</button>
+                <button id="upload-btn" type="button">Datei hochladen</button>
+                <p id="file-result"></p>
+            </div>
+        </div>
+
+        <!-- QR-Code -->
+        <div class="qr-bg">
+            <div id="qr-box-placeholder">
+                <div class="qr-box" id="qr-box"></div>
+            </div>
+        </div>
+        
+        <div class="zeile2">
+
+            <!-- Downloadbereich -->
+            <div id="download-area">
+                <h1>Aktive Download-Links</h1>
+                <ul id="active-links"></ul>
+                <div class="button-group">
+                    <p id="download-url"></p>
+                    <button id="password-btn"><i class="fa-light fa-lock"></i></button>
+                    <button id="qrcode-btn"><i class="fa-solid fa-qrcode"></i></button>
+                    <button id="copy-link-btn"><i class="fa-regular fa-copy"></i></button>
+                    <button id="delete-link-btn"><i class="fa-regular fa-trash-can"></i></button>
+                </div>
+            </div>
+
+            <!-- PDF Vorschau Container -->
+            <div id="vorschau">
+                <h1>Dateivorschau</h1>
+                <iframe id="pdf-preview-frame" frameborder="0"></iframe>
+                <div id="pdf-preview-fallback">Vorschau nicht möglich.</div>
             </div>
         </div>
     </div>
-    <!-- Dropoff Feld -->
-    <div class="main-content">
-        <div id="dropzone" class="upload-box">
-            <p id="dropzone-text">Datei hinein ziehen oder auswählen</p>
-            <div class="file-icon"><i class="fa-regular fa-file-lines"></i></div>
 
-            <input type="file" id="fileInput" multiple style="display: none;" />
-            <button id="customFileBtn">Datei auswählen</button>
-            <button id="upload-btn" type="button" style="display: none;">Datei hochladen</button>
-            <p id="file-result"></p>
-
-            <label for="link-expiration">Link gültig für:</label>
-            <select id="link-expiration">
-                <option value="300">5 Minuten</option>
-                <option value="900">15 Minuten</option>
-                <option value="1800">30 Minuten</option>
-                <option value="3600" selected>1 Stunde</option>
-                <option value="7200">2 Stunden</option>
-                <option value="14400">4 Stunden</option>
-                <option value="28800">8 Stunden</option>
-                <option value="43200">12 Stunden</option>
-            </select><br>
-            <input type="password" name="password" placeholder="Passwort (optional)"> <button
-                id="copy-password-btn">Passwort kopieren</button>
-            <br>
-            <input type="text" name="displayName" id="displayNameInput" placeholder="Anzeigename (optional)" style="margin-top:8px; width: 70%; max-width: 320px;">
-        </div>
-        <!-- PDF Vorschau Container -->
-    <div id="pdf-preview-container" style="margin-top:40px; text-align:center;">
-            <h1>Dateivorschau</h1>
-            <iframe id="pdf-preview-frame" style="width:90%; height:600px; border:1px solid #aaa; border-radius:10px; background:#fff;" frameborder="0"></iframe>
-            <div id="pdf-preview-fallback" style="display:none; color:#b00; margin-top:16px;">Vorschau nicht möglich.</div>
-        </div>
-    </div>
-
-
-   <!-- <script src="js/background.js"></script> -->
+    <!-- <script src="js/background.js"></script> -->
     <script src="js/file-upload.js"></script>
     <script src="js/qrcode.js"></script>
 </body>
