@@ -1,11 +1,33 @@
 /* Utility-Klassen für JS-Logik */
-.hidden { display: none !important; }
-.inline-block { display: inline-block !important; }
-.mb-8 { margin-bottom: 8px !important; }
-.ml-8 { margin-left: 8px !important; }
-.ml-12 { margin-left: 12px !important; }
-.disabled-link { opacity: 0.6; pointer-events: none; }
-.visible { display: block !important; }
+.hidden {
+    display: none !important;
+}
+
+.inline-block {
+    display: inline-block !important;
+}
+
+.mb-8 {
+    margin-bottom: 8px !important;
+}
+
+.ml-8 {
+    margin-left: 8px !important;
+}
+
+.ml-12 {
+    margin-left: 12px !important;
+}
+
+.disabled-link {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.visible {
+    display: block !important;
+}
+
 /* Download-Links Liste */
 #active-links {
     list-style: none;
@@ -30,7 +52,8 @@
     max-width: 320px;
 }
 
-#pdf-preview-container, h1 {
+#pdf-preview-container,
+h1 {
     margin: 0px;
 }
 
@@ -53,6 +76,7 @@
     display: none;
     color: #b00;
 }
+
 /* =====================
    Fonts
 ====================== */
@@ -77,6 +101,12 @@
     font-style: normal;
 }
 
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Interstate', Arial, Helvetica, sans-serif;
     font-weight: 300;
@@ -95,6 +125,11 @@ h1 {
 /* =====================
    Formularelemente & Buttons
 ====================== */
+
+#customFileBtn {
+    font-size: 16px;
+}
+
 button,
 select {
     font-family: 'Interstate';
@@ -145,17 +180,28 @@ select::-ms-expand {
 /* =====================
    Dropzone & Upload
 ====================== */
-.upload-box {
+.dropzone-bg {
+    width: 470px;
+    height: 339px;
+    background: rgba(177, 177, 177, 0.5);
+    backdrop-filter: blur(16px);
+    border-radius: 19px;
+    padding: 15px;
+    position: relative;
+    align-content: center;
+    justify-items: center;
+}
+
+#dropzone {
     color: #364F59;
-    background-color: #BFBFBF;
-    border: 2px solid #666666;
-    border-radius: 30px;
-    padding: 40px;
+    background-color: #D4D4CA;
+    border: 1px solid #BFBFB0;
+    border-radius: 8px;
     text-align: center;
     cursor: pointer;
-    width: 641px;
-    height: 439px;
-    margin: 0px;
+    width: 430.11px;
+    height: 299.4px;
+    padding: 30px 52px 40px 52px;
     position: relative;
 }
 
@@ -326,21 +372,22 @@ input[type="password"]::placeholder {
     margin: 0px;
 }
 
-/* Platzhalter für den QR-Code */
-#qr-box-placeholder {
+/* QR-Code Hintergrund */
+.qr-bg {
     width: 300px;
     height: 300px;
     display: flex;
     justify-content: center;
     align-items: center;
+    background: rgba(177, 177, 177, 0.5);
+    backdrop-filter: blur(16px);
+    border-radius: 19px;
+    padding: 24px;
+    position: relative;
 }
 
-/* QR-Code selbst */
-.qr-box {
-    display: none;
-    /* initial unsichtbar */
-    justify-content: center;
-    align-items: center;
+#qr-box{
+    border-radius: 9px;
 }
 
 .zeile1 {
@@ -356,4 +403,13 @@ input[type="password"]::placeholder {
     width: 1000px;
     padding: 0px;
     margin-top: 0px;
+}
+
+.settings-bg {
+    width: 361px;
+    height: 247px;
+    background: rgb(177, 177, 177, 0.5);
+    backdrop-filter: blur(16px);
+    border-radius: 19px;
+    padding: 15px;
 }
