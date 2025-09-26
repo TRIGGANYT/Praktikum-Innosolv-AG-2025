@@ -11,8 +11,8 @@
 </head>
 
 <body>
-    <div class="zeile1">
-
+    <div class="grid-container">
+        
         <!-- Link Settings -->
         <div class="settings-bg">
             <div class="settings">
@@ -47,34 +47,31 @@
             </div>
         </div>
 
-        <div class="zeile2">
-
-            <!-- Downloadbereich -->
-            <div class="download-area-bg">
-                <div id="download-area">
-                    <h1>Aktive Download-Links</h1>
-                    <ul id="active-links"></ul>
-                    <div class="button-group">
-                        <p id="download-url"></p>
-                        <button id="password-btn"><i class="fa-light fa-lock"></i></button>
-                        <button id="qrcode-btn"><i class="fa-solid fa-qrcode"></i></button>
-                        <button id="copy-link-btn"><i class="fa-regular fa-copy"></i></button>
-                        <button id="delete-link-btn"><i class="fa-regular fa-trash-can"></i></button>
-                    </div>
+        <!-- Downloadbereich -->
+        <div class="download-area-bg">
+            <div id="download-area">
+                <h1>Aktive Download-Links</h1>
+                <ul id="active-links"></ul>
+                <div class="button-group">
+                    <p id="download-url"></p>
+                    <button id="password-btn"><i class="fa-light fa-lock"></i></button>
+                    <button id="qrcode-btn"><i class="fa-solid fa-qrcode"></i></button>
+                    <button id="copy-link-btn"><i class="fa-regular fa-copy"></i></button>
+                    <button id="delete-link-btn"><i class="fa-regular fa-trash-can"></i></button>
                 </div>
             </div>
+        </div>
 
-            <!-- QR-Code -->
-            <div class="qr-bg">
-                <div class="qr-box" id="qr-box"></div>
-            </div>
+        <!-- QR-Code -->
+        <div class="qr-bg">
+            <div class="qr-box" id="qr-box"></div>
+        </div>
 
-            <!-- PDF Vorschau Container -->
-            <div class="vorschau-bg">
-                <div id="vorschau">
-                    <iframe id="pdf-preview-frame" frameborder="0"></iframe>
-                    <!-- <div id="pdf-preview-fallback">Vorschau nicht möglich.</div> -->
-                </div>
+        <!-- PDF Vorschau Container -->
+        <div class="vorschau-bg">
+            <div id="vorschau">
+                <iframe id="pdf-preview-frame" frameborder="0"></iframe>
+                <!-- <div id="pdf-preview-fallback">Vorschau nicht möglich.</div> -->
             </div>
         </div>
     </div>
