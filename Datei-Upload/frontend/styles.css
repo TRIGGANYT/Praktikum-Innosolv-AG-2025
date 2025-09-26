@@ -28,54 +28,6 @@
     display: block !important;
 }
 
-/* Download-Links Liste */
-#active-links {
-    list-style: none;
-    padding-left: 0;
-}
-
-#download-area .button-group {
-    display: none;
-}
-
-#fileInput {
-    display: none;
-}
-
-#upload-btn {
-    display: none;
-}
-
-#displayNameInput {
-    margin-top: 8px;
-    width: 70%;
-    max-width: 320px;
-}
-
-#pdf-preview-container,
-h1 {
-    margin: 0px;
-}
-
-#pdf-preview-container {
-    width: 462px;
-    height: 352px;
-    margin-top: 0px;
-    text-align: center;
-}
-
-#pdf-preview-frame {
-    width: 415px;
-    height: 311px;
-    border: 1px solid #aaa;
-    border-radius: 10px;
-    background: #fff;
-}
-
-#pdf-preview-fallback {
-    display: none;
-    color: #b00;
-}
 
 /* =====================
    Fonts
@@ -113,7 +65,7 @@ body {
     background: #E5E5E5;
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center center;
+    background-position: top left;
     transition: background-image 1.5s ease-in-out;
 }
 
@@ -146,20 +98,6 @@ select {
     cursor: pointer;
 }
 
-#copy-password-btn {
-    border: 2px solid #666666;
-    background-color: #E5E5E5;
-    border-radius: 7px;
-    padding: 3px 4px;
-    margin: 10px 0;
-    box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.25);
-    cursor: pointer;
-}
-
-#copy-password-btn:hover {
-    border-color: #999999;
-}
-
 button:hover,
 select:hover {
     background: #E5E5E5;
@@ -177,32 +115,25 @@ select::-ms-expand {
     display: none;
 }
 
-/* =====================
-   Dropzone & Upload
-====================== */
-.dropzone-bg {
-    width: 470px;
-    height: 339px;
-    background: rgba(177, 177, 177, 0.5);
-    backdrop-filter: blur(16px);
-    border-radius: 19px;
-    padding: 15px;
-    position: relative;
-    align-content: center;
-    justify-items: center;
+#displayNameInput {
+    border: 1px solid #666666;
+    border-radius: 8px;
+    padding: 3px 4px;
+    box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    outline: none;
+    background-color: #E5E5E5;
+    width: 160px;
 }
 
-#dropzone {
+#displayNameInput:hover {
+    border-color: #999999;
+}
+
+#displayNameInput::placeholder {
     color: #364F59;
-    background-color: #D4D4CA;
-    border: 1px solid #BFBFB0;
-    border-radius: 8px;
-    text-align: center;
-    cursor: pointer;
-    width: 430.11px;
-    height: 299.4px;
-    padding: 30px 52px 40px 52px;
-    position: relative;
+    font-family: 'Interstate', Arial, Helvetica, sans-serif;
+    font-weight: 300;
 }
 
 /* Dropzone-Text bleibt gross, aber Label und Select für Link-Dauer kleiner */
@@ -213,6 +144,7 @@ select::-ms-expand {
 label,
 label[for="link-expiration"],
 #link-expiration {
+    color: #364F59;
     font-size: 16px;
     width: 130px;
     margin-top: 0px;
@@ -226,22 +158,18 @@ label[for="link-expiration"],
     margin: 20px 0;
 }
 
-.dragover {
-    border: 2px dashed #364F59;
-    background-color: #d4d4ca;
-}
-
 /* Passwort-Eingabefeld */
 input[type="password"] {
-    border: 2px solid #666666;
-    border-radius: 7px;
+    border: 1px solid #666666;
+    border-radius: 8px;
     padding: 3px 4px;
-    margin: 10px 0;
+    margin: 47px 0;
     box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.25);
     cursor: pointer;
     outline: none;
     background-color: #E5E5E5;
     color: #364F59;
+    width: 160px;
 }
 
 input[type="password"]:hover {
@@ -250,7 +178,19 @@ input[type="password"]:hover {
 
 input[type="password"]::placeholder {
     color: #364F59;
-    ;
+    font-family: 'Interstate', Arial, Helvetica, sans-serif;
+    font-weight: 300;
+}
+
+label[for="link-expiration"] {
+    padding-left: 0px;
+    margin-right: 100px;
+}
+
+#link-expiration option {
+    font-size: 16px;
+    color: #364F59;
+    font-weight: 300;
 }
 
 /* =====================
@@ -362,20 +302,46 @@ input[type="password"]::placeholder {
     display: flex;
     flex-direction: row;
     align-items: top;
-    gap: 130px;
     width: 100%;
-    justify-content: center;
-
+    justify-content: space-between;
 }
 
 .zeile2 h1 {
     margin: 0px;
 }
 
+/* =====================
+   Dropzone & Upload
+====================== */
+.dropzone-bg {
+    width: 790px;
+    height: 450px;
+    background: rgba(177, 177, 177, 0.5);
+    backdrop-filter: blur(16px);
+    border-radius: 19px;
+    padding: 15px;
+    position: relative;
+    align-content: center;
+    justify-items: center;
+}
+
+#dropzone {
+    color: #364F59;
+    background-color: #D4D4CA;
+    border: 1px solid #BFBFB0;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    width: 730.11px;
+    height: 409.4px;
+    padding: 30px 52px 40px 52px;
+    position: relative;
+}
+
 /* QR-Code Hintergrund */
 .qr-bg {
-    width: 300px;
-    height: 300px;
+    width: 410px;
+    height: 410px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -386,30 +352,109 @@ input[type="password"]::placeholder {
     position: relative;
 }
 
-#qr-box{
+#qr-box {
     border-radius: 9px;
 }
 
 .zeile1 {
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    justify-content: flex-start;
+    align-items: flex-end;
     gap: 40px;
-    margin-top: 60px;
+    margin: 30px 30px 0px 30px;
     flex-wrap: wrap;
 }
 
-.downloadLinkVerlauf h1 {
-    width: 1000px;
-    padding: 0px;
-    margin-top: 0px;
+.settings{
+    background-color: #D4D4CA;
+    width: 415px;
+    height: 260px;
+    padding: 6px 4px 4px 30px;
+    border-radius: 8px;
 }
 
 .settings-bg {
-    width: 361px;
-    height: 247px;
-    background: rgb(177, 177, 177, 0.5);
+    align-content: center;
+    justify-items: center;
+    width: 450px;
+    height: 290px;
+    background: rgba(177, 177, 177, 0.5);
+    backdrop-filter: blur(16px);
+    border-radius: 19px;
+}
+
+.download-area-bg {
+    align-content: center;
+    justify-items: center;
+    padding: 24px;
+    width: 900px;
+    height: 410px;
+    background: rgba(177, 177, 177, 0.5);
     backdrop-filter: blur(16px);
     border-radius: 19px;
     padding: 15px;
+}
+
+#download-area {
+    padding: 30px 50px 30px 50px;
+    background-color: #D4D4CA;
+    border: solid 1px #BFBFB0;
+    border-radius: 9px;
+    width: 850px;
+    height: 360px;
+}
+
+.vorschau-bg {
+    width: 462px;
+    height: 352px;
+    background: rgba(177, 177, 177, 0.5);
+    backdrop-filter: blur(16px);
+    border-radius: 19px;
+    padding: 15px;
+    position: relative;
+    align-content: center;
+    justify-items: center;
+}
+
+#pdf-preview-frame {
+    width: 415px;
+    height: 311px;
+    border: 1px solid #BFBFB0;
+    border-radius: 10px;
+    background: #D4D4CA;
+}
+
+/* Download-Links Liste */
+#active-links {
+    list-style: none;
+    padding-left: 0;
+}
+
+#download-area .button-group {
+    display: none;
+}
+
+#fileInput {
+    display: none;
+}
+
+#upload-btn {
+    display: none;
+}
+
+#pdf-preview-container,
+h1 {
+    margin: 0px;
+}
+
+#pdf-preview-container {
+    width: 462px;
+    height: 352px;
+    margin-top: 0px;
+    text-align: center;
+}
+
+#pdf-preview-fallback {
+    display: none;
+    color: #b00;
 }

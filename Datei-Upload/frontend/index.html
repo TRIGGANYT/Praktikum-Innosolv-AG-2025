@@ -26,9 +26,9 @@
                     <option value="14400">4 Stunden</option>
                     <option value="28800">8 Stunden</option>
                     <option value="43200">12 Stunden</option>
-                </select><br>
-                <input type="password" name="password" placeholder="Passwort (optional)"> <button
-                    id="copy-password-btn">Passwort kopieren</button>
+                </select>
+                <br>
+                <input type="password" name="password" placeholder="Passwort (optional)">
                 <br>
                 <input type="text" name="displayName" id="displayNameInput" placeholder="Anzeigename (optional)">
             </div>
@@ -36,7 +36,7 @@
 
         <!-- Datei-Upload -->
         <div class="dropzone-bg">
-            <div id="dropzone" >
+            <div id="dropzone">
                 <p id="dropzone-text">Datei hinein ziehen oder auswählen</p>
                 <div class="file-icon"><i class="fa-regular fa-file-lines"></i></div>
 
@@ -46,11 +46,6 @@
                 <p id="file-result"></p>
             </div>
         </div>
-
-        <!-- QR-Code -->
-            <div class="qr-bg">
-                <div class="qr-box" id="qr-box"></div>
-            </div>
 
         <div class="zeile2">
 
@@ -69,12 +64,16 @@
                 </div>
             </div>
 
+            <!-- QR-Code -->
+            <div class="qr-bg">
+                <div class="qr-box" id="qr-box"></div>
+            </div>
+
             <!-- PDF Vorschau Container -->
             <div class="vorschau-bg">
                 <div id="vorschau">
-                    <h1>Dateivorschau</h1>
                     <iframe id="pdf-preview-frame" frameborder="0"></iframe>
-                    <div id="pdf-preview-fallback">Vorschau nicht möglich.</div>
+                    <!-- <div id="pdf-preview-fallback">Vorschau nicht möglich.</div> -->
                 </div>
             </div>
         </div>
