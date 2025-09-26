@@ -73,11 +73,6 @@ window.addEventListener('DOMContentLoaded', loadActiveLinks);
 if (copyPasswordBtn) {
   copyPasswordBtn.addEventListener('click', () => {
     const passwordInput = document.querySelector('input[name="password"]');
-    if (passwordInput && passwordInput.value) {
-      navigator.clipboard.writeText(passwordInput.value)
-        .then(() => alert('Passwort kopiert!'))
-        .catch(() => alert('Kopieren fehlgeschlagen!'));
-    }
   });
 }
 
@@ -86,12 +81,33 @@ if (copyPasswordBtn) {
 // ==============================
 
 function copyCurrentDownloadLink() {
-  if (!downloadUrlLink.href) return;
+  const downloadUrlLink = document.getElementById('downloadUrlLink');
+  const icon = document.getElementById('copyIcon');
+
+  if (!downloadUrlLink || !downloadUrlLink.href) return;
 
   navigator.clipboard.writeText(downloadUrlLink.href)
-    .then(() => alert('Link kopiert!'))
-    .catch(() => alert('Kopieren fehlgeschlagen!'));
+    .then(() => {
+      // Icon: Kopieren → Haken
+      icon.classList.replace('fa-copy', 'fa-check');
+
+      // Nach 4 Sekunden zurück
+      setTimeout(() => {
+        icon.classList.replace('fa-check', 'fa-copy');
+      }, 4000);
+    })
+    .catch(() => {
+      // Optional: Icon rot machen bei Fehler
+      icon.style.color = 'red';
+      icon.classList.replace('fa-copy', 'fa-xmark');
+
+      setTimeout(() => {
+        icon.classList.replace('fa-xmark', 'fa-copy');
+        icon.style.color = '';
+      }, 4000);
+    });
 }
+
 
 async function deleteCurrentDownloadLink() {
   const downloadUrl = downloadUrlLink.href;
@@ -253,7 +269,7 @@ function validateFile(file) {
 function updateUIAfterFileSelect() {
   if (!selectedFiles.length) {
     fileResult.textContent = '';
-  uploadBtn.classList.add('hidden');
+    uploadBtn.classList.add('hidden');
     return;
   }
 
@@ -405,107 +421,127 @@ function addActiveLinkToList(linkObjOrUrl) {
   const officeExts = ['.docx', '.xlsx', '.pptx'];
   const previewExts = ['.pdf', '.txt', '.csv', '.md', '.log'];
   if (officeExts.includes(ext)) {
-    a.addEventListener('click', function(e) {
+    a.addEventListener('click', function (e) {
       e.preventDefault();
       showOfficePreviewNotAvailable();
     });
     a.title = 'Für Office-Dokumente ist keine Vorschau möglich.';
   } else if (previewExts.includes(ext)) {
-    a.addEventListener('click', function(e) {
+    a.addEventListener('click', function (e) {
       e.preventDefault();
       showPdfPreview(downloadLink, ext, displayName);
     });
     a.title = 'Vorschau anzeigen';
   } else {
-  a.title = 'Keine Vorschau verfügbar';
-  a.classList.add('disabled-link');
+    a.title = 'Keine Vorschau verfügbar';
+    a.classList.add('disabled-link');
   }
-// Zeigt eine Meldung an, dass Office-Dokumente nicht als Vorschau unterstützt werden
-function showOfficePreviewNotAvailable() {
-  const previewContainer = document.getElementById('vorschau');
-  const previewFrame = document.getElementById('pdf-preview-frame');
-  const fallback = document.getElementById('pdf-preview-fallback');
-  if (!previewContainer || !fallback) return;
-  previewFrame.src = '';
-  previewContainer.classList.add('visible');
-  fallback.classList.add('visible');
-  fallback.textContent = 'Für Office-Dokumente ist keine Vorschau möglich.';
-  previewContainer.querySelector('h1').textContent = 'Dateivorschau';
-  previewContainer.scrollIntoView({ behavior: 'smooth' });
-}
+  // Zeigt eine Meldung an, dass Office-Dokumente nicht als Vorschau unterstützt werden
+  function showOfficePreviewNotAvailable() {
+    const previewContainer = document.getElementById('vorschau');
+    const previewFrame = document.getElementById('pdf-preview-frame');
+    const fallback = document.getElementById('pdf-preview-fallback');
+    if (!previewContainer || !fallback) return;
+    previewFrame.src = '';
+    previewContainer.classList.add('visible');
+    fallback.classList.add('visible');
+    fallback.textContent = 'Für Office-Dokumente ist keine Vorschau möglich.';
+    previewContainer.querySelector('h1').textContent = 'Dateivorschau';
+    previewContainer.scrollIntoView({ behavior: 'smooth' });
+  }
   li.appendChild(a);
-// Zeigt die PDF-Vorschau für Office-Dateien an
-function showPdfPreview(originalUrl, ext, displayName) {
-  // PDF-URL ableiten (Backend muss /pdf-preview/:uploadId unterstützen)
-  // Annahme: downloadLink enthält /uploads/{uploadId}/{filename} oder /download/{uploadId}
-  let uploadId = null;
-  if (originalUrl.includes('/uploads/')) {
-    const parts = originalUrl.split('/uploads/')[1].split('/');
-    uploadId = parts[0];
-  } else if (originalUrl.includes('/download/')) {
-    const parts = originalUrl.split('/download/')[1].split('/');
-    uploadId = parts[0];
-  }
-  if (!uploadId) {
-    showPdfPreviewFallback();
-    return;
-  }
-  const pdfUrl = `/upload/pdf-preview/${uploadId}`;
+  // Zeigt die PDF-Vorschau für Office-Dateien an
+  function showPdfPreview(originalUrl, ext, displayName) {
+    // PDF-URL ableiten (Backend muss /pdf-preview/:uploadId unterstützen)
+    // Annahme: downloadLink enthält /uploads/{uploadId}/{filename} oder /download/{uploadId}
+    let uploadId = null;
+    if (originalUrl.includes('/uploads/')) {
+      const parts = originalUrl.split('/uploads/')[1].split('/');
+      uploadId = parts[0];
+    } else if (originalUrl.includes('/download/')) {
+      const parts = originalUrl.split('/download/')[1].split('/');
+      uploadId = parts[0];
+    }
+    if (!uploadId) {
+      showPdfPreviewFallback();
+      return;
+    }
+    const pdfUrl = `/upload/pdf-preview/${uploadId}`;
 
-  const previewContainer = document.getElementById('vorschau');
-  const previewFrame = document.getElementById('pdf-preview-frame');
-  const fallback = document.getElementById('pdf-preview-fallback');
-  if (!previewContainer || !previewFrame) return;
+    const previewContainer = document.getElementById('vorschau');
+    const previewFrame = document.getElementById('pdf-preview-frame');
+    const fallback = document.getElementById('pdf-preview-fallback');
+    if (!previewContainer || !previewFrame) return;
 
-  // HEAD-Request prüfen, ob PDF generiert werden konnte (z.B. Pandoc-Fehler)
-  fetch(pdfUrl, { method: 'HEAD' })
-    .then(response => {
-      if (!response.ok) {
-        if (["txt","csv","md","log"].includes(ext)) {
+    // HEAD-Request prüfen, ob PDF generiert werden konnte (z.B. Pandoc-Fehler)
+    fetch(pdfUrl, { method: 'HEAD' })
+      .then(response => {
+        if (!response.ok) {
+          if (["txt", "csv", "md", "log"].includes(ext)) {
+            showTextPreviewNotAvailable();
+          } else {
+            showPdfPreviewFallback();
+          }
+          return;
+        }
+        previewFrame.src = pdfUrl;
+        previewContainer.classList.add('visible');
+        fallback.classList.remove('visible');
+        previewContainer.querySelector('h1').textContent = `Vorschau: ${displayName || 'Datei'}`;
+        previewContainer.scrollIntoView({ behavior: 'smooth' });
+      })
+      .catch(() => {
+        if (["txt", "csv", "md", "log"].includes(ext)) {
           showTextPreviewNotAvailable();
         } else {
           showPdfPreviewFallback();
         }
-        return;
-      }
-      previewFrame.src = pdfUrl;
-      previewContainer.classList.add('visible');
-      fallback.classList.remove('visible');
-      previewContainer.querySelector('h1').textContent = `Vorschau: ${displayName || 'Datei'}`;
-      previewContainer.scrollIntoView({ behavior: 'smooth' });
-    })
-    .catch(() => {
-      if (["txt","csv","md","log"].includes(ext)) {
-        showTextPreviewNotAvailable();
-      } else {
-        showPdfPreviewFallback();
-      }
-    });
-}
-
-function showPdfPreviewFallback() {
-  const previewContainer = document.getElementById('vorschau');
-  const fallback = document.getElementById('pdf-preview-fallback');
-  if (previewContainer && fallback) {
-  previewContainer.classList.add('visible');
-  fallback.classList.add('visible');
+      });
   }
-}
+
+  function showPdfPreviewFallback() {
+    const previewContainer = document.getElementById('vorschau');
+    const fallback = document.getElementById('pdf-preview-fallback');
+    if (previewContainer && fallback) {
+      previewContainer.classList.add('visible');
+      fallback.classList.add('visible');
+    }
+  }
 
   // Lock-Icon (nur wenn Passwort gesetzt)
   if (password) {
     const lockBtn = document.createElement('button');
     lockBtn.className = 'password-btn';
-  lockBtn.classList.add('ml-8');
+    lockBtn.classList.add('ml-8');
     lockBtn.innerHTML = '<i class="fa-solid fa-lock"></i>';
     lockBtn.title = 'Passwort kopieren';
     lockBtn.onclick = () => {
+      const icon = lockBtn.querySelector('i');
+      if (!icon) return;
+
       navigator.clipboard.writeText(password)
-        .then(() => alert('Passwort kopiert!'))
-        .catch(() => alert('Kopieren fehlgeschlagen!'));
+        .then(() => {
+          icon.classList.replace('fa-lock', 'fa-check');
+          icon.style.color = '#75bf73'; // Grün für Erfolg
+
+          setTimeout(() => {
+            icon.classList.replace('fa-check', 'fa-lock');
+            icon.style.color = '';
+          }, 4000);
+        })
+        .catch(() => {
+          icon.classList.replace('fa-lock', 'fa-xmark');
+          icon.style.color = '#803425'; // Rot für Fehler
+
+          setTimeout(() => {
+            icon.classList.replace('fa-xmark', 'fa-lock');
+            icon.style.color = '';
+          }, 4000);
+        });
     };
+
     lockBtn.disabled = false;
-  lockBtn.style.opacity = '1'; // Optional: kann entfernt werden, falls nicht benötigt
+    lockBtn.style.opacity = '1'; // Optional: kann entfernt werden, falls nicht benötigt
     li.appendChild(lockBtn);
   }
 
@@ -528,11 +564,37 @@ function showPdfPreviewFallback() {
   copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i>';
   copyBtn.title = 'Link kopieren';
   copyBtn.classList.add('ml-8');
+
   copyBtn.onclick = () => {
+    const icon = copyBtn.querySelector('i');
+    if (!icon) return;
+
     navigator.clipboard.writeText(downloadLink)
-      .then(() => alert('Link kopiert!'))
-      .catch(() => alert('Kopieren fehlgeschlagen!'));
+      .then(() => {
+        icon.classList.replace('fa-regular', 'fa-solid');
+        icon.classList.replace('fa-copy', 'fa-check');
+
+        icon.style.color = '#75bf73';
+
+        setTimeout(() => {
+          icon.classList.replace('fa-solid', 'fa-regular');
+          icon.classList.replace('fa-check', 'fa-copy');
+
+          icon.style.color = '';
+        }, 4000);
+      })
+      .catch(() => {
+        icon.classList.replace('fa-copy', 'fa-xmark');
+        icon.style.color = '#803425';
+
+        setTimeout(() => {
+          icon.classList.replace('fa-xmark', 'fa-copy');
+          icon.style.color = '';
+        }, 4000);
+      });
   };
+
+
   li.appendChild(copyBtn);
 
   // Löschen
@@ -541,23 +603,32 @@ function showPdfPreviewFallback() {
   delBtn.innerHTML = '<i class="fa-regular fa-trash-can"></i>';
   delBtn.title = 'Link & Datei(en) löschen';
   delBtn.classList.add('ml-8');
-  delBtn.onclick = async () => {
-    const confirmed = confirm('Willst du den Download-Link und die Dateien wirklich löschen?');
-    if (!confirmed) return;
+  const modal = document.getElementById('delete-confirm-modal');
+  const confirmBtn = document.getElementById('confirm-delete');
+  const cancelBtn = document.getElementById('cancel-delete');
 
-    try {
-      const result = await deleteDownloadLink(downloadLink);
-      if (result.success) {
-        alert('Link und Dateien wurden gelöscht.');
-        li.remove();
-      } else {
-        alert('Fehler beim Löschen: ' + result.message);
+  delBtn.onclick = () => {
+    modal.classList.remove('hidden');
+
+    confirmBtn.onclick = async () => {
+      modal.classList.add('hidden');
+      try {
+        const result = await deleteDownloadLink(downloadLink);
+        if (result.success) {
+          li.remove();
+        } else {
+          alert('Fehler beim Löschen: ' + result.message);
+        }
+      } catch (err) {
+        alert('Fehler beim Löschen.');
       }
-    } catch (err) {
-      alert('Fehler beim Löschen.');
-      console.error(err);
-    }
+    };
+
+    cancelBtn.onclick = () => {
+      modal.classList.add('hidden');
+    };
   };
+
   li.appendChild(delBtn);
 
   // An Liste anhängen

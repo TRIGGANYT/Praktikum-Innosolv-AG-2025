@@ -329,7 +329,7 @@ label[for="link-expiration"] {
     border: solid 1px #BFBFB0;
     border-radius: 9px;
     width: 740px;
-    height: 390px;
+    min-height: 390px;
 }
 
 #pdf-preview-frame {
@@ -391,6 +391,7 @@ h1 {
     grid-template-rows: auto auto;
     gap: 24px;
     padding: 24px;
+    margin-top: 80px;
 }
 
 .settings-bg,
@@ -434,7 +435,7 @@ h1 {
     justify-items: center;
     padding: 24px;
     width: 790px;
-    height: 430px;
+    min-height: 430px;
     background: rgba(177, 177, 177, 0.5);
     backdrop-filter: blur(16px);
     border-radius: 19px;
@@ -541,4 +542,25 @@ h2,
     color: #364F59;
     text-decoration: none;
     justify-content: center;
+}
+
+.modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #364F59;
+}
+
+.modal-content {
+  background: #E5E5E5;
+  padding: 20px;
+  border-radius: 10px;
+  color: #364F59;
+}
+
+.hidden {
+  display: none;
 }
