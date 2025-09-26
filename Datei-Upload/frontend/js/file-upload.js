@@ -7,7 +7,7 @@ function showTextPreviewNotAvailable() {
   previewFrame.src = '';
   previewContainer.classList.add('visible');
   fallback.classList.add('visible');
-  fallback.textContent = 'Für Textdateien ist keine Vorschau möglich (Pandoc nicht installiert oder Fehler bei der Konvertierung).';
+  fallback.textContent = 'Für Textdateien ist keine Vorschau möglich.';
   fallback.style.color = '#b00';
   previewContainer.querySelector('h1').textContent = 'Dateivorschau';
   previewContainer.scrollIntoView({ behavior: 'smooth' });
@@ -409,7 +409,7 @@ function addActiveLinkToList(linkObjOrUrl) {
       e.preventDefault();
       showOfficePreviewNotAvailable();
     });
-    a.title = 'Für Office-Dokumente ist keine Vorschau möglich';
+    a.title = 'Für Office-Dokumente ist keine Vorschau möglich.';
   } else if (previewExts.includes(ext)) {
     a.addEventListener('click', function(e) {
       e.preventDefault();

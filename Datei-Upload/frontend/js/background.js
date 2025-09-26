@@ -16,4 +16,4 @@ const backgrounds = [
   changeBackground();
 
   // Alle 25 Sekunden wechseln
-  setInterval(changeBackground, 60000);
+  setInterval(changeBackground, 24000);
