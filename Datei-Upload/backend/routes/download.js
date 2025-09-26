@@ -20,15 +20,10 @@ router.get('/download/:uploadId', async (req, res) => {
   if (new Date() > upload.expiresAt) return res.status(410).send('Link abgelaufen');
 
   if (upload.passwordHash) {
-    // Passwort erforderlich → zeige Formular
-    return res.send(`
-      <h2>Passwort erforderlich</h2>
-      <form method="POST" action="/download-secure/${uploadId}">
-        <input type="password" name="password" required />
-        <button type="submit">Download starten</button>
-      </form>
-    `);
+    // Passwort erforderlich → rendere EJS-Template
+    return res.render('password', { uploadId });
   }
+
 
   // Kein Passwort → direkt weiterleiten zum Download
   if (upload.files.length === 1) {

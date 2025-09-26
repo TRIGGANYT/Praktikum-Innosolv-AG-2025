@@ -7,9 +7,12 @@ const uploadRouter = require('./routes/upload');
 const cleanup = require('./cleanup');
 const downloadRoutes = require('./routes/download');
 
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
 app.use('/', downloadRoutes);
 
-app.use (express.json());
+app.use(express.json());
 
 app.use('/zips', express.static(path.join(__dirname, 'zips')));
 
@@ -41,7 +44,7 @@ app.get('/download/:id', (req, res) => {
 
   if (fs.existsSync(zipPath)) {
     res.download(zipPath, `${req.params.id}.zip`);
-  } 
+  }
   else {
     res.status(404).send('Datei nicht gefunden.');
   }

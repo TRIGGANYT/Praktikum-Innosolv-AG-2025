@@ -377,7 +377,7 @@ h1 {
 }
 
 #qr-box img {
-  border-radius: 9px;
+    border-radius: 9px;
 }
 
 
@@ -393,7 +393,11 @@ h1 {
     padding: 24px;
 }
 
-.settings-bg, .dropzone-bg, .download-area-bg, .qr-bg, .vorschau-bg {
+.settings-bg,
+.dropzone-bg,
+.download-area-bg,
+.qr-bg,
+.vorschau-bg {
     align-self: end;
 }
 
@@ -462,4 +466,79 @@ h1 {
     padding: 15px;
     align-content: center;
     justify-items: center;
+}
+
+.passwordpage-bg {
+    width: 560px;
+    height: 280px;
+    background: rgba(177, 177, 177, 0.5);
+    backdrop-filter: blur(16px);
+    border-radius: 19px;
+    padding: 15px;
+    align-content: center;
+    justify-items: center;
+}
+
+.passwordpage {
+    align-content: center;
+    justify-items: center;
+    background-color: #D4D4CA;
+    border: solid 1px #BFBFB0;
+    border-radius: 9px;
+    width: 530px;
+    height: 250px;
+}
+
+.password-grid {
+    height: 100vh;
+    margin: 0;
+    display: grid;
+    place-items: center;
+}
+
+.password-input {
+    border: 1px solid #666666;
+    border-radius: 8px;
+    padding: 3px 4px;
+    margin: 47px 0;
+    box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    outline: none;
+    background-color: #E5E5E5;
+    color: #364F59;
+    width: 160px;
+    height: 32px;
+}
+
+.download-start {
+    border: 1px solid #666666;
+    border-radius: 8px;
+    padding: 3px 4px;
+    margin: 47px 0;
+    box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    outline: none;
+    background-color: #E5E5E5;
+    color: #364F59;
+    width: 160px;
+    height: 32px;
+}
+
+.password-input::placeholder {
+    font-size: 14px;
+}
+
+h2,
+.passwordpage {
+    color: #364F59;
+    font-size: 24px;
+    margin: 0px;
+}
+
+.home-icon {
+    display: flex;
+    font-size: 24px;
+    color: #364F59;
+    text-decoration: none;
+    justify-content: center;
 }

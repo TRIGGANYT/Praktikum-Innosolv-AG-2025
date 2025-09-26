@@ -267,7 +267,7 @@ async function handleFileUpload(req, res) {
     try {
       const saltRounds = 10;
       passwordHash = await bcrypt.hash(req.body.password, saltRounds);
-      _plainPassword = req.body.password; // ACHTUNG: Nur für Demo/Test, nicht für Produktion!
+      _plainPassword = req.body.password;
     } catch (err) {
       console.error('Fehler beim Hashen des Passworts:', err);
       return res.status(500).json({ error: 'Fehler beim Verarbeiten des Passworts' });

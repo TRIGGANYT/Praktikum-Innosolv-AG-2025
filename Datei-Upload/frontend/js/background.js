@@ -1,8 +1,8 @@
 const backgrounds = [
-    'url("assets/img/innosolv-boat_screen-hintergrund.png")',
-    'url("assets/img/innosolv-desert_screen-hintergruend.png")',
-    'url("assets/img/innosolv-galaxy_screen-hintergruend.png")',
-    'url("assets/img/innosolv-saentis_screen-hintergrund.png")'
+    'url("/assets/img/innosolv-boat_screen-hintergrund.png")',
+    'url("/assets/img/innosolv-desert_screen-hintergruend.png")',
+    'url("/assets/img/innosolv-galaxy_screen-hintergruend.png")',
+    'url("/assets/img/innosolv-saentis_screen-hintergrund.png")'
   ];
 
   let current = 0;
