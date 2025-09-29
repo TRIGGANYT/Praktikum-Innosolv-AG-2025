@@ -409,7 +409,7 @@ h1 {
     height: 290px;
     background: rgba(177, 177, 177, 0.5);
     backdrop-filter: blur(16px);
-    border-radius: 19px;
+    border-radius: 24px;
     padding: 15px;
 }
 
@@ -420,7 +420,7 @@ h1 {
     height: 430px;
     background: rgba(177, 177, 177, 0.5);
     backdrop-filter: blur(16px);
-    border-radius: 19px;
+    border-radius: 24px;
     padding: 15px;
     align-content: center;
     justify-items: center;
@@ -436,7 +436,7 @@ h1 {
     min-height: 430px;
     background: rgba(177, 177, 177, 0.5);
     backdrop-filter: blur(16px);
-    border-radius: 19px;
+    border-radius: 24px;
     padding: 15px;
 }
 
@@ -450,7 +450,7 @@ h1 {
     align-items: center;
     background: rgba(177, 177, 177, 0.5);
     backdrop-filter: blur(16px);
-    border-radius: 19px;
+    border-radius: 24px;
     padding: 15px;
 }
 
@@ -461,7 +461,7 @@ h1 {
     height: 885px;
     background: rgba(177, 177, 177, 0.5);
     backdrop-filter: blur(16px);
-    border-radius: 19px;
+    border-radius: 24px;
     padding: 15px;
     align-content: center;
     justify-items: center;
@@ -472,7 +472,7 @@ h1 {
     height: 280px;
     background: rgba(177, 177, 177, 0.5);
     backdrop-filter: blur(16px);
-    border-radius: 19px;
+    border-radius: 24px;
     padding: 15px;
     align-content: center;
     justify-items: center;
@@ -578,4 +578,4 @@ h2,
 
 .oder {
     display: inline;
-}
+} 

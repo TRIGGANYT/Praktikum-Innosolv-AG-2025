@@ -1,51 +1,60 @@
 const express = require("express");
 const path = require("path");
-const fs = require('fs');
+const fs = require("fs");
+const https = require("https");
+
 const app = express();
 const PORT = 3000;
-const uploadRouter = require('./routes/upload');
-const cleanup = require('./cleanup');
-const downloadRoutes = require('./routes/download');
 
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+const uploadRouter = require("./routes/upload");
+const cleanup = require("./cleanup");
+const downloadRoutes = require("./routes/download");
 
-app.use('/', downloadRoutes);
+const sslOptions = {
+  key: fs.readFileSync(path.join(__dirname, "cert", "key.pem")),
+  cert: fs.readFileSync(path.join(__dirname, "cert", "cert.pem")),
+};
 
+// Views
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+// Reihenfolge: Middleware → statics → Routen
 app.use(express.json());
 
-app.use('/zips', express.static(path.join(__dirname, 'zips')));
+// Downloads (eigene Router)
+app.use("/", downloadRoutes);
 
-// Frontend statisch bereitstellen
-app.use(express.static(path.join(__dirname, '../frontend')));
-
-// Upload-Router mounten
-app.use('/upload', uploadRouter);
-
-// Statische Dateien aus "uploads" ausliefern
+// Statische Ordner
+app.use("/zips", express.static(path.join(__dirname, "zips")));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-app.listen(PORT, () => {
-  console.log(`Server läuft auf http://localhost:${PORT}`);
+// Frontend statisch
+app.use(express.static(path.join(__dirname, "../frontend")));
 
-  setInterval(() => {
-    console.log('Starte Cleanup abgelaufener Dateien...');
-    cleanup();
-  }, 5 * 60 * 1000); // Alle 5 minuten
+// Upload-Router
+app.use("/upload", uploadRouter);
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/index.html"));
 });
 
-// Root-Route gibt index.html aus dem Frontend zurück
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/index.html'));
-});
-
-app.get('/download/:id', (req, res) => {
-  const zipPath = path.join(__dirname, 'zips', `${req.params.id}.zip`);
-
+// Direkt-Download ZIP
+app.get("/download/:id", (req, res) => {
+  const zipPath = path.join(__dirname, "zips", `${req.params.id}.zip`);
   if (fs.existsSync(zipPath)) {
     res.download(zipPath, `${req.params.id}.zip`);
+  } else {
+    res.status(404).send("Datei nicht gefunden.");
   }
-  else {
-    res.status(404).send('Datei nicht gefunden.');
-  }
+});
+
+https.createServer(sslOptions, app).listen(PORT, () => {
+  console.log(`HTTPS-Server läuft unter https://localhost:${PORT}`);
+
+  // Cleanup alle 5 Minuten
+  setInterval(() => {
+    console.log("Starte Cleanup abgelaufener Dateien...");
+    cleanup();
+  }, 5 * 60 * 1000);
 });
