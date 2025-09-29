@@ -561,6 +561,6 @@ h2,
   color: #364F59;
 }
 
-.hidden {
-  display: none;
+#folderInput {
+    display: none;
 }

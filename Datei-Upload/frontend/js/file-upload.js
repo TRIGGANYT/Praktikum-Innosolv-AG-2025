@@ -30,6 +30,8 @@ const deleteLinkBtn = document.getElementById('delete-link-btn');
 const qrcodeBtn = document.getElementById('qrcode-btn');
 const activeLinksList = document.getElementById('active-links');
 const copyPasswordBtn = document.getElementById('copy-password-btn');
+const folderInput = document.getElementById('folderInput');
+const folderLink = document.getElementById('selectFolderLink');
 
 let selectedFiles = [];
 
@@ -258,7 +260,7 @@ function validateFile(file) {
     return { valid: false, message: `${fileName}: Zu gross. Wählen Sie eine Datei kleiner als 50MB.` };
   }
 
-  return { valid: true, message: `${fileName} (${fileMb.toFixed(1)} MB) bereit zum Hochladen.` };
+  return { valid: true/* , message: `${fileName} (${fileMb.toFixed(1)} MB) bereit zum Hochladen.` */ };
 }
 
 
@@ -283,7 +285,10 @@ function updateUIAfterFileSelect() {
   });
 
   fileResult.textContent = messages.join('\n');
-  dropzoneText.textContent = `Ausgewählt: ${selectedFiles.map(f => f.name).join(', ')}`;
+  const fileNames = selectedFiles.map(f => f.name);
+  dropzoneText.textContent = fileNames.length === 1
+    ? `${fileNames[0]} ist bereit zum Hochladen.`
+    : `${fileNames.join(', ')} sind bereit zum Hochladen.`;
 
   if (allValid) {
     uploadBtn.classList.remove('hidden');
@@ -303,11 +308,11 @@ function updateUIAfterUpload(downloadLink) {
   deleteLinkBtn.classList.add('inline-block');
   copyLinkBtn.classList.add('inline-block');
   qrcodeBtn.classList.add('inline-block');
+  uploadBtn.classList.add('hidden');
 
   if (typeof generateQRCode === 'function') {
     generateQRCode(downloadLink);
   }
-
 
   // Nur das neue Link-Objekt aus /upload/active-links holen und zur Liste hinzufügen
   fetch('/upload/active-links')
@@ -328,10 +333,7 @@ function updateUIAfterUpload(downloadLink) {
   if (passwordInput) {
     passwordInput.value = '';
   }
-
-  setTimeout(() => {
-    resetUIAfterDelete();
-  }, 3000);
+  resetUIAfterDelete();;
 }
 
 function resetUIAfterDelete() {
@@ -339,9 +341,9 @@ function resetUIAfterDelete() {
   dropzoneText.textContent = 'Datei hinein ziehen oder auswählen';
   selectedFiles = [];
   uploadBtn.classList.add('hidden');
+  uploadBtn.classList.remove('inline-block');
   fileInput.value = '';
 }
-
 
 // ==============================
 // Aktive Links laden & anzeigen
@@ -634,3 +636,17 @@ function addActiveLinkToList(linkObjOrUrl) {
   // An Liste anhängen
   activeLinksList.appendChild(li);
 }
+
+// Klick auf den Link öffnet Ordner-Auswahl
+folderLink.addEventListener('click', function (e) {
+  e.preventDefault();
+  folderInput.click();
+});
+
+// Wenn Ordner ausgewählt wurde
+folderInput.addEventListener('change', function (event) {
+  if (event.target.files.length > 0) {
+    selectedFiles = Array.from(event.target.files);
+    updateUIAfterFileSelect();
+  }
+});
