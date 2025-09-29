@@ -89,11 +89,6 @@ router.get('/pdf-preview/:uploadId', async (req, res) => {
   }
 });
 
-
-
-
-
-
 // ==============================
 // Multer Speicher-Konfiguration
 // ==============================
@@ -299,8 +294,6 @@ async function handleFileUpload(req, res) {
       return res.status(500).json({ error: 'ZIP-Erstellung fehlgeschlagen' });
     }
   }
-
-
 
   // Anzeigename auslesen
   let displayName = req.body.displayName;

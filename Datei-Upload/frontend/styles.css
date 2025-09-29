@@ -279,7 +279,6 @@ label[for="link-expiration"] {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* vertikal zentrieren */
     gap: 0px;
     padding: 0;
 }
@@ -291,7 +290,6 @@ label[for="link-expiration"] {
 
 #active-links li a.download-link:hover {
     text-decoration: underline;
-    color: #50a0bf;
 }
 
 /* =====================
@@ -545,22 +543,39 @@ h2,
 }
 
 .modal {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #364F59;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #364F59;
 }
 
 .modal-content {
-  background: #E5E5E5;
-  padding: 20px;
-  border-radius: 10px;
-  color: #364F59;
+    background: #E5E5E5;
+    padding: 20px;
+    border-radius: 10px;
+    color: #364F59;
 }
 
 #folderInput {
     display: none;
+}
+
+#selectFolderLink {
+    font-weight: 400;
+    color: #364F59;
+    text-decoration: none;
+}
+
+#selectFolderLink:hover{
+    text-decoration: underline;
+}
+
+.oder {
+    display: inline;
 }

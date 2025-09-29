@@ -34,7 +34,7 @@ const folderInput = document.getElementById('folderInput');
 const folderLink = document.getElementById('selectFolderLink');
 
 let selectedFiles = [];
-
+let folderName = '';
 
 // ==============================
 // Initial UI-Zustand
@@ -137,6 +137,17 @@ async function deleteCurrentDownloadLink() {
 // Upload-Funktionen
 // ==============================
 
+function getUploadedFolderName(files) {
+  if (!files.length) return null;
+
+  const firstPath = files[0].webkitRelativePath;
+  if (firstPath && firstPath.includes('/')) {
+    return firstPath.split('/')[0];
+  }
+
+  return null;
+}
+
 async function uploadSelectedFiles() {
   if (!selectedFiles.length) return;
 
@@ -158,13 +169,26 @@ async function uploadSelectedFiles() {
     if (selectedFiles.length === 1) {
       displayName = selectedFiles[0].name;
     } else if (selectedFiles.length > 1) {
-      // Ermittle wie viele ZIPs es schon gibt (aus aktiven Links)
-      const zipCount = (window.activeLinksList && window.activeLinksList.children)
-        ? Array.from(window.activeLinksList.children).filter(li => li.textContent && li.textContent.toLowerCase().includes('zip')).length + 1
-        : 1;
-      displayName = `zip ${zipCount}.zip`;
+      const folderName = getUploadedFolderName(selectedFiles);
+
+      if (folderName) {
+        displayName = folderName;
+      }
+
+      else {
+        const zipCount = (window.activeLinksList && window.activeLinksList.children)
+          ? Array.from(window.activeLinksList.children).filter(li => li.textContent && li.textContent.toLowerCase().includes('zip')).length + 1
+          : 1;
+        displayName = `zip ${zipCount}`;
+      }
+
+      if (!displayName.toLowerCase().endsWith('.zip')) {
+        displayName += '.zip';
+      }
     }
-  } else {
+  }
+
+  else {
     // Wenn Name eingegeben, Dateiendung anhängen
     if (selectedFiles.length === 1) {
       const orig = selectedFiles[0].name;
@@ -172,7 +196,8 @@ async function uploadSelectedFiles() {
       if (ext && !displayName.toLowerCase().endsWith(ext.toLowerCase())) {
         displayName += ext;
       }
-    } else if (selectedFiles.length > 1) {
+    }
+    else if (selectedFiles.length > 1) {
       if (!displayName.toLowerCase().endsWith('.zip')) {
         displayName += '.zip';
       }
@@ -214,6 +239,7 @@ function openFileExplorer() {
 function handleFileChange(event) {
   if (event.target.files.length > 0) {
     selectedFiles = Array.from(event.target.files);
+    folderName = getUploadedFolderName(selectedFiles);
     updateUIAfterFileSelect();
   }
 }
@@ -234,6 +260,7 @@ function dropHandler(event) {
   const files = event.dataTransfer.files;
   if (files.length > 0) {
     selectedFiles = Array.from(files);
+    folderName = getUploadedFolderName(selectedFiles);
     updateUIAfterFileSelect();
   }
 }
@@ -272,7 +299,25 @@ function updateUIAfterFileSelect() {
   if (!selectedFiles.length) {
     fileResult.textContent = '';
     uploadBtn.classList.add('hidden');
+
+    const displayNameInput = document.querySelector('input[name="displayName"]');
+    if (displayNameInput) {
+      displayNameInput.value = '';
+    }
+
+    const folderNameDisplay = document.getElementById('folderNameDisplay');
+    if (folderNameDisplay) {
+      folderNameDisplay.textContent = '';
+    }
+
     return;
+  }
+
+  const folderNameDisplay = document.getElementById('folderNameDisplay');
+  if (folderNameDisplay) {
+    folderNameDisplay.textContent = folderName
+      ? `Ordner: ${folderName}`
+      : '';
   }
 
   let allValid = true;
@@ -285,10 +330,14 @@ function updateUIAfterFileSelect() {
   });
 
   fileResult.textContent = messages.join('\n');
-  const fileNames = selectedFiles.map(f => f.name);
-  dropzoneText.textContent = fileNames.length === 1
-    ? `${fileNames[0]} ist bereit zum Hochladen.`
-    : `${fileNames.join(', ')} sind bereit zum Hochladen.`;
+  if (folderName) {
+    dropzoneText.textContent = `"${folderName}" ist bereit zum Hochladen.`;
+  } else {
+    const fileNames = selectedFiles.map(f => f.name);
+    dropzoneText.textContent = fileNames.length === 1
+      ? `${fileNames[0]} ist bereit zum Hochladen.`
+      : `${fileNames.join(', ')} sind bereit zum Hochladen.`;
+  }
 
   if (allValid) {
     uploadBtn.classList.remove('hidden');
@@ -297,6 +346,7 @@ function updateUIAfterFileSelect() {
     uploadBtn.classList.add('hidden');
     uploadBtn.classList.remove('inline-block');
   }
+
   downloadUrlLink.href = '';
   downloadUrlLink.textContent = '';
 }
@@ -340,6 +390,7 @@ function resetUIAfterDelete() {
   fileResult.textContent = '';
   dropzoneText.textContent = 'Datei hinein ziehen oder auswählen';
   selectedFiles = [];
+  folderName = '';
   uploadBtn.classList.add('hidden');
   uploadBtn.classList.remove('inline-block');
   fileInput.value = '';
@@ -647,6 +698,7 @@ folderLink.addEventListener('click', function (e) {
 folderInput.addEventListener('change', function (event) {
   if (event.target.files.length > 0) {
     selectedFiles = Array.from(event.target.files);
+    folderName = getUploadedFolderName(selectedFiles);
     updateUIAfterFileSelect();
   }
 });
