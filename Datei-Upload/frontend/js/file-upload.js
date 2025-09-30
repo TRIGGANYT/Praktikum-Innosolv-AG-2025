@@ -532,7 +532,8 @@ function addActiveLinkToList(linkObjOrUrl) {
         if (!response.ok) {
           if (["txt", "csv", "md", "log"].includes(ext)) {
             showTextPreviewNotAvailable();
-          } else {
+          }
+          else {
             showPdfPreviewFallback();
           }
           return;
@@ -701,4 +702,37 @@ folderInput.addEventListener('change', function (event) {
     folderName = getUploadedFolderName(selectedFiles);
     updateUIAfterFileSelect();
   }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const fullscreenBtn = document.getElementById('fullscreen-toggle');
+  const vorschauContainer = document.getElementById('vorschau');
+  const icon = fullscreenBtn.querySelector('i');
+
+  if (!fullscreenBtn || !vorschauContainer) return;
+
+  fullscreenBtn.addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+      vorschauContainer.requestFullscreen()
+        .then(() => {
+          icon.classList.replace('fa-expand', 'fa-compress');
+          fullscreenBtn.title = 'Vollbild beenden';
+        })
+        .catch(err => console.error('Vollbild-Fehler:', err));
+    } else {
+      document.exitFullscreen()
+        .then(() => {
+          icon.classList.replace('fa-compress', 'fa-expand');
+          fullscreenBtn.title = 'Vollbild anzeigen';
+        });
+    }
+  });
+
+  // Optional: automatisch Icon zurückwechseln bei ESC
+  document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement) {
+      icon.classList.replace('fa-compress', 'fa-expand');
+      fullscreenBtn.title = 'Vollbild anzeigen';
+    }
+  });
 });

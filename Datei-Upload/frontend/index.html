@@ -41,11 +41,11 @@
                 <div class="file-icon"><i class="fa-regular fa-file-lines"></i></div>
 
                 <input type="file" id="fileInput" multiple />
-                <input type="file" id="folderInput" webkitdirectory directory multiple/>
+                <input type="file" id="folderInput" webkitdirectory directory multiple />
                 <button id="customFileBtn">Dateien auswählen</button>
                 <button id="upload-btn" type="button">Dateien hochladen</button><br>
                 <p class="oder">Oder </p><a href="#" id="selectFolderLink">Verzeichnis hinzufügen</a>
-                
+
                 <p id="file-result"></p>
             </div>
         </div>
@@ -75,6 +75,9 @@
             <div id="vorschau">
                 <div id="pdf-preview-fallback"></div>
                 <h1>Dateivorschau für PDF's</h1>
+                <button id="fullscreen-toggle" class="fullscreen-btn" title="Vollbild anzeigen">
+                    <i class="fa-solid fa-expand"></i>
+                </button>
                 <iframe id="pdf-preview-frame" frameborder="0"></iframe>
             </div>
         </div>
