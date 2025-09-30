@@ -1,7 +1,8 @@
 @import url('./base.css');
 @import url('./layout.css');
 @import url('./components.css');
-@import url('./mobile.css');
-@import url('./tablet.css');
 @import url('./desktop.css');
+@import url('./tablet.css');
+@import url('./big-mobile.css');
+@import url('./small-mobile.css');
 

@@ -1,4 +1,4 @@
-@media (max-width: 480px) {
+@media (max-width: 320px) {
 
     body,
     html {
@@ -8,7 +8,6 @@
         display: flex;
         justify-content: center;
     }
-
 
     body {
         background: #F26447;
@@ -23,22 +22,35 @@
         gap: 15px;
         margin: 0;
         padding: 15px;
+        width: 100%;
+        max-width: 320px;
+        box-sizing: border-box;
     }
 
     /* Settings */
 
     .settings {
-        max-width: 250px;
-        height: 210px;
+        width: 100%;
+        max-width: 290px;
+        height: auto;
+        min-height: 210px;
         padding: 6px 4px 4px 30px;
         border-radius: 8px;
+        box-sizing: border-box;
+        margin: 0 auto;
     }
 
     .settings-bg {
-        max-width: 275px;
-        height: 230px;
+        width: 100%;
+        max-width: 320px;
+        height: auto;
+        min-height: 230px;
         border-radius: 14px;
-        padding: 5px;
+        padding: 15px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        margin: 0 auto;
     }
 
     #displayNameInput,
@@ -48,8 +60,10 @@
         border: 1px solid #666666;
         border-radius: 9px;
         margin: 30px 0;
-        width: 160px;
+        width: 100%;
+        max-width: 160px;
         height: 32px;
+        box-sizing: border-box;
     }
 
     #displayNameInput {
@@ -64,10 +78,12 @@
     label[for="link-expiration"],
     #link-expiration {
         font-size: 14px;
-        width: 160px;
+        width: 100%;
+        max-width: 160px;
         margin-top: 10px;
         padding: 5px 0px;
         border-radius: 9px;
+        box-sizing: border-box;
     }
 
     #link-expiration option {
@@ -86,18 +102,28 @@
     /* Dropzone */
 
     #dropzone {
-        width: 250px;
-        height: 140px;
+        width: 100%;
+        max-width: 290px;
+        height: 180px;
         padding: 5px 15px 5px 15px;
         position: relative;
         border: solid 1px #BFBFB0;
+        box-sizing: border-box;
+        margin: 0 auto;
     }
 
     .dropzone-bg {
-        max-width: 275px;
-        height: 160px;
-        padding: 5px;
+        width: 100%;
+        max-width: 320px;
+        height: auto;
+        min-height: 200px;
+        padding: 15px;
         border-radius: 14px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
     }
 
     #dropzone-text {
@@ -146,18 +172,24 @@
     /* download-area */
 
     .download-area-bg {
-        padding: 5px;
-        max-width: 275px;
+        width: 100%;
+        max-width: 320px;
         min-height: 250px;
         border-radius: 14px;
         padding: 15px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        margin: 0 auto;
     }
 
     #download-area {
+        width: 100%;
+        max-width: 290px;
+        min-height: 250px;
         padding: 5px 15px 5px 15px;
         border-radius: 9px;
-        width: 250px;
-        min-height: 250px;
+        box-sizing: border-box;
     }
 
     h1 {
@@ -219,10 +251,10 @@
     /* QR-Code */
 
     .qr-bg {
-        grid-column: 3;
-        grid-row: 2;
-        width: 275px;
-        height: 275px;
+        width: 100%;
+        max-width: 320px;
+        height: auto;
+        aspect-ratio: 1;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -230,46 +262,63 @@
         backdrop-filter: blur(16px);
         border-radius: 24px;
         padding: 15px;
+        box-sizing: border-box;
+        margin: 0 auto;
+    }
+
+    #qr-box {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     #qr-box img {
-        width: 250px;
-        height: 250px;
+        width: 100%;
+        max-width: 290px;
+        height: auto;
+        aspect-ratio: 1;
         border-radius: 9px;
-        justify-content: center;
     }
 
     /* Preview */
 
+    .vorschau-bg {
+        width: 100%;
+        max-width: 320px;
+        height: auto;
+        min-height: 500px;
+        background: rgba(177, 177, 177, 0.5);
+        backdrop-filter: blur(16px);
+        border-radius: 24px;
+        padding: 15px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+    }
+
+    #pdf-preview-container {
+        width: 100%;
+        max-width: 290px;
+        height: auto;
+        margin-top: 0px;
+        text-align: center;
+    }
+
     #pdf-preview-frame {
-        width: 250px;
+        width: 100%;
+        max-width: 290px;
         height: 425px;
         border: 1px solid #BFBFB0;
         border-radius: 10px;
         background: #D4D4CA;
     }
 
-    #pdf-preview-container {
-        width: 250px;
-        height: 425px;
-        margin-top: 0px;
-        text-align: center;
-    }
-
     #pdf-preview-fallback {
         display: none;
         color: #b00;
-    }
-
-    .vorschau-bg {
-        width: 275px;
-        height: 500px;
-        background: rgba(177, 177, 177, 0.5);
-        backdrop-filter: blur(16px);
-        border-radius: 24px;
-        padding: 15px;
-        align-content: center;
-        justify-items: center;
     }
 
 }
