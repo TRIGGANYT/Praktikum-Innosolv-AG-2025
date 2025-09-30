@@ -124,7 +124,7 @@ input[type="password"]::placeholder {
 ====================== */
 #pdf-preview-frame {
     width: 520px;
-    height: 800px;
+    height: 775px;
     border: 1px solid #BFBFB0;
     border-radius: 10px;
     background: #D4D4CA;

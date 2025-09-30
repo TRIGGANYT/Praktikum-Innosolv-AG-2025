@@ -1,0 +1,275 @@
+@media (max-width: 480px) {
+
+    body,
+    html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+
+    body {
+        background: #F26447;
+        background-repeat: no-repeat;
+        background-position: top center;
+    }
+
+    .grid-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        margin: 0;
+        padding: 15px;
+    }
+
+    /* Settings */
+
+    .settings {
+        max-width: 250px;
+        height: 210px;
+        padding: 6px 4px 4px 30px;
+        border-radius: 8px;
+    }
+
+    .settings-bg {
+        max-width: 275px;
+        height: 230px;
+        border-radius: 14px;
+        padding: 5px;
+    }
+
+    #displayNameInput,
+    input[type="password"],
+    .password-input,
+    .download-start {
+        border: 1px solid #666666;
+        border-radius: 9px;
+        margin: 30px 0;
+        width: 160px;
+        height: 32px;
+    }
+
+    #displayNameInput {
+        margin: 0;
+    }
+
+    .password-input::placeholder {
+        font-size: 14px;
+    }
+
+    label,
+    label[for="link-expiration"],
+    #link-expiration {
+        font-size: 14px;
+        width: 160px;
+        margin-top: 10px;
+        padding: 5px 0px;
+        border-radius: 9px;
+    }
+
+    #link-expiration option {
+        font-size: 14px;
+        color: #364F59;
+        font-weight: 300;
+    }
+
+    button,
+    select {
+        border: 1px solid #666666;
+        margin: 0;
+        box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Dropzone */
+
+    #dropzone {
+        width: 250px;
+        height: 140px;
+        padding: 5px 15px 5px 15px;
+        position: relative;
+        border: solid 1px #BFBFB0;
+    }
+
+    .dropzone-bg {
+        max-width: 275px;
+        height: 160px;
+        padding: 5px;
+        border-radius: 14px;
+    }
+
+    #dropzone-text {
+        margin-top: 5px;
+        font-size: 14px;
+    }
+
+    .file-icon {
+        font-size: 30px;
+        margin: 5px 0px;
+    }
+
+    #customFileBtn {
+        font-size: 10px;
+        padding: 5px 5px;
+        border-radius: 8px;
+        border: solid 1px #666666;
+    }
+
+    #upload-btn {
+        font-size: 10px;
+        padding: 5px 5px;
+        border-radius: 8px;
+    }
+
+    #dropzone,
+    button,
+    select {
+        border: 1px solid #666666;
+        border-radius: 8px;
+        padding: 4px 12px;
+        margin: 0px 0;
+    }
+
+    #selectFolderLink {
+        font-size: 12px;
+        font-weight: 400;
+        text-decoration: none;
+    }
+
+    .oder {
+        font-size: 12px;
+        display: inline;
+    }
+
+    /* download-area */
+
+    .download-area-bg {
+        padding: 5px;
+        max-width: 275px;
+        min-height: 250px;
+        border-radius: 14px;
+        padding: 15px;
+    }
+
+    #download-area {
+        padding: 5px 15px 5px 15px;
+        border-radius: 9px;
+        width: 250px;
+        min-height: 250px;
+    }
+
+    h1 {
+        color: #364F59;
+        font-size: 20px;
+    }
+
+    #active-links {
+        list-style: none;
+        padding: 0;
+    }
+
+    #active-links li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0;
+        flex-wrap: nowrap;
+    }
+
+    #active-links li a.download-link {
+        flex: 1 1 auto;
+        margin: 0px;
+        color: #666666;
+        font-size: 10px;
+        transition: color 0.15s;
+        text-decoration: none;
+        overflow: hidden;
+    }
+
+    #active-links li a.download-link:hover {
+        text-decoration: underline;
+    }
+
+    #download-area .button-group {
+        display: none;
+    }
+
+    .password-btn,
+    .qr-btn,
+    .copy-btn,
+    .delete-btn {
+        font-family: 'Interstate', Arial, Helvetica, sans-serif;
+        font-weight: 300;
+        font-size: 15px;
+        color: #364F59;
+        background: #E5E5E5;
+        border: 1px solid transparent;
+        border-radius: 9px;
+        padding: 4px 6px;
+        margin: 0px;
+        box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.25);
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* QR-Code */
+
+    .qr-bg {
+        grid-column: 3;
+        grid-row: 2;
+        width: 275px;
+        height: 275px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(177, 177, 177, 0.5);
+        backdrop-filter: blur(16px);
+        border-radius: 24px;
+        padding: 15px;
+    }
+
+    #qr-box img {
+        width: 250px;
+        height: 250px;
+        border-radius: 9px;
+        justify-content: center;
+    }
+
+    /* Preview */
+
+    #pdf-preview-frame {
+        width: 250px;
+        height: 425px;
+        border: 1px solid #BFBFB0;
+        border-radius: 10px;
+        background: #D4D4CA;
+    }
+
+    #pdf-preview-container {
+        width: 250px;
+        height: 425px;
+        margin-top: 0px;
+        text-align: center;
+    }
+
+    #pdf-preview-fallback {
+        display: none;
+        color: #b00;
+    }
+
+    .vorschau-bg {
+        width: 275px;
+        height: 500px;
+        background: rgba(177, 177, 177, 0.5);
+        backdrop-filter: blur(16px);
+        border-radius: 24px;
+        padding: 15px;
+        align-content: center;
+        justify-items: center;
+    }
+
+}
