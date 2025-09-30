@@ -157,8 +157,6 @@ input[type="password"]::placeholder {
     border: solid 2px #50a0bf;
 }
 
-
-/* Basis: Vorschau-Vollbild-Stil */
 #vorschau:fullscreen {
     background: #fff;
     padding: 0;
@@ -167,7 +165,6 @@ input[type="password"]::placeholder {
     flex-direction: column;
 }
 
-/* Vollbild: iframe füllt alles */
 #vorschau:fullscreen iframe {
     flex-grow: 1;
     width: 100%;
@@ -175,13 +172,11 @@ input[type="password"]::placeholder {
     border: none;
 }
 
-/* Optional: Vollbild → Header + Fallbacktext verstecken */
 #vorschau:fullscreen h1,
 #vorschau:fullscreen #pdf-preview-fallback {
     display: none;
 }
 
-/* Vollbild-Button nach vorne holen */
 #vorschau:fullscreen .fullscreen-btn {
     position: absolute;
     top: 10px;

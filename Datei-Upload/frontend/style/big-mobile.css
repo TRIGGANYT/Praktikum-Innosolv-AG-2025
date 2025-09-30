@@ -320,4 +320,43 @@
         color: #b00;
     }
 
+        .fullscreen-btn {
+        position: absolute;
+        top: 25px;
+        right: 15px;
+        background-color: #E5E5E5;
+        font-size: 15px;
+        cursor: pointer;
+        z-index: 1000;
+        border-color: #364F59;
+    }
+
+    #vorschau:fullscreen {
+        width: 100vw;
+        height: 100vh;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #vorschau:fullscreen iframe {
+        flex-grow: 1;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    #vorschau:fullscreen h1,
+    #vorschau:fullscreen #pdf-preview-fallback {
+        display: none;
+    }
+
+    #vorschau:fullscreen .fullscreen-btn {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        z-index: 9999;
+        color: #364F59;
+    }
 }
