@@ -1,4 +1,4 @@
-@media (min-width: 321px) and (max-width: 425px) {
+@media (min-width: 426px) and (max-width: 616px) {
 
     body,
     html {
@@ -19,11 +19,11 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 15px;
+        gap: 20px;
         margin: 0;
-        padding: 15px;
+        padding: 20px;
         width: 100%;
-        max-width: 425px;
+        max-width: 616px;
         box-sizing: border-box;
     }
 
@@ -31,18 +31,17 @@
 
     .settings {
         width: 100%;
-        max-width: 380px;
+        max-width: 100%;
         height: auto;
         min-height: 210px;
         padding: 6px 4px 4px 30px;
         border-radius: 8px;
         box-sizing: border-box;
-        margin: 0 auto;
     }
 
     .settings-bg {
         width: 100%;
-        max-width: 405px;
+        max-width: 100%;
         height: auto;
         min-height: 230px;
         border-radius: 14px;
@@ -50,7 +49,6 @@
         box-sizing: border-box;
         display: flex;
         justify-content: center;
-        margin: 0 auto;
     }
 
     #displayNameInput,
@@ -103,48 +101,47 @@
 
     #dropzone {
         width: 100%;
-        max-width: 380px;
-        height: 140px;
+        max-width: 100%;
+        height: 200px;
         padding: 5px 15px 5px 15px;
         position: relative;
         border: solid 1px #BFBFB0;
         box-sizing: border-box;
-        margin: 0 auto;
     }
 
     .dropzone-bg {
         width: 100%;
-        max-width: 405px;
-        height: 160px;
+        max-width: 100%;
+        height: auto;
+        min-height: 230px;
         padding: 15px;
         border-radius: 14px;
         box-sizing: border-box;
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: 0 auto;
     }
 
     #dropzone-text {
         margin-top: 5px;
-        font-size: 14px;
+        font-size: 15px;
     }
 
     .file-icon {
-        font-size: 30px;
+        font-size: 35px;
         margin: 5px 0px;
     }
 
     #customFileBtn {
-        font-size: 10px;
-        padding: 5px 5px;
+        font-size: 11px;
+        padding: 6px 8px;
         border-radius: 8px;
         border: solid 1px #666666;
     }
 
     #upload-btn {
-        font-size: 10px;
-        padding: 5px 5px;
+        font-size: 11px;
+        padding: 6px 8px;
         border-radius: 8px;
     }
 
@@ -158,13 +155,13 @@
     }
 
     #selectFolderLink {
-        font-size: 12px;
+        font-size: 13px;
         font-weight: 400;
         text-decoration: none;
     }
 
     .oder {
-        font-size: 12px;
+        font-size: 13px;
         display: inline;
     }
 
@@ -172,20 +169,19 @@
 
     .download-area-bg {
         width: 100%;
-        max-width: 405px;
-        min-height: 250px;
+        max-width: 100%;
+        min-height: 300px;
         border-radius: 14px;
         padding: 15px;
         box-sizing: border-box;
         display: flex;
         justify-content: center;
-        margin: 0 auto;
     }
 
     #download-area {
         width: 100%;
-        max-width: 380px;
-        min-height: 250px;
+        max-width: 100%;
+        min-height: 300px;
         padding: 5px 15px 5px 15px;
         border-radius: 9px;
         box-sizing: border-box;
@@ -193,7 +189,7 @@
 
     h1 {
         color: #364F59;
-        font-size: 20px;
+        font-size: 22px;
     }
 
     #active-links {
@@ -205,7 +201,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0;
+        padding: 5px 0;
         flex-wrap: nowrap;
     }
 
@@ -213,7 +209,7 @@
         flex: 1 1 auto;
         margin: 0px;
         color: #666666;
-        font-size: 10px;
+        font-size: 12px;
         transition: color 0.15s;
         text-decoration: none;
         overflow: hidden;
@@ -227,18 +223,24 @@
         display: none;
     }
 
+    #active-links .button-group {
+        display: flex;
+        gap: 5px;
+        flex-shrink: 0;
+    }
+
     .password-btn,
     .qr-btn,
     .copy-btn,
     .delete-btn {
         font-family: 'Interstate', Arial, Helvetica, sans-serif;
         font-weight: 300;
-        font-size: 15px;
+        font-size: 16px;
         color: #364F59;
         background: #E5E5E5;
         border: 1px solid transparent;
         border-radius: 9px;
-        padding: 4px 6px;
+        padding: 5px 8px;
         margin: 0px;
         box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.25);
         cursor: pointer;
@@ -250,8 +252,9 @@
     /* QR-Code */
 
     .qr-bg {
-        width: 100%;
-        max-width: 405px;
+        align-self: center;
+        width: 60%;
+        max-width: 60%;
         height: auto;
         aspect-ratio: 1;
         display: flex;
@@ -262,7 +265,6 @@
         border-radius: 24px;
         padding: 15px;
         box-sizing: border-box;
-        margin: 0 auto;
     }
 
     #qr-box {
@@ -274,7 +276,7 @@
 
     #qr-box img {
         width: 100%;
-        max-width: 380px;
+        max-width: 100%;
         height: auto;
         aspect-ratio: 1;
         border-radius: 9px;
@@ -282,24 +284,11 @@
 
     /* Preview */
 
-    #vorschau {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        position: relative;
-    }
-
-    #vorschau h1 {
-        margin: 0 0 10px 0;
-        padding: 0;
-    }
-
     .vorschau-bg {
         width: 100%;
-        max-width: 405px;
+        max-width: 100%;
         height: auto;
-        min-height: 500px;
+        min-height: 550px;
         background: rgba(177, 177, 177, 0.5);
         backdrop-filter: blur(16px);
         border-radius: 24px;
@@ -308,12 +297,11 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: 0 auto;
     }
 
     #pdf-preview-container {
         width: 100%;
-        max-width: 380px;
+        max-width: 100%;
         height: auto;
         margin-top: 0px;
         text-align: center;
@@ -321,8 +309,8 @@
 
     #pdf-preview-frame {
         width: 100%;
-        max-width: 375px;
-        height: 425px;
+        max-width: 100%;
+        height: 480px;
         border: 1px solid #BFBFB0;
         border-radius: 10px;
         background: #D4D4CA;
@@ -371,5 +359,69 @@
         right: 20px;
         z-index: 9999;
         color: #364F59;
+    }
+
+    #vorschau {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    #vorschau h1 {
+        margin: 0 0 10px 0;
+        padding: 0;
+    }
+
+    /* Delete Confirmation Modal */
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    .modal.hidden {
+        display: none;
+    }
+
+    .modal-content {
+        background: #E5E5E5;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        max-width: 350px;
+    }
+
+    .modal-content p {
+        color: #364F59;
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    .modal-content button {
+        font-family: 'Interstate', Arial, Helvetica, sans-serif;
+        font-weight: 300;
+        font-size: 14px;
+        color: #364F59;
+        background: #D4D4CA;
+        border: 1px solid #666666;
+        border-radius: 8px;
+        padding: 8px 16px;
+        margin: 0 5px;
+        cursor: pointer;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-content button:hover {
+        background: #BFBFB0;
     }
 }
