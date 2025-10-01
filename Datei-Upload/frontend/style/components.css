@@ -102,6 +102,10 @@ input[type="password"]::placeholder {
 /* =====================
    Dropzone
 ====================== */
+#dropzone.dragover{
+    border: 2px dashed #666666;
+}
+
 #dropzone {
     color: #364F59;
     background-color: #D4D4CA;
