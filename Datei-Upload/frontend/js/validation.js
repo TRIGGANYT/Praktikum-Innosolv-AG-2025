@@ -1,6 +1,6 @@
 // validation.js
 
-const allowedExtensions = ["jpg", "jpeg", "png", "gif", "pdf", "doc", "docx", "xls", "xlsx", "txt"];
+const allowedExtensions = ["jpg", "jpeg", "png", "gif", "pdf", "doc", "docx", "xls", "xlsx", "txt", "pptx"];
 
 export function isAllowedFileType(fileName) {
   const fileExtension = fileName.split('.').pop().toLowerCase();
@@ -19,5 +19,5 @@ export function validateFile(file) {
     return { valid: false, message: `${fileName}: Zu groß. Wählen Sie eine Datei kleiner als 50MB.` };
   }
 
-  return { valid: true, message: `${fileName} (${fileMb.toFixed(1)} MB) bereit zum Hochladen.` };
+  return { valid: true, };
 }
