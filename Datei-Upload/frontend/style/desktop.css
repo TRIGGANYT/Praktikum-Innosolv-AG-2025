@@ -1,4 +1,10 @@
 /* =====================
+   RESPONSIVE DESKTOP CSS (1025px+)
+====================== */
+
+@media (min-width: 1025px) {
+
+/* =====================
    Fonts
 ====================== */
 @font-face {
@@ -26,6 +32,13 @@
     box-sizing: border-box;
 }
 
+body,
+html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
 body {
     font-family: 'Interstate', Arial, Helvetica, sans-serif;
     font-weight: 300;
@@ -41,30 +54,278 @@ h1 {
     font-size: 32px;
 }
 
+/* =====================
+   Grid Layout - Responsive
+====================== */
+.grid-container {
+    display: grid;
+    grid-template-columns: minmax(350px, 450px) minmax(450px, 1fr) minmax(350px, 430px) minmax(400px, 560px);
+    grid-template-rows: auto auto;
+    gap: 24px;
+    padding: 24px;
+    margin-top: 80px;
+    width: 100%;
+    max-width: 2400px;
+    margin-left: auto;
+    margin-right: auto;
+}
 
+.settings-bg,
+.dropzone-bg,
+.download-area-bg,
+.qr-bg,
+.vorschau-bg {
+    align-self: end;
+}
 
-/* Utility-Klassen für JS-Logik */
-.hidden {
-    display: none !important;
+/* =====================
+   Settings - Responsive
+====================== */
+.settings-bg {
+    grid-column: 1;
+    grid-row: 1;
+    align-content: center;
+    justify-items: center;
+    width: 100%;
+    height: auto;
+    min-height: 290px;
+    background: rgba(177, 177, 177, 0.5);
+    backdrop-filter: blur(16px);
+    border-radius: 24px;
+    padding: 15px;
 }
-.inline-block {
-    display: inline-block !important;
+
+.settings {
+    background-color: #D4D4CA;
+    width: 100%;
+    height: 100%;
+    padding: 6px 4px 4px 30px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
-.mb-8 {
-    margin-bottom: 8px !important;
+
+/* =====================
+   Dropzone - Responsive
+====================== */
+.dropzone-bg {
+    grid-column: 2 / span 2;
+    grid-row: 1;
+    width: 100%;
+    height: auto;
+    min-height: 430px;
+    background: rgba(177, 177, 177, 0.5);
+    backdrop-filter: blur(16px);
+    border-radius: 24px;
+    padding: 15px;
+    align-content: center;
+    justify-items: center;
 }
-.ml-8 {
-    margin-left: 8px !important;
+
+#dropzone.dragover {
+    border: 2px dashed #666666;
 }
-.ml-12 {
-    margin-left: 8px !important;
+
+#dropzone {
+    color: #364F59;
+    background-color: #D4D4CA;
+    border: 1px solid #BFBFB0;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    height: auto;
+    min-height: 400px;
+    padding: 30px 52px 40px 52px;
+    position: relative;
 }
-.disabled-link {
-    opacity: 0.6;
-    pointer-events: none;
+
+#dropzone-text {
+    font-size: 20px;
 }
-.visible {
-    display: block !important;
+
+.file-icon {
+    font-size: 70px;
+    color: #364F59;
+    margin: 20px 0;
+}
+
+/* =====================
+   Download Area - Responsive
+====================== */
+.download-area-bg {
+    grid-column: 1 / span 2;
+    grid-row: 2;
+    align-content: center;
+    justify-items: center;
+    width: 100%;
+    min-height: 430px;
+    background: rgba(177, 177, 177, 0.5);
+    backdrop-filter: blur(16px);
+    border-radius: 24px;
+    padding: 15px;
+}
+
+#download-area {
+    padding: 30px 50px 30px 50px;
+    background-color: #D4D4CA;
+    border: solid 1px #BFBFB0;
+    border-radius: 9px;
+    width: 100%;
+    min-height: 390px;
+}
+
+#active-links {
+    list-style: none;
+    padding-left: 0;
+}
+
+#active-links li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0px;
+    padding: 0;
+}
+
+#active-links li a.download-link {
+    flex: 1;
+    margin-right: 150px;
+    color: #666666;
+    font-size: 20px;
+    transition: color 0.15s;
+    text-decoration: none;
+}
+
+#active-links li a.download-link:hover {
+    text-decoration: underline;
+}
+
+#download-area .button-group {
+    display: none;
+}
+
+#active-links .button-group {
+    display: flex;
+    gap: 5px;
+    flex-shrink: 0;
+}
+
+/* =====================
+   QR Code - Responsive
+====================== */
+.qr-bg {
+    grid-column: 3;
+    grid-row: 2;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(177, 177, 177, 0.5);
+    backdrop-filter: blur(16px);
+    border-radius: 24px;
+    padding: 15px;
+}
+
+#qr-box {
+    border-radius: 9px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#qr-box img {
+    border-radius: 9px;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+}
+
+/* =====================
+   PDF Vorschau - Responsive
+====================== */
+.vorschau-bg {
+    grid-column: 4;
+    grid-row: 1 / span 2;
+    width: 100%;
+    height: auto;
+    min-height: 885px;
+    background: rgba(177, 177, 177, 0.5);
+    backdrop-filter: blur(16px);
+    border-radius: 24px;
+    padding: 15px;
+    align-content: center;
+    justify-items: center;
+}
+
+#pdf-preview-frame {
+    width: 100%;
+    height: auto;
+    min-height: 775px;
+    border: 1px solid #BFBFB0;
+    border-radius: 10px;
+    background: #D4D4CA;
+}
+
+#pdf-preview-container {
+    width: 100%;
+    height: auto;
+    margin-top: 0px;
+    text-align: center;
+}
+
+#pdf-preview-fallback {
+    display: none;
+    color: #b00;
+}
+
+.fullscreen-btn {
+    position: absolute;
+    top: 25px;
+    right: 20px;
+    background-color: #E5E5E5;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 1000;
+    border-color: #364F59;
+}
+
+.fullscreen-btn:hover {
+    border: solid 2px #50a0bf;
+}
+
+#vorschau:fullscreen {
+    background: #fff;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100vw !important;
+    height: 100vh !important;
+}
+
+#vorschau:fullscreen iframe {
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+#vorschau:fullscreen h1,
+#vorschau:fullscreen #pdf-preview-fallback {
+    display: none;
+}
+
+#vorschau:fullscreen .fullscreen-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    z-index: 9999;
+    color: #364F59;
 }
 
 /* =====================
@@ -169,159 +430,8 @@ input[type="password"]::placeholder {
 }
 
 /* =====================
-   Dropzone
-====================== */
-#dropzone.dragover{
-    border: 2px dashed #666666;
-}
-
-#dropzone {
-    color: #364F59;
-    background-color: #D4D4CA;
-    border: 1px solid #BFBFB0;
-    border-radius: 8px;
-    text-align: center;
-    cursor: pointer;
-    width: 730px;
-    height: 400px;
-    padding: 30px 52px 40px 52px;
-    position: relative;
-}
-
-#dropzone-text {
-    font-size: 20px;
-}
-
-/* =====================
-   PDF Vorschau
-====================== */
-#pdf-preview-frame {
-    width: 520px;
-    height: 775px;
-    border: 1px solid #BFBFB0;
-    border-radius: 10px;
-    background: #D4D4CA;
-}
-
-#pdf-preview-container {
-    width: 520px;
-    height: 640px;
-    margin-top: 0px;
-    text-align: center;
-}
-
-#pdf-preview-fallback {
-    display: none;
-    color: #b00;
-}
-
-.fullscreen-btn {
-    position: absolute;
-    top: 25px;
-    right: 20px;
-    background-color: #E5E5E5;
-    font-size: 1.5rem;
-    cursor: pointer;
-    z-index: 1000;
-    border-color: #364F59;
-}
-
-.fullscreen-btn:hover {
-    border: solid 2px #50a0bf;
-}
-
-#vorschau:fullscreen {
-    background: #fff;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-#vorschau:fullscreen iframe {
-    flex-grow: 1;
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-
-#vorschau:fullscreen h1,
-#vorschau:fullscreen #pdf-preview-fallback {
-    display: none;
-}
-
-#vorschau:fullscreen .fullscreen-btn {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    z-index: 9999;
-    color: #364F59;
-}
-
-
-/* =====================
-   Downloadbereich
-====================== */
-#download-area {
-    padding: 30px 50px 30px 50px;
-    background-color: #D4D4CA;
-    border: solid 1px #BFBFB0;
-    border-radius: 9px;
-    width: 740px;
-    min-height: 390px;
-}
-
-#active-links {
-    list-style: none;
-    padding-left: 0;
-}
-
-#active-links li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0px;
-    padding: 0;
-}
-
-#active-links li a.download-link {
-    flex: 1;
-    margin-right: 150px;
-    color: #666666;
-    font-size: 20px;
-    transition: color 0.15s;
-    text-decoration: none;
-}
-
-#active-links li a.download-link:hover {
-    text-decoration: underline;
-}
-
-#download-area .button-group {
-    display: none;
-}
-
-/* =====================
-   Settings
-====================== */
-
-.settings {
-    background-color: #D4D4CA;
-    width: 415px;
-    height: 260px;
-    padding: 6px 4px 4px 30px;
-    border-radius: 8px;
-}
-
-/* =====================
    Icons & Buttons
 ====================== */
-.file-icon {
-    font-size: 70px;
-    color: #364F59;
-    margin: 20px 0;
-}
-
 .password-btn,
 .qr-btn,
 .copy-btn,
@@ -381,29 +491,6 @@ input[type="password"]::placeholder {
 }
 
 /* =====================
-   QR Box
-====================== */
-#qr-box {
-    border-radius: 9px;
-}
-
-#qr-box img {
-    border-radius: 9px;
-}
-
-/* =====================
-   Passwortseite
-====================== */
-.password-grid {
-    height: 100vh;
-    margin: 0;
-    display: grid;
-    place-items: center;
-}
-
-
-
-/* =====================
    Modal
 ====================== */
 .modal {
@@ -417,6 +504,11 @@ input[type="password"]::placeholder {
     justify-content: center;
     align-items: center;
     color: #364F59;
+    z-index: 9999;
+}
+
+.modal.hidden {
+    display: none;
 }
 
 .modal-content {
@@ -424,6 +516,47 @@ input[type="password"]::placeholder {
     padding: 20px;
     border-radius: 10px;
     color: #364F59;
+    max-width: 400px;
+}
+
+.modal-content p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.modal-content button {
+    font-size: 16px;
+    padding: 10px 20px;
+}
+
+.modal-content button:hover {
+    background: #BFBFB0;
+}
+
+/* =====================
+   Utility-Klassen
+====================== */
+.hidden {
+    display: none !important;
+}
+.inline-block {
+    display: inline-block !important;
+}
+.mb-8 {
+    margin-bottom: 8px !important;
+}
+.ml-8 {
+    margin-left: 8px !important;
+}
+.ml-12 {
+    margin-left: 8px !important;
+}
+.disabled-link {
+    opacity: 0.6;
+    pointer-events: none;
+}
+.visible {
+    display: block !important;
 }
 
 /* =====================
@@ -457,86 +590,11 @@ input[type="password"]::placeholder {
     display: inline;
 }
 
-.grid-container {
+.password-grid {
+    height: 100vh;
+    margin: 0;
     display: grid;
-    grid-template-columns: auto auto auto auto;
-    grid-template-rows: auto auto;
-    gap: 24px;
-    padding: 24px;
-    margin-top: 80px;
+    place-items: center;
 }
 
-.settings-bg,
-.dropzone-bg,
-.download-area-bg,
-.qr-bg,
-.vorschau-bg {
-    align-self: end;
-}
-
-.settings-bg {
-    grid-column: 1;
-    grid-row: 1;
-    align-content: center;
-    justify-items: center;
-    width: 450px;
-    height: 290px;
-    background: rgba(177, 177, 177, 0.5);
-    backdrop-filter: blur(16px);
-    border-radius: 24px;
-    padding: 15px;
-}
-
-.dropzone-bg {
-    grid-column: 2 / span 3;
-    grid-row: 1;
-    width: 770px;
-    height: 430px;
-    background: rgba(177, 177, 177, 0.5);
-    backdrop-filter: blur(16px);
-    border-radius: 24px;
-    padding: 15px;
-    align-content: center;
-    justify-items: center;
-}
-
-.download-area-bg {
-    grid-column: 1 / span 2;
-    grid-row: 2;
-    align-content: center;
-    justify-items: center;
-    padding: 24px;
-    width: 790px;
-    min-height: 430px;
-    background: rgba(177, 177, 177, 0.5);
-    backdrop-filter: blur(16px);
-    border-radius: 24px;
-    padding: 15px;
-}
-
-.qr-bg {
-    grid-column: 3;
-    grid-row: 2;
-    width: 430px;
-    height: 430px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgba(177, 177, 177, 0.5);
-    backdrop-filter: blur(16px);
-    border-radius: 24px;
-    padding: 15px;
-}
-
-.vorschau-bg {
-    grid-column: 4;
-    grid-row: 1 / span 2;
-    width: 560px;
-    height: 885px;
-    background: rgba(177, 177, 177, 0.5);
-    backdrop-filter: blur(16px);
-    border-radius: 24px;
-    padding: 15px;
-    align-content: center;
-    justify-items: center;
 }
