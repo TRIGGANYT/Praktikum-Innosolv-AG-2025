@@ -88,6 +88,15 @@ export function updateUIAfterUpload(downloadLink) {
   qrcodeBtn.classList.add('inline-block');
   uploadBtn.classList.add('hidden');
 
+  const passwordInput = document.querySelector('input[name="password"]');
+  const copyPasswordBtn = document.getElementById('password-btn');
+  if (passwordInput && passwordInput.value && copyPasswordBtn) {
+    copyPasswordBtn.classList.remove('hidden');
+    copyPasswordBtn.classList.add('inline-block');
+  } else if (copyPasswordBtn) {
+    copyPasswordBtn.classList.add('hidden');
+  }
+
   if (typeof generateQRCode === 'function') {
     generateQRCode(downloadLink);
   }
@@ -97,11 +106,10 @@ export function updateUIAfterUpload(downloadLink) {
   dropzoneText.textContent = 'Datei(en) hochgeladen.';
   selectedFiles = [];
 
-  const passwordInput = document.querySelector('input[name="password"]');
   if (passwordInput) {
     passwordInput.value = '';
   }
-  resetUIAfterDelete();
+    window.location.reload();
 }
 
 export function resetUIAfterDelete() {
@@ -112,4 +120,10 @@ export function resetUIAfterDelete() {
   uploadBtn.classList.add('hidden');
   uploadBtn.classList.remove('inline-block');
   fileInput.value = '';
+
+  const copyPasswordBtn = document.getElementById('password-btn');
+  if (copyPasswordBtn) {
+    copyPasswordBtn.classList.add('hidden');
+    copyPasswordBtn.classList.remove('inline-block');
+  }
 }
