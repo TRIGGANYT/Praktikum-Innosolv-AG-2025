@@ -1,21 +1,16 @@
 /* =====================
-   Formularelemente & Buttons
+   BASE STYLES - Für alle Größen
 ====================== */
-#customFileBtn {
-    font-size: 16px;
-}
 
+/* Formularelemente & Buttons - Base */
 button,
 select {
     font-family: 'Interstate';
     font-weight: 300;
-    font-size: 14px;
     color: rgb(54, 79, 89);
     background: #E5E5E5;
     border: 2px solid #666666;
     border-radius: 13px;
-    padding: 8px 24px;
-    margin: 6px 0;
     box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.25);
     outline: none;
     cursor: pointer;
@@ -37,235 +32,17 @@ select::-ms-expand {
     display: none;
 }
 
-label,
-label[for="link-expiration"],
-#link-expiration {
-    color: #364F59;
-    font-size: 16px;
-    width: 130px;
-    margin-top: 0px;
-    padding: 5px 10px;
-    border-radius: 13px;
-}
-
-#link-expiration option {
-    font-size: 16px;
-    color: #364F59;
-    font-weight: 300;
-}
-
-label[for="link-expiration"] {
-    padding-left: 0px;
-    margin-right: 100px;
-}
-
-/* =====================
-   Inputs
-====================== */
-#displayNameInput,
-input[type="password"],
-.password-input,
-.download-start {
-    border: 1px solid #666666;
-    border-radius: 8px;
-    padding: 3px 4px;
-    margin: 47px 0;
-    box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.25);
-    cursor: pointer;
-    outline: none;
-    background-color: #E5E5E5;
-    color: #364F59;
-    width: 160px;
-    height: 32px;
-}
-
-#displayNameInput {
-    margin: 0;
-}
-
-#displayNameInput:hover,
-input[type="password"]:hover {
-    border-color: #999999;
-}
-
-#displayNameInput::placeholder,
-input[type="password"]::placeholder {
-    color: #364F59;
-    font-family: 'Interstate', Arial, Helvetica, sans-serif;
-    font-weight: 300;
-}
-
-.password-input::placeholder {
-    font-size: 14px;
-}
-
-/* =====================
-   Dropzone
-====================== */
-#dropzone.dragover{
-    border: 2px dashed #666666;
-}
-
-#dropzone {
-    color: #364F59;
-    background-color: #D4D4CA;
-    border: 1px solid #BFBFB0;
-    border-radius: 8px;
-    text-align: center;
-    cursor: pointer;
-    width: 730px;
-    height: 400px;
-    padding: 30px 52px 40px 52px;
-    position: relative;
-}
-
-#dropzone-text {
-    font-size: 20px;
-}
-
-/* =====================
-   PDF Vorschau
-====================== */
-#pdf-preview-frame {
-    width: 520px;
-    height: 775px;
-    border: 1px solid #BFBFB0;
-    border-radius: 10px;
-    background: #D4D4CA;
-}
-
-#pdf-preview-container {
-    width: 520px;
-    height: 640px;
-    margin-top: 0px;
-    text-align: center;
-}
-
-#pdf-preview-fallback {
-    display: none;
-    color: #b00;
-}
-
-.fullscreen-btn {
-    position: absolute;
-    top: 25px;
-    right: 20px;
-    background-color: #E5E5E5;
-    font-size: 1.5rem;
-    cursor: pointer;
-    z-index: 1000;
-    border-color: #364F59;
-}
-
-.fullscreen-btn:hover {
-    border: solid 2px #50a0bf;
-}
-
-#vorschau:fullscreen {
-    background: #fff;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-#vorschau:fullscreen iframe {
-    flex-grow: 1;
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-
-#vorschau:fullscreen h1,
-#vorschau:fullscreen #pdf-preview-fallback {
-    display: none;
-}
-
-#vorschau:fullscreen .fullscreen-btn {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    z-index: 9999;
-    color: #364F59;
-}
-
-
-/* =====================
-   Downloadbereich
-====================== */
-#download-area {
-    padding: 30px 50px 30px 50px;
-    background-color: #D4D4CA;
-    border: solid 1px #BFBFB0;
-    border-radius: 9px;
-    width: 740px;
-    min-height: 390px;
-}
-
-#active-links {
-    list-style: none;
-    padding-left: 0;
-}
-
-#active-links li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0px;
-    padding: 0;
-}
-
-#active-links li a.download-link {
-    flex: 1;
-    margin-right: 150px;
-    color: #666666;
-    font-size: 20px;
-    transition: color 0.15s;
-    text-decoration: none;
-}
-
-#active-links li a.download-link:hover {
-    text-decoration: underline;
-}
-
-#download-area .button-group {
-    display: none;
-}
-
-/* =====================
-   Settings
-====================== */
-
-.settings {
-    background-color: #D4D4CA;
-    width: 415px;
-    height: 260px;
-    padding: 6px 4px 4px 30px;
-    border-radius: 8px;
-}
-
-/* =====================
-   Icons & Buttons
-====================== */
-.file-icon {
-    font-size: 70px;
-    color: #364F59;
-    margin: 20px 0;
-}
-
+/* Icons & Buttons - Base */
 .password-btn,
 .qr-btn,
 .copy-btn,
 .delete-btn {
     font-family: 'Interstate', Arial, Helvetica, sans-serif;
     font-weight: 300;
-    font-size: 32px;
     color: #364F59;
     background: #E5E5E5;
     border: 2px solid transparent;
     border-radius: 13px;
-    padding: 6px 12px;
-    margin: 0px 5px;
     box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.25);
     cursor: pointer;
     display: inline-flex;
@@ -311,9 +88,125 @@ input[type="password"]::placeholder {
     border: 2px solid #50a0bf;
 }
 
-/* =====================
-   QR Box
-====================== */
+/* Dropzone - Base */
+#dropzone.dragover {
+    border: 2px dashed #666666;
+}
+
+#dropzone {
+    color: #364F59;
+    background-color: #D4D4CA;
+    border: 1px solid #BFBFB0;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.file-icon {
+    color: #364F59;
+}
+
+/* Settings - Base */
+.settings {
+    background-color: #D4D4CA;
+    padding: 6px 4px 4px 30px;
+    border-radius: 8px;
+}
+
+/* Download Area - Base */
+#download-area {
+    background-color: #D4D4CA;
+    border: solid 1px #BFBFB0;
+    border-radius: 9px;
+}
+
+#active-links {
+    list-style: none;
+    padding-left: 0;
+}
+
+#active-links li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0px;
+    padding: 0;
+}
+
+#active-links li a.download-link {
+    flex: 1;
+    color: #666666;
+    transition: color 0.15s;
+    text-decoration: none;
+}
+
+#active-links li a.download-link:hover {
+    text-decoration: underline;
+}
+
+/* PDF Vorschau - Base */
+#pdf-preview-frame {
+    border: 1px solid #BFBFB0;
+    border-radius: 10px;
+    background: #D4D4CA;
+}
+
+#pdf-preview-container {
+    margin-top: 0px;
+    text-align: center;
+}
+
+#pdf-preview-fallback {
+    display: none;
+    color: #b00;
+}
+
+.fullscreen-btn {
+    position: absolute;
+    top: 25px;
+    right: 20px;
+    background-color: #E5E5E5;
+    cursor: pointer;
+    z-index: 1000;
+    border-color: #364F59;
+}
+
+.fullscreen-btn:hover {
+    border: solid 2px #50a0bf;
+}
+
+#vorschau:fullscreen {
+    background: #fff;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100vw !important;
+    height: 100vh !important;
+}
+
+#vorschau:fullscreen iframe {
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+#vorschau:fullscreen h1,
+#vorschau:fullscreen #pdf-preview-fallback {
+    display: none;
+}
+
+#vorschau:fullscreen .fullscreen-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    z-index: 9999;
+    color: #364F59;
+}
+
+/* QR Box - Base */
 #qr-box {
     border-radius: 9px;
 }
@@ -322,21 +215,7 @@ input[type="password"]::placeholder {
     border-radius: 9px;
 }
 
-/* =====================
-   Passwortseite
-====================== */
-.password-grid {
-    height: 100vh;
-    margin: 0;
-    display: grid;
-    place-items: center;
-}
-
-
-
-/* =====================
-   Modal
-====================== */
+/* Modal - Base */
 .modal {
     position: fixed;
     top: 0;
@@ -348,6 +227,7 @@ input[type="password"]::placeholder {
     justify-content: center;
     align-items: center;
     color: #364F59;
+    z-index: 9999;
 }
 
 .modal-content {
@@ -357,9 +237,7 @@ input[type="password"]::placeholder {
     color: #364F59;
 }
 
-/* =====================
-   Sonstiges
-====================== */
+/* Sonstiges - Base */
 .home-icon {
     display: flex;
     font-size: 24px;
@@ -386,4 +264,543 @@ input[type="password"]::placeholder {
 
 .oder {
     display: inline;
+}
+
+.password-grid {
+    height: 100vh;
+    margin: 0;
+    display: grid;
+    place-items: center;
+}
+
+/* =====================
+   MOBILE - bis 425px
+====================== */
+@media (max-width: 425px) {
+    #customFileBtn {
+        font-size: 10px;
+    }
+
+    button,
+    select {
+        font-size: 10px;
+        padding: 5px 12px;
+        margin: 4px 0;
+    }
+
+    label,
+    label[for="link-expiration"],
+    #link-expiration {
+        color: #364F59;
+        font-size: 14px;
+        width: 100%;
+        max-width: 220px;
+        margin-top: 10px;
+        padding: 5px 0px;
+        border-radius: 9px;
+    }
+
+    #link-expiration option {
+        font-size: 14px;
+    }
+
+    label[for="link-expiration"] {
+        padding-left: 0px;
+        margin-right: 0px;
+    }
+
+    #displayNameInput,
+    input[type="password"],
+    .password-input,
+    .download-start {
+        border: 1px solid #666666;
+        border-radius: 8px;
+        padding: 3px 4px;
+        margin: 30px 0;
+        width: 100%;
+        max-width: 220px;
+        height: 32px;
+        box-sizing: border-box;
+    }
+
+    #displayNameInput {
+        margin: 0;
+    }
+
+    .password-input::placeholder {
+        font-size: 14px;
+    }
+
+    #dropzone-text {
+        font-size: 14px;
+    }
+
+    .file-icon {
+        font-size: 30px;
+        margin: 5px 0;
+    }
+
+    .settings {
+        width: 100%;
+        height: auto;
+        min-height: 210px;
+    }
+
+    #download-area {
+        padding: 5px 15px;
+        width: 100%;
+        min-height: 250px;
+    }
+
+    #active-links li a.download-link {
+        margin-right: 10px;
+        font-size: 10px;
+    }
+
+    .password-btn,
+    .qr-btn,
+    .copy-btn,
+    .delete-btn {
+        font-size: 15px;
+        padding: 4px 6px;
+        margin: 0px;
+    }
+
+    #pdf-preview-frame {
+        width: 100%;
+        height: 425px;
+    }
+
+    #pdf-preview-container {
+        width: 100%;
+        height: auto;
+    }
+
+    .fullscreen-btn {
+        font-size: 15px;
+    }
+}
+
+/* =====================
+   SMALL TABLET - 426px bis 616px
+====================== */
+@media (min-width: 426px) and (max-width: 616px) {
+    #customFileBtn {
+        font-size: 11px;
+    }
+
+    button,
+    select {
+        font-size: 11px;
+        padding: 6px 18px;
+        margin: 5px 0;
+    }
+
+    label,
+    label[for="link-expiration"],
+    #link-expiration {
+        font-size: 14px;
+        width: 100%;
+        max-width: 220px;
+        padding: 5px 10px;
+    }
+
+    #link-expiration option {
+        font-size: 14px;
+    }
+
+    label[for="link-expiration"] {
+        margin-right: 50px;
+    }
+
+    #displayNameInput,
+    input[type="password"],
+    .password-input,
+    .download-start {
+        width: 100%;
+        max-width: 220px;
+        height: 32px;
+        margin: 30px 0;
+    }
+
+    #displayNameInput {
+        margin: 0;
+    }
+
+    .password-input::placeholder {
+        font-size: 14px;
+    }
+
+    #dropzone-text {
+        font-size: 15px;
+    }
+
+    .file-icon {
+        font-size: 35px;
+        margin: 5px 0;
+    }
+
+    .settings {
+        width: 100%;
+        height: auto;
+        min-height: 210px;
+    }
+
+    #download-area {
+        padding: 5px 15px;
+        width: 100%;
+        min-height: 300px;
+    }
+
+    #active-links li a.download-link {
+        margin-right: 50px;
+        font-size: 12px;
+    }
+
+    .password-btn,
+    .qr-btn,
+    .copy-btn,
+    .delete-btn {
+        font-size: 16px;
+        padding: 5px 8px;
+        margin: 0px;
+    }
+
+    #pdf-preview-frame {
+        width: 100%;
+        height: 480px;
+    }
+
+    #pdf-preview-container {
+        width: 100%;
+        height: auto;
+    }
+
+    .fullscreen-btn {
+        font-size: 15px;
+    }
+}
+
+/* =====================
+   TABLET - 617px bis 768px
+====================== */
+@media (min-width: 617px) and (max-width: 768px) {
+    #customFileBtn {
+        font-size: 12px;
+    }
+
+    button,
+    select {
+        font-size: 12px;
+        padding: 7px 20px;
+        margin: 5px 0;
+    }
+
+    label,
+    label[for="link-expiration"],
+    #link-expiration {
+        font-size: 14px;
+        width: 100%;
+        max-width: 220px;
+        padding: 5px 10px;
+    }
+
+    #link-expiration option {
+        font-size: 14px;
+    }
+
+    label[for="link-expiration"] {
+        margin-right: 60px;
+    }
+
+    #displayNameInput,
+    input[type="password"],
+    .password-input,
+    .download-start {
+        width: 100%;
+        max-width: 220px;
+        height: 32px;
+        margin: 35px 0;
+    }
+
+    #displayNameInput {
+        margin: 0;
+    }
+
+    .password-input::placeholder {
+        font-size: 14px;
+    }
+
+    #dropzone-text {
+        font-size: 16px;
+    }
+
+    .file-icon {
+        font-size: 40px;
+        margin: 10px 0;
+    }
+
+    .settings {
+        width: 100%;
+        height: 100%;
+    }
+
+    #download-area {
+        padding: 20px 30px;
+        width: 100%;
+        min-height: 350px;
+    }
+
+    #active-links li a.download-link {
+        margin-right: 80px;
+        font-size: 14px;
+    }
+
+    .password-btn,
+    .qr-btn,
+    .copy-btn,
+    .delete-btn {
+        font-size: 18px;
+        padding: 5px 10px;
+        margin: 0px 3px;
+    }
+
+    #pdf-preview-frame {
+        width: 100%;
+        height: 450px;
+    }
+
+    #pdf-preview-container {
+        width: 100%;
+        height: auto;
+    }
+
+    .fullscreen-btn {
+        font-size: 1.2rem;
+    }
+}
+
+/* =====================
+   3-SPALTEN LAYOUT - 769px bis 1024px
+====================== */
+@media (min-width: 769px) and (max-width: 1024px) {
+    #customFileBtn {
+        font-size: 13px;
+    }
+
+    button,
+    select {
+        font-size: 13px;
+        padding: 7px 20px;
+        margin: 5px 0;
+    }
+
+    label,
+    label[for="link-expiration"],
+    #link-expiration {
+        font-size: 15px;
+        width: 100%;
+        max-width: 200px;
+        padding: 5px 10px;
+    }
+
+    #link-expiration option {
+        font-size: 15px;
+    }
+
+    label[for="link-expiration"] {
+        margin-right: 70px;
+    }
+
+    #displayNameInput,
+    input[type="password"],
+    .password-input,
+    .download-start {
+        width: 100%;
+        max-width: 200px;
+        height: 32px;
+        margin: 40px 0;
+    }
+
+    #displayNameInput {
+        margin: 0;
+    }
+
+    .password-input::placeholder {
+        font-size: 14px;
+    }
+
+    #dropzone-text {
+        font-size: 18px;
+    }
+
+    .file-icon {
+        font-size: 50px;
+        margin: 10px 0;
+    }
+
+    .settings {
+        width: 100%;
+        height: 100%;
+    }
+
+    #download-area {
+        padding: 25px 40px;
+        width: 100%;
+        min-height: 350px;
+    }
+
+    #active-links li a.download-link {
+        margin-right: 100px;
+        font-size: 16px;
+    }
+
+    .password-btn,
+    .qr-btn,
+    .copy-btn,
+    .delete-btn {
+        font-size: 20px;
+        padding: 6px 11px;
+        margin: 0px 4px;
+    }
+
+    #pdf-preview-frame {
+        width: 100%;
+        height: 550px;
+    }
+
+    #pdf-preview-container {
+        width: 100%;
+        height: auto;
+    }
+
+    .fullscreen-btn {
+        font-size: 1.3rem;
+    }
+}
+
+/* =====================
+   DESKTOP - ab 1025px
+====================== */
+@media (min-width: 1025px) {
+    #customFileBtn {
+        font-size: 16px;
+    }
+
+    button,
+    select {
+        font-size: 14px;
+        padding: 8px 24px;
+        margin: 6px 0;
+    }
+
+    label,
+    label[for="link-expiration"],
+    #link-expiration {
+        font-size: 16px;
+        width: 130px;
+        padding: 5px 10px;
+    }
+
+    #link-expiration option {
+        font-size: 16px;
+    }
+
+    label[for="link-expiration"] {
+        padding-left: 0px;
+        margin-right: 100px;
+    }
+
+    #displayNameInput,
+    input[type="password"],
+    .password-input,
+    .download-start {
+        border: 1px solid #666666;
+        border-radius: 8px;
+        padding: 3px 4px;
+        margin: 47px 0;
+        box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.25);
+        cursor: pointer;
+        outline: none;
+        background-color: #E5E5E5;
+        color: #364F59;
+        width: 160px;
+        height: 32px;
+    }
+
+    #displayNameInput {
+        margin: 0;
+    }
+
+    #displayNameInput:hover,
+    input[type="password"]:hover {
+        border-color: #999999;
+    }
+
+    #displayNameInput::placeholder,
+    input[type="password"]::placeholder {
+        color: #364F59;
+        font-family: 'Interstate', Arial, Helvetica, sans-serif;
+        font-weight: 300;
+    }
+
+    .password-input::placeholder {
+        font-size: 14px;
+    }
+
+    #dropzone {
+        width: 100%;
+        height: auto;
+        min-height: 400px;
+        padding: 30px 52px 40px 52px;
+    }
+
+    #dropzone-text {
+        font-size: 20px;
+    }
+
+    .file-icon {
+        font-size: 70px;
+        margin: 20px 0;
+    }
+
+    .settings {
+        width: 100%;
+        height: 100%;
+    }
+
+    #download-area {
+        padding: 30px 50px 30px 50px;
+        width: 100%;
+        min-height: 390px;
+    }
+
+    #active-links li a.download-link {
+        margin-right: 150px;
+        font-size: 20px;
+    }
+
+    .password-btn,
+    .qr-btn,
+    .copy-btn,
+    .delete-btn {
+        font-size: 32px;
+        padding: 6px 12px;
+        margin: 0px 5px;
+    }
+
+    #pdf-preview-frame {
+        width: 100%;
+        height: auto;
+        min-height: 775px;
+    }
+
+    #pdf-preview-container {
+        width: 100%;
+        height: auto;
+    }
+
+    .fullscreen-btn {
+        font-size: 1.5rem;
+    }
 }
