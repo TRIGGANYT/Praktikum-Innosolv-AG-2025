@@ -40,7 +40,7 @@ uploadBtn.onclick = uploadSelectedFiles;
 // Aktive Links beim Seitenladen laden
 window.addEventListener('DOMContentLoaded', loadActiveLinks);
 
-// Passwort kopieren (neben Passwortfeld, falls vorhanden)
+// Passwort kopieren
 if (copyPasswordBtn) {
   copyPasswordBtn.addEventListener('click', () => {
     const passwordInput = document.querySelector('input[name="password"]');
