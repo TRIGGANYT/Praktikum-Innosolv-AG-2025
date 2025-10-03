@@ -706,6 +706,7 @@ select::-ms-expand {
     label,
     label[for="link-expiration"],
     #link-expiration {
+        color: #364F59;
         font-size: 16px;
         width: 130px;
         padding: 5px 10px;
