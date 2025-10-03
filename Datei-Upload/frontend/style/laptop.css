@@ -1,0 +1,380 @@
+/* =====================
+   DESKTOP MEDIUM - 1025px bis 1399px
+   4-Spalten Grid mit reduzierten Breiten
+====================== */
+@media (min-width: 1025px) and (max-width: 1799px) {
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: minmax(250px, 350px) minmax(300px, 1fr) minmax(250px, 330px) minmax(280px, 400px);
+        grid-template-rows: auto auto;
+        gap: 20px;
+        padding: 20px;
+        margin-top: 80px;
+        width: 100%;
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
+    }
+
+    .settings-bg,
+    .dropzone-bg,
+    .download-area-bg,
+    .qr-bg,
+    .vorschau-bg {
+        align-self: end;
+    }
+
+    /* Settings */
+    .settings-bg {
+        grid-column: 1;
+        grid-row: 1;
+        align-content: center;
+        justify-items: center;
+        width: 100%;
+        height: auto;
+        min-height: 290px;
+        background: rgba(177, 177, 177, 0.5);
+        backdrop-filter: blur(16px);
+        border-radius: 24px;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+
+    .settings {
+        background-color: #D4D4CA;
+        width: 100%;
+        height: 100%;
+        padding: 6px 4px 4px 20px;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    /* Dropzone */
+    .dropzone-bg {
+        grid-column: 2 / span 2;
+        grid-row: 1;
+        width: 100%;
+        height: auto;
+        min-height: 430px;
+        background: rgba(177, 177, 177, 0.5);
+        backdrop-filter: blur(16px);
+        border-radius: 24px;
+        padding: 15px;
+        align-content: center;
+        justify-items: center;
+        box-sizing: border-box;
+    }
+
+    #dropzone {
+        width: 100%;
+        height: auto;
+        min-height: 380px;
+        padding: 20px 30px;
+    }
+
+    /* Download Area */
+    .download-area-bg {
+        grid-column: 1 / span 2;
+        grid-row: 2;
+        align-content: center;
+        justify-items: center;
+        width: 100%;
+        min-height: 430px;
+        background: rgba(177, 177, 177, 0.5);
+        backdrop-filter: blur(16px);
+        border-radius: 24px;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+
+    #download-area {
+        padding: 20px 35px;
+        width: 100%;
+        min-height: 390px;
+    }
+
+    #active-links li a.download-link {
+        margin-right: 100px;
+        font-size: 18px;
+    }
+
+    /* QR Code */
+    .qr-bg {
+        grid-column: 3;
+        grid-row: 2;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(177, 177, 177, 0.5);
+        backdrop-filter: blur(16px);
+        border-radius: 24px;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+
+    /* PDF Vorschau */
+    .vorschau-bg {
+        grid-column: 4;
+        grid-row: 1 / span 2;
+        width: 100%;
+        height: auto;
+        min-height: 885px;
+        background: rgba(177, 177, 177, 0.5);
+        backdrop-filter: blur(16px);
+        border-radius: 24px;
+        padding: 15px;
+        align-content: center;
+        justify-items: center;
+        box-sizing: border-box;
+    }
+
+    #vorschau {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    #vorschau h1 {
+        margin: 0 0 10px 0;
+        font-size: 28px;
+    }
+
+    #pdf-preview-frame {
+        width: 100%;
+        height: auto;
+        min-height: 700px;
+    }
+
+    #pdf-preview-container {
+        width: 100%;
+        height: auto;
+    }
+
+    /* Buttons angepasst */
+    .password-btn,
+    .qr-btn,
+    .copy-btn,
+    .delete-btn {
+        font-size: 28px;
+        padding: 5px 10px;
+    }
+
+    button,
+    select {
+        font-size: 13px;
+        padding: 7px 20px;
+    }
+
+    label,
+    label[for="link-expiration"],
+    #link-expiration {
+        font-size: 15px;
+        width: 120px;
+    }
+
+    .file-icon {
+        font-size: 60px;
+    }
+
+    #dropzone-text {
+        font-size: 18px;
+    }
+}
+
+/* =====================
+   DESKTOP LARGE - ab 1400px
+   4-Spalten Grid mit vollen Breiten
+====================== */
+@media (min-width: 1800px) {
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: minmax(350px, 450px) minmax(450px, 1fr) minmax(350px, 430px) minmax(400px, 560px);
+        grid-template-rows: auto auto;
+        gap: 24px;
+        padding: 24px;
+        margin-top: 80px;
+        width: 100%;
+        max-width: 2400px;
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
+    }
+
+    .settings-bg,
+    .dropzone-bg,
+    .download-area-bg,
+    .qr-bg,
+    .vorschau-bg {
+        align-self: end;
+    }
+
+    /* Settings */
+    .settings-bg {
+        grid-column: 1;
+        grid-row: 1;
+        align-content: center;
+        justify-items: center;
+        width: 100%;
+        height: auto;
+        min-height: 290px;
+        background: rgba(177, 177, 177, 0.5);
+        backdrop-filter: blur(16px);
+        border-radius: 24px;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+
+    .settings {
+        background-color: #D4D4CA;
+        width: 100%;
+        height: 100%;
+        padding: 6px 4px 4px 30px;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    /* Dropzone */
+    .dropzone-bg {
+        grid-column: 2 / span 2;
+        grid-row: 1;
+        width: 100%;
+        height: auto;
+        min-height: 430px;
+        background: rgba(177, 177, 177, 0.5);
+        backdrop-filter: blur(16px);
+        border-radius: 24px;
+        padding: 15px;
+        align-content: center;
+        justify-items: center;
+        box-sizing: border-box;
+    }
+
+    #dropzone {
+        width: 100%;
+        height: auto;
+        min-height: 400px;
+        padding: 30px 52px 40px 52px;
+    }
+
+    /* Download Area */
+    .download-area-bg {
+        grid-column: 1 / span 2;
+        grid-row: 2;
+        align-content: center;
+        justify-items: center;
+        width: 100%;
+        min-height: 430px;
+        background: rgba(177, 177, 177, 0.5);
+        backdrop-filter: blur(16px);
+        border-radius: 24px;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+
+    #download-area {
+        padding: 30px 50px 30px 50px;
+        width: 100%;
+        min-height: 390px;
+    }
+
+    #active-links li a.download-link {
+        margin-right: 150px;
+        font-size: 20px;
+    }
+
+    /* QR Code */
+    .qr-bg {
+        grid-column: 3;
+        grid-row: 2;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(177, 177, 177, 0.5);
+        backdrop-filter: blur(16px);
+        border-radius: 24px;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+
+    /* PDF Vorschau */
+    .vorschau-bg {
+        grid-column: 4;
+        grid-row: 1 / span 2;
+        width: 100%;
+        height: auto;
+        min-height: 885px;
+        background: rgba(177, 177, 177, 0.5);
+        backdrop-filter: blur(16px);
+        border-radius: 24px;
+        padding: 15px;
+        align-content: center;
+        justify-items: center;
+        box-sizing: border-box;
+    }
+
+    #vorschau {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    #vorschau h1 {
+        margin: 0 0 10px 0;
+    }
+
+    #pdf-preview-frame {
+        width: 100%;
+        height: auto;
+        min-height: 775px;
+    }
+
+    #pdf-preview-container {
+        width: 100%;
+        height: auto;
+    }
+
+    /* Buttons volle Größe */
+    .password-btn,
+    .qr-btn,
+    .copy-btn,
+    .delete-btn {
+        font-size: 32px;
+        padding: 6px 12px;
+    }
+
+    button,
+    select {
+        font-size: 14px;
+        padding: 8px 24px;
+    }
+
+    label,
+    label[for="link-expiration"],
+    #link-expiration {
+        font-size: 16px;
+        width: 130px;
+    }
+
+    .file-icon {
+        font-size: 70px;
+    }
+
+    #dropzone-text {
+        font-size: 20px;
+    }
+}

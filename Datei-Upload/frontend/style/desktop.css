@@ -2,7 +2,7 @@
    RESPONSIVE DESKTOP CSS (1025px+)
 ====================== */
 
-@media (min-width: 1025px) {
+@media (min-width: 1400px) {
 
 /* =====================
    Fonts
@@ -274,7 +274,7 @@ h1 {
 #pdf-preview-container {
     width: 100%;
     height: auto;
-    margin-top: 0px;
+    margin: 0px;
     text-align: center;
 }
 
